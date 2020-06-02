@@ -1,13 +1,29 @@
-// Este é o ponto de entrada de sua aplicação
-import {
-    home
-} from "./pages/home/main.js";
+import home from './pages/home/main.js'; 
+import login from './pages/login/main.js'; 
+import profile from './pages/profile/main.js'; 
 
-import profile from './pages/profile/main.js';
-import login  from './pages/login.js'; 
+const main= document.querySelector('#root');
 
-document.querySelector("#root").appendChild(home());
-
-
-
-document.querySelector('#root').appendChild(login());
+const init=()=>{
+    
+    window.addEventListener("hashchange", () => {
+        main.innerHTML= ""
+        switch(window.location.hash){
+            case" ":
+                main.appendChild(login());
+                break;
+            case "#home":
+                main.appendChild(home());
+                break;
+            case "#profile":
+                main.appendChild(profile());
+                break;
+            default:
+                main.appendChild(login());
+        }
+    });
+}
+window.addEventListener("load",() =>{
+    main.appendChild(login());
+    init();
+})
