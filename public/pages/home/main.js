@@ -11,6 +11,7 @@ export const home = () => {
       <button type="button"> Publico </button> 
       <button type="button"> Privado </button> 
       <button type="submit" value="botao" id="button-publicar" class="botao"> Publicar </button>
+
     </form>
     <section id="posts">
     </section>
@@ -75,4 +76,4 @@ export const home = () => {
   }
 
   return container;
-};
+   

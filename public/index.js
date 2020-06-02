@@ -3,4 +3,8 @@ import {
     home
 } from "./pages/home/main.js";
 
+import profile from './pages/profile/main.js';
+
 document.querySelector("#root").appendChild(home());
+
+
