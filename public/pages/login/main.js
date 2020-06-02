@@ -1,4 +1,4 @@
-export const login= () => {
+ export default () => {
     const container= document.createElement("div");
 
     const template= `
@@ -13,7 +13,7 @@ export const login= () => {
     <input type="Senha" placeholder="  Senha" class="input-login">
     </div>
     <div class="items">
-    <button class="btn">Entrar</button>
+    <button class="btn"><a href = "./#home">Entrar</a></button>
     </div>
     <div class="items">
     <p class=""> Deseja logar com...</p>
