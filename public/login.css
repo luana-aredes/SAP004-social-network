@@ -1,0 +1,76 @@
+*{
+    box-sizing: border-box;
+}
+body{
+    background-image: linear-gradient(to bottom right,rgb(0, 153, 255),rgb(79, 71, 197), rgb(6, 6, 212));
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    height: 100vh;
+    color: white;
+}
+
+.container-title{
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+    flex-wrap: wrap;
+}
+
+.logo{
+    width: 300px;
+
+}
+
+.container-main{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.title{
+    color: white;
+    font-weight: bold;
+    font-size: 30px;
+    margin-bottom: 20px;
+}
+
+.sub-title{
+    font-size: 20px;
+    color: white;
+
+}
+
+.input-login{
+    margin: 5px;
+    border: 0px;
+    border-radius: 8px;
+}
+
+.items{
+    width: 300px;
+    text-align: center;
+    margin: 8px;
+}
+
+.btn{
+    background: rgb(83, 153, 233); 
+    border: 0px;
+    border-radius: 12px;
+    width: 100px; 
+    font-weight: bold;
+    color: white;
+    font-size: 15px;
+}
+
+.fa-google{
+    color: white;
+    font-size: 15px;
+}
+
+.btn-google{
+    background: rgb(83, 153, 233);
+    border-radius: 20px;
+    border: 0px;
+    height: 35px;
+    width: 35px;
+    padding: 10px;
+}
