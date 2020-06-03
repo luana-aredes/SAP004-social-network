@@ -1,10 +1,20 @@
-import {
-  greeting
-} from "./data.js";
+export default () => {
 
-export const home = () => {
   let container = document.createElement("div");
   container.innerHTML = `
+  <header class="header">
+        <section class="headerMobile">
+            <img src="images/menu-square-button_icon-icons.com_73216.png" alt="" class="menuMobile">
+            <h1 class="title">Workbook</h1>
+        </section>
+        <section class="headerWeb">
+            <div class="menuWeb">
+
+            </div>
+            <h1>Workbook</h1>
+            <img src="images/icon-exit-png-1.png" alt="" class="logout">
+        </section>
+    </header>
     <form action="" id="postForm">
       <textarea type="text" rows="10" cols="50" maxlength="500" wrap="hard" spellcheck="true" placeholder="Escreva algo para compartilhar com seus amigos!" id="post-text"></textarea> 
       <button type="button"> Carregar arquivo </button>
@@ -17,29 +27,30 @@ export const home = () => {
     </section>
     <section id="comments">
     </section>
+    <button type="button"> <a href= "./#profile">Provisorio</a> </button>
     `;
 
-  loadPosts(container, "#posts");
+  /*</section>loadPosts(container, "#posts");
 
-  container.querySelector("#postForm").addEventListener("submit", function (event) {
-    event.preventDefault();
-    const text = container.querySelector("#post-text").value;
-    const post = {
-      text: text,
-      user_id: "idTeste",
-      likes: 0,
-      comments: [],
-    };
+    container.querySelector("#postForm").addEventListener("submit", function(event) {
+        event.preventDefault();
+        const text = container.querySelector("#post-text").value;
+        const post = {
+            text: text,
+            user_id: "idTeste",
+            likes: 0,
+            comments: [],
+        };
 
-    const postsCollection = firebase.firestore().collection("posts");
-    postsCollection.add(post).then((res) => {
-      const text = (container.querySelector("#post-text").value = "");
+        const postsCollection = firebase.firestore().collection("posts");
+        postsCollection.add(post).then((res) => {
+            const text = (container.querySelector("#post-text").value = "");
+        });
+        loadPosts(container, "#posts");
     });
-    loadPosts(container, "#posts");
-  });
 
-  function addPost(post) {
-    let postTamplate = `
+    function addPost(post) {
+        let postTamplate = `
 
     <section id="publicacao">
       <header>
@@ -59,10 +70,10 @@ export const home = () => {
       </main>
     </section>    
     `;
-    document.querySelector("#posts").innerHTML += postTamplate;
+        document.querySelector("#posts").innerHTML += postTamplate;
 
-    return postTamplate;
-  }
+        return postTamplate;
+    }
 
   function loadPosts(container, idRef) {
     const postsCollection = firebase.firestore().collection("posts");
@@ -73,7 +84,7 @@ export const home = () => {
         addPost(post);
       });
     });
-  }
+  }*/
 
   return container;
 }

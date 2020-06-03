@@ -2,50 +2,56 @@
 <html lang="pt-br">
 
 <head>
-<meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Workbook</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="pages/profile/profile.css">
-    <link rel="stylesheet" href="reset.css" />
-    <link rel="stylesheet" href="login.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Workbook</title>
+  <link rel="stylesheet" href="reset.css" />
+  <!--<link rel="stylesheet" href="style.css">-->
+  <link rel="stylesheet" href="pages/profile/profile.css">
+  <link rel="stylesheet" href="login.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css">
 
-  <script defer src="/__/firebase/7.14.6/firebase-app.js"></script>
+  <!-- <script defer src="/__/firebase/7.14.6/firebase-app.js"></script> 
   <script defer src="/__/firebase/7.14.6/firebase-auth.js"></script>
   <script defer src="/__/firebase/7.14.6/firebase-firestore.js"></script>
   <script defer src="/__/firebase/7.14.6/firebase-messaging.js"></script>
   <script defer src="/__/firebase/7.14.6/firebase-storage.js"></script>
-  <script defer src="/__/firebase/init.js"></script>
+  <script defer src="/__/firebase/init.js"></script>   -->
 
 
 </head>
 
 <body>
+  <div id="firebaseui-auth-container"></div>
 
-    <header class="header">
-        <p>oi</p>
-        <section class="headerMobile">
-            <img src="images/menu-square-button_icon-icons.com_73216.png" alt="" class="menuMobile">
-            <h1 class="title">Workbook</h1>
-        </section>
-        <section class="headerWeb">
-            <div class="menuWeb">
+  <main id="root">
 
-            </div>
-            <h1>Workbook</h1>
-            <img src="images/icon-exit-png-1.png" alt="" class="logout">
-        </section>
-    </header>
+  </main>
+  <footer>
 
-    <main id="root">
+  </footer>
 
-    </main>
-    <footer>
+  <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-auth.js"></script>
 
-    </footer>
-    <script src="pages/profile/main.js" type="module"></script>
-    <script src="index.js" type="module"></script>
+  <!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+
+  <script>
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+      apiKey: "AIzaSyCdaMIQuFuSSJ3SMmqYz01Swc294b22K0A",
+      authDomain: "rede-social-sap004.firebaseapp.com",
+      databaseURL: "https://rede-social-sap004.firebaseio.com",
+      projectId: "rede-social-sap004",
+      storageBucket: "rede-social-sap004.appspot.com",
+      messagingSenderId: "729556622137",
+      appId: "1:729556622137:web:b8ef2e7b5afd5b24e3e6e8"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+  </script>
+  <script src="pages/profile/main.js" type="module"></script>
+  <script src="index.js" type="module"></script>
 
 </body>
-
