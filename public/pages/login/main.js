@@ -8,7 +8,9 @@ export default () => {
   const container = document.createElement("div");
 
   const template = `
-     <figure class="container-title"><img class="logo"src="./img/img.png" alt=""></figure>
+    <div class= "container-flex">
+    <figure class="container-title"><img class="logo"src="./img/img.png" alt=""></figure>
+    <div class="container-web">
     <div class="container-title" >
     <h1 class="title items" >Titulo</h1>
     <h2 class="sub-title items">Seja bem vindo(a)!!!</h2>
@@ -30,7 +32,9 @@ export default () => {
     <a class="items" href=""> Cadastre-se</a>
     <button id="botao-login" > Cadastro </button> 
     <button id="botao-login-cadastrado" > login usuario cadastrado </button> 
-  </section>`;
+    </section>
+    </div>
+    </div> `;
 
   container.innerHTML = template;
 
