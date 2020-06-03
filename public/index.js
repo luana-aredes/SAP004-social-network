@@ -1,28 +1,41 @@
-import home from "./pages/home/main.js";
-import login from "./pages/login/main.js";
-import profile from "./pages/profile/main.js";
+import home from './pages/home/main.js'; 
+import login from './pages/login/main.js'; 
+import profile from './pages/profile/main.js'; 
 
-const main = document.querySelector("#root");
+const main= document.querySelector('#root');
 
-const init = () => {
-    window.addEventListener("hashchange", () => {
-        main.innerHTML = "";
-        switch (window.location.hash) {
-            case " ":
-                main.appendChild(login());
-                break;
-            case "#home":
-                main.appendChild(home());
-                break;
-            case "#profile":
-                main.appendChild(profile());
-                break;
-            default:
-                main.appendChild(login());
+const init=()=>{
+    firebase.auth().onAuthStateChanged((user) => { 
+        if(user){
+            console.log(user.email);
+            main.innerHTML= ""
+            switch(window.location.hash){
+                case "#home":
+                    main.appendChild(home());
+                    break;
+                case "#profile":
+                    main.appendChild(profile());
+                    break;
+                default:
+                    main.appendChild(home());
+            }
+        }else{
+            main.innerHTML= ""
+            switch(window.location.hash){
+                case '#register':
+                    main.appendChild(register());
+                    break;
+                default:
+                    main.appendChild(login());
+            }
         }
     });
-};
-window.addEventListener("load", () => {
+}
+window.addEventListener("load",() =>{
     main.appendChild(login());
+    init();
+});
+
+window.addEventListener("hashchange", () => {
     init();
 });

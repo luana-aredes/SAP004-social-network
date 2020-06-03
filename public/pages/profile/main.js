@@ -1,3 +1,4 @@
+import {signOut} from "../login/data.js"
 export default () => {
     const container = document.createElement('div');
     const template = ` 
@@ -12,10 +13,12 @@ export default () => {
             </div>
             <h1>Workbook</h1>
             <img src="images/icon-exit-png-1.png" alt="" class="logout">
+            
         </section>
     </header>
             <div class="photodiv">
             <img src="images/Perfil.png" alt="" class="photo">
+            
         </div>
 
         <input type="file" class="photoEdit"></div>
@@ -34,7 +37,9 @@ export default () => {
         <section class="buttons">
             <button class="edit">Editar Perfil</button>
             <button class="save">Salvar</button>
-        </section>`;
+        </section>
+        <button id="signOut"><i class="fas fa-sign-out-alt" aria-hidden="true"></i></button>`;
     container.innerHTML = template;
+    container.querySelector("#signOut").addEventListener("click", () => signOut());
     return container;
 }
