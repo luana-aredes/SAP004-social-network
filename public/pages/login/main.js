@@ -8,18 +8,20 @@ export default () => {
   const container = document.createElement("div");
 
   const template = `
-     <figure class="container-title"><img class="logo"src="./img/img.png" alt=""></figure>
+    <div class= "container-flex">
+    <figure class="container-title"><img class="logo"src="./img/img.png" alt=""></figure>
+    <div class="container-web">
     <div class="container-title" >
     <h1 class="title items" >Titulo</h1>
     <h2 class="sub-title items">Seja bem vindo(a)!!!</h2>
     </div>
     <section class="container-main">
     <div class="items">
-    <input type="E-mail" id="email" placeholder="  E-mail" class="input-login">
-    <input type="Senha" id="senha" placeholder="  Senha" class="input-login">
+    <input type="email" id="email" placeholder="  E-mail" class="input-login">
+    <input type="password" id="senha" placeholder="  Senha" class="input-login">
     </div>
     <div class="items">
-    <button class="btn"><a href = "./#home">Entrar</a></button>
+    <button class="btn" id="botao-login-cadastrado">Entrar</button>
     </div>
     <div class="items">
     <p class=""> Deseja logar com...</p>
@@ -27,10 +29,10 @@ export default () => {
     <div class="items">
     <button id="botao-google" class="btn-google"><i class="fab fa-google" aria-hidden="true"></i></button>
     </div>
-    <a class="items" href=""> Cadastre-se</a>
-    <button id="botao-login" > Cadastro </button> 
-    <button id="botao-login-cadastrado" > login usuario cadastrado </button> 
-  </section>`;
+    <a class="items" href="" id="botao-login"> Cadastre-se</a>
+    </section>
+    </div>
+    </div> `;
 
   container.innerHTML = template;
 
@@ -53,6 +55,7 @@ export default () => {
     });
 
   container.querySelector("#botao-google").addEventListener("click", () => {
+    
     return loginGoogle();
   });
 

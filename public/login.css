@@ -74,3 +74,18 @@ body{
     width: 35px;
     padding: 10px;
 }
+@media(Min-width:600px){
+    .container-flex{
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        margin-top: 15vh;
+    }
+    .container-web{
+        width: 300px;
+    }
+    .logo{
+        width: 50vw;
+    }
+
+}
