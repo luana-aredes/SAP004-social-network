@@ -1,4 +1,5 @@
 export const loginCreateUser = (email, password) => {
+
   if (email.length < 6) {
     alert("Por favor, insira um email válido");
     return;
@@ -10,15 +11,15 @@ export const loginCreateUser = (email, password) => {
   firebase
     .auth()
     .createUserWithEmailAndPassword(email, password)
-    .then(() => alert("Cadastro criado com sucesso!"))
+    .then(() => alert("Cadastro criado com sucesso!")).then(() => sendEmailVerification())
     .catch(function (error) {
       // Handle Errors here.
       var errorCode = error.code;
       var errorMessage = error.message;
-      // ...
       alert("Verifique se o email inserido esta correto!");
     });
 };
+
 
 export const loginGoogle = () => {
   var provider = new firebase.auth.GoogleAuthProvider();
@@ -73,6 +74,21 @@ function sendEmailVerification() {
   // [END sendemailverification]
 }
 
+function linkDirecionamentoConfirmacao(actionCodeSettings) {
+  firebase
+    .auth()
+    .sendSignInLinkToEmail("user@example.com", actionCodeSettings)
+    .then(function () {
+      firebase.auth.Auth.signInWithEmailLink;
+      // The link was successfully sent. Inform the user. Save the email
+      // locally so you don't need to ask the user for it again if they open
+      // the link on the same device.
+    })
+    .catch(function (error) {
+      // Some error occurred, you can inspect the code: error.code
+    });
+}
+
 var actionCodeSettings = {
   // The URL to redirect to for sign-in completion. This is also the deep
   // link for mobile redirects. The domain (www.example.com) for this URL
@@ -89,18 +105,3 @@ var actionCodeSettings = {
   // This must be true.
   handleCodeInApp: true,
 };
-
-function linkDirecionamentoConfirmacao(actionCodeSettings) {
-  firebase
-    .auth()
-    .sendSignInLinkToEmail("user@example.com", actionCodeSettings)
-    .then(function () {
-      firebase.auth.Auth.signInWithEmailLink;
-      // The link was successfully sent. Inform the user. Save the email
-      // locally so you don't need to ask the user for it again if they open
-      // the link on the same device.
-    })
-    .catch(function (error) {
-      // Some error occurred, you can inspect the code: error.code
-    });
-}
