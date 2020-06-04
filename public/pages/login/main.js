@@ -1,13 +1,13 @@
 import {
-  loginCreateUser,
-  loginWithExistingEmail,
-  loginGoogle,
+    loginCreateUser,
+    loginWithExistingEmail,
+    loginGoogle,
 } from "./data.js";
 
 export default () => {
-  const container = document.createElement("div");
+    const container = document.createElement("div");
 
-  const template = `
+    const template = `
     <div class= "container-flex">
     <figure class="container-title"><img class="logo"src="./img/img.png" alt=""></figure>
     <div class="container-web">
@@ -29,35 +29,35 @@ export default () => {
     <div class="items">
     <button id="botao-google" class="btn-google"><i class="fab fa-google" aria-hidden="true"></i></button>
     </div>
-    <a class="items" href="" id="botao-login"> Cadastre-se</a>
+    <a class="items" href="#register" id="botao-login"> Cadastre-se</a>
     </section>
     </div>
     </div> `;
 
-  container.innerHTML = template;
+    container.innerHTML = template;
 
-  container.querySelector("#botao-login").addEventListener("click", () => {
-    const email = container.querySelector("#email").value;
-    const password = container.querySelector("#senha").value;
-    console.log(email);
-    console.log(password);
-    return loginCreateUser(email, password);
-  });
-
-  container
-    .querySelector("#botao-login-cadastrado")
-    .addEventListener("click", () => {
-      const email = container.querySelector("#email").value;
-      const password = container.querySelector("#senha").value;
-      console.log(email);
-      console.log(password);
-      return loginWithExistingEmail(email, password);
+    container.querySelector("#botao-login-cadastrado").addEventListener("click", () => {
+        const email = container.querySelector("#email").value;
+        const password = container.querySelector("#senha").value;
+        console.log(email);
+        console.log(password);
+        return loginCreateUser(email, password);
     });
 
-  container.querySelector("#botao-google").addEventListener("click", () => {
-    
-    return loginGoogle();
-  });
+    container
+        .querySelector("#botao-login-cadastrado")
+        .addEventListener("click", () => {
+            const email = container.querySelector("#email").value;
+            const password = container.querySelector("#senha").value;
+            console.log(email);
+            console.log(password);
+            return loginWithExistingEmail(email, password);
+        });
 
-  return container;
+    container.querySelector("#botao-google").addEventListener("click", () => {
+
+        return loginGoogle();
+    });
+
+    return container;
 };

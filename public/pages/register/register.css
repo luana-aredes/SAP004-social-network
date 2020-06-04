@@ -1,0 +1,50 @@
+.register {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+body {
+    margin: 20px;
+}
+
+.title {
+    color: white;
+    font-weight: bold;
+    font-size: 30px;
+    margin-bottom: 20px;
+}
+
+p {
+    margin-bottom: 15px;
+}
+
+label {
+    color: white;
+    position: relative;
+}
+
+.btn {
+    background: rgb(83, 153, 233);
+    border: 0px;
+    border-radius: 12px;
+    width: 100px;
+    font-weight: bold;
+    color: white;
+    font-size: 15px;
+    padding: 5px;
+}
+
+.btn:hover {
+    background: #4ab3c6;
+}
+
+a:hover {
+    color: #4ab3c6;
+}
+
+.regName,
+.regEmail,
+.regSenha {
+    width: 50%;
+}
