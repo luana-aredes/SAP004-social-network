@@ -7,7 +7,7 @@ const main = document.querySelector('#root');
 
 const init = () => {
     firebase.auth().onAuthStateChanged((user) => {
-        if (user) {
+        if (user) {            
             console.log(user.email);
             main.innerHTML = ""
             switch (window.location.hash) {

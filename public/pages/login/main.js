@@ -1,5 +1,4 @@
 import {
-    loginCreateUser,
     loginWithExistingEmail,
     loginGoogle,
 } from "./data.js";
@@ -35,14 +34,6 @@ export default () => {
     </div> `;
 
     container.innerHTML = template;
-
-    container.querySelector("#botao-login-cadastrado").addEventListener("click", () => {
-        const email = container.querySelector("#email").value;
-        const password = container.querySelector("#senha").value;
-        console.log(email);
-        console.log(password);
-        return loginCreateUser(email, password);
-    });
 
     container
         .querySelector("#botao-login-cadastrado")

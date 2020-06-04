@@ -1,3 +1,7 @@
+import {
+    loginCreateUser,
+} from "../login/data.js";
+
 export default () => {
     const container = document.createElement('div');
     const template = ` 
@@ -21,7 +25,7 @@ export default () => {
     </p>
 
     <p>
-        <input type="submit" value="Cadastrar" class="btn" />
+        <input type="submit" value="Cadastrar" class="btn" id= "create-user"/>
     </p>
 
     <p class="link">
@@ -31,5 +35,13 @@ export default () => {
 </form>
 </div>`
     container.innerHTML = template;
+
+    container.querySelector("#create-user").addEventListener("click", () => {
+        const email = container.querySelector("#regEmail").value;
+        const password = container.querySelector("#regSenha").value;
+        console.log(email);
+        console.log(password);
+        return loginCreateUser(email, password);
+    });
     return container;
 }

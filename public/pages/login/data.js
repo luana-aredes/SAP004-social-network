@@ -61,7 +61,8 @@ export const loginWithExistingEmail = (email, password) => {
 export const signOut = () => {
   firebase.auth().signOut().then(function() {
     // Sign-out successful.
-    alert("Sessão encerrada")
+    history.pushState("", document.title, window.location.pathname);
+    alert("Sessão encerrada");
   }).catch(function(error) {
     // An error happened.
   });
