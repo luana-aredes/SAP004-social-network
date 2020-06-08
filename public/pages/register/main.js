@@ -1,5 +1,7 @@
 import {
     validator,
+    createLogin,
+    createUser
 } from "./data.js";
 
 export default () => {
@@ -36,14 +38,16 @@ export default () => {
 </div>`
     container.innerHTML = template;
     const formRegister = container.querySelector("#formRegister")
-    formRegister.addEventListener("submit", () => {
+    formRegister.addEventListener("submit", async() => {
         const formData = new FormData(formRegister);
         const email = formData.get("email");
         const name = formData.get("name");
         const password = formData.get("password");
 
         if (validator(email, password, name)) {
-            alert("entrou");
+            const user = await createLogin(email, password);
+            console.log(user);
+            createUser(name, email, user.uid);
         };
 
         return

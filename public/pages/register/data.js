@@ -1,3 +1,5 @@
+const db = firebase.firestore();
+
 export const validator = (email, password, name) => {
     if (!email.includes("@") || !email.includes(".") || email.length < 6) {
 
@@ -15,16 +17,30 @@ export const validator = (email, password, name) => {
     return true;
 };
 
-// const db = firebase.firestore();
-// firebase.auth().createUserWithEmailAndPassword(email, password)
-//     .then((data) => db.collection("users").doc(data.user.uid).set({
-//             name: name,
-//             email: email
+export const createLogin = async(email, password) => {
+    const user = await firebase.auth().createUserWithEmailAndPassword(email, password)
+        .then(data => {
+            return data.user;
+        })
+        .catch(function(error) {
+            console.error("Error writing document: ", error);
+        })
+    return user;
+};
 
-//         })
-//         .then(function() {
-//             console.log("Document successfully written!");
-//         })
-//         .catch(function(error) {
-//             console.error("Error writing document: ", error);
-//         }));
+export const createUser = async(name, email, id) => {
+
+    db.collection("users").doc(id).set({
+            name: name,
+            email: email,
+
+        })
+        .then(function() {
+            console.log("Document successfully written!");
+        })
+        .catch(function(error) {
+            console.error("Error writing document: ", error);
+        });
+
+
+}
