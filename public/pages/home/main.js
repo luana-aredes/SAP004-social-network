@@ -1,31 +1,12 @@
-import { signOut } from "../login/data.js"
-
 export default () => {
 
     let container = document.createElement("div");
-    container.innerHTML = `
-  <header class="header">
-        <section class="headerMobile">
-            <img src="images/menu-square-button_icon-icons.com_73216.png" alt="" class="menuMobile">
-            
-
-            <h1 class="title">Workbook</h1>
-        </section>
-        <section class="headerWeb">
-            <div class="menuWeb">
-
-            </div>
-            <h1>Workbook</h1>
-            <img src="images/icon-exit-png-1.png" alt="" class="logout">
-        </section>
-    </header>
-    <form action="" id="postForm">
+    container.innerHTML = `<form action="" id="postForm">
       <textarea type="text" rows="10" cols="50" maxlength="500" wrap="hard" spellcheck="true" placeholder="Escreva algo para compartilhar com seus amigos!" id="post-text"></textarea> 
       <button type="button"> Carregar arquivo </button>
       <button type="button"> Publico </button> 
       <button type="button"> Privado </button> 
       <button type="submit" value="botao" id="button-publicar" class="botao"> Publicar </button>
-
     </form>
     <section id="posts">
     </section>
@@ -89,7 +70,6 @@ export default () => {
         });
       });
     }*/
-    container.querySelector(".logout").addEventListener("click", () => signOut());
 
     return container;
 }

@@ -2,6 +2,8 @@ import home from "./pages/home/main.js";
 import login from "./pages/login/main.js";
 import profile from "./pages/profile/main.js";
 import register from "./pages/register/main.js";
+import { signOut } from "./pages/login/data.js"
+
 
 const main = document.querySelector('#root');
 
@@ -9,7 +11,21 @@ const init = () => {
     firebase.auth().onAuthStateChanged((user) => {
         if (user) {
             console.log(user.email);
-            main.innerHTML = ""
+            main.innerHTML = `<header class="header">
+            <section class="headerMobile">
+                <img src="images/menu-square-button_icon-icons.com_73216.png" alt="" class="menuMobile">
+                <h1 class="title">Workbook</h1>
+            </section>
+            <section class="headerWeb">
+                <div class="menuWeb">
+                    </div>
+                <h1>Workbook</h1>
+                <img src="images/icon-exit-png-1.png" alt="" class="logout">
+                            </section>
+        </header>`
+
+            main.querySelector(".logout").addEventListener("click", () => signOut());
+
             switch (window.location.hash) {
                 case "#home":
                     main.appendChild(home());
