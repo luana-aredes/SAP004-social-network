@@ -45,7 +45,7 @@ export default () => {
         const password = formData.get("password");
 
         if (validator(email, password, name)) {
-            const user = await createLogin(email, password);
+            const user = await createLogin(email, password, name);
             console.log(user);
             createUser(name, email, user.uid);
         };

@@ -10,7 +10,7 @@ const main = document.querySelector('#root');
 const init = () => {
     firebase.auth().onAuthStateChanged((user) => {
         if (user) {
-            console.log(user.email);
+            console.log(user.displayName);
             main.innerHTML = `<header class="header">
             <section class="headerMobile">
                 <img src="images/menu-square-button_icon-icons.com_73216.png" alt="" class="menuMobile">
@@ -18,8 +18,11 @@ const init = () => {
             </section>
             <section class="headerWeb">
                 <div class="menuWeb">
+                ${user.displayName}
+                <span id="menuTriangle">🔻</span>
+                
                     </div>
-                <h1>Workbook</h1>
+                <h1>SpaceJobs</h1>
                 <img src="images/icon-exit-png-1.png" alt="" class="logout">
                             </section>
         </header>`

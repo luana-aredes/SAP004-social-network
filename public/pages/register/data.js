@@ -17,7 +17,7 @@ export const validator = (email, password, name) => {
     return true;
 };
 
-export const createLogin = async(email, password) => {
+export const createLogin = async(email, password, name) => {
     const user = await firebase.auth().createUserWithEmailAndPassword(email, password)
         .then(data => {
             return data.user;
@@ -25,6 +25,9 @@ export const createLogin = async(email, password) => {
         .catch(function(error) {
             console.error("Error writing document: ", error);
         })
+    await user.updateProfile({
+        displayName: name
+    });
     return user;
 };
 
