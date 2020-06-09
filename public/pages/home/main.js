@@ -1,10 +1,6 @@
-import {
-  signOut,
-} from "../login/data.js"
-
+import { signOut } from "../login/data.js";
 
 export default () => {
-
   let container = document.createElement("div");
   container.innerHTML = `
   <header class="header">
@@ -38,35 +34,37 @@ export default () => {
 
   loadPosts(container, "#posts");
 
-  container.querySelector("#postForm").addEventListener("submit", function (event) {
-    event.preventDefault();
-    const text = container.querySelector("#post-text").value;
-    const post = {
-      text: text,
-      user_id: "teste",
-      likes: 0,
-      comments: [],
-    };
+  container
+    .querySelector("#postForm")
+    .addEventListener("submit", function (event) {
+      event.preventDefault();
+      const text = container.querySelector("#post-text").value;
+      const post = {
+        text: text,
+        user_id: "teste",
+        likes: 0,
+        comments: [],
+      };
 
-
-    const postsCollection = firebase.firestore().collection("posts");
-    postsCollection.add(post).then((res) => {
-      const text = (container.querySelector("#post-text").value = "");
+      const postsCollection = firebase.firestore().collection("posts");
+      postsCollection.add(post).then((res) => {
+        const text = (container.querySelector("#post-text").value = "");
+      });
+      loadPosts(container, "#posts");
     });
-    loadPosts(container, "#posts");
-  });
 
   function addPost(post) {
     let postTamplate = `
 
-      <section id="publicacao">
+      <section class="publicacao" id='publicacao' + ${post.id}'>
         <header>
-        publicado por: Id do post: ${post.id} | Publico
+        publicado por: Id do usuario: ${
+          firebase.auth().currentUser.uid
+        }| Publico
         <button type="button" id="botao-apagar"> ❌ </button>
         </header>
         <main>
-        <textarea type="text" rows="10" cols="50" id='${post.id}' > ${
-          post.data().text }
+        <textarea type="text" rows="10" cols="50" id= > ${post.data().text} 
         </textarea
         <div id="botoes">
         <button type="button" id="botao" class="botao"> 💓 </button>
@@ -82,8 +80,6 @@ export default () => {
     return postTamplate;
   }
 
-
-
   function loadPosts(container, idRef) {
     const postsCollection = firebase.firestore().collection("posts");
     container.querySelector(idRef).innerHTML = "Carregando...";
@@ -97,4 +93,4 @@ export default () => {
   container.querySelector(".logout").addEventListener("click", () => signOut());
 
   return container;
-}
+};
