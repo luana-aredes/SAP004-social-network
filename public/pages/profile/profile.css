@@ -66,8 +66,4 @@ main {
         display: flex;
         font-size: 20px;
     }
-    .triangle {
-        height: 16px;
-        width: 16px;
-    }
 }
