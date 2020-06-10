@@ -1,4 +1,12 @@
-import { signOut } from "../login/data.js";
+import {
+  signOut
+} from "../login/data.js";
+
+import {
+  createPost,
+  readPosts,
+  deletePost
+} from "./data.js";
 
 export default () => {
   let container = document.createElement("div");
@@ -18,12 +26,12 @@ export default () => {
             <img src="images/icon-exit-png-1.png" alt="" class="logout">
         </section>
     </header>
-    <form action="" id="postForm">
-      <textarea type="text" rows="10" cols="50" maxlength="500" wrap="hard" spellcheck="true" placeholder="Escreva algo para compartilhar com seus amigos!" id="post-text"></textarea> 
+    <form action="submit" id="post">
+      <textarea type="text" id="post-text" rows="10" cols="50" maxlength="500" wrap="hard" spellcheck="true" placeholder="Escreva algo para compartilhar com seus amigos!" ></textarea> 
       <button type="button"> Carregar arquivo </button>
       <button type="button"> Publico </button> 
       <button type="button"> Privado </button> 
-      <button type="submit" value="botao" id="button-publicar" class="botao"> Publicar </button>
+      <button type="submit" value="button" id="publish-button" class="botao"> Publicar </button>
     </form>
     <section class="card-post" id="posts">
     </section>
@@ -32,64 +40,47 @@ export default () => {
     <button type="button"> <a href= "./#profile">Provisorio</a> </button>
     `;
 
-  loadPosts(container, "#posts");
+  const publishBtn = container.querySelector("#publish-button");
+  const postsContainer = container.querySelector("#posts");
+  let texto = container.querySelector("#post-text");
+  const user = firebase.auth().currentUser;
+  const name = firebase.firestore().collection("users").doc(user.uid);
 
-  container
-    .querySelector("#postForm")
-    .addEventListener("submit", function (event) {
-      event.preventDefault();
-      const text = container.querySelector("#post-text").value;
-      const post = {
-        text: text,
-        user_id: "teste",
-        likes: 0,
-        comments: [],
-      };
+  publishBtn.addEventListener("click", (event) => {
+    event.preventDefault();
+    createPost(user.uid, texto.value, name);
+    texto.innerHTML = " ";
+    readPosts(postTemplate);
+  });
 
-      const postsCollection = firebase.firestore().collection("posts");
-      postsCollection.add(post).then((res) => {
-        const text = (container.querySelector("#post-text").value = "");
-      });
-      loadPosts(container, "#posts");
-    });
+  const postTemplate = (array) => {
+    postsContainer.innerHTML = array
+      .map(
+        (post) =>
+        `
+          <section id='publicacao'>
+            <header>
+            publicado por: | Publico
+            <button type="button" id="botao-apagar"> ❌ </button>
+            </header>
+            <main>
+            <textarea type="text" rows="10" cols="50" readonly > ${post.text} </textarea
+            <div id="botoes">
+            <button type="button" id="botao" class="botao" > 💓 </button>
+            <div id="contador"> ${post.likes} </div>
+            <button type="submit" id="button-comentar" class="botao"> Comentar </button>
+            <button type="button" class="botao"> Editar </button>
+            </div>
+            </main>
+          </section>    
+          `
+      )
+      .join("");
+  };
 
-  function addPost(post) {
-    let postTamplate = `
+  readPosts(postTemplate);
 
-      <section class="publicacao" id='publicacao' + ${post.id}'>
-        <header>
-        publicado por: Id do usuario: ${
-          firebase.auth().currentUser.uid
-        }| Publico
-        <button type="button" id="botao-apagar"> ❌ </button>
-        </header>
-        <main>
-        <textarea type="text" rows="10" cols="50" id= > ${post.data().text} 
-        </textarea
-        <div id="botoes">
-        <button type="button" id="botao" class="botao"> 💓 </button>
-        <div id="contador"> ${post.data().likes} </div>
-        <button type="submit" id="button-comentar" class="botao"> Comentar </button>
-        <button type="button" class="botao"> Editar </button>
-        </div>
-        </main>
-      </section>    
-      `;
-    document.querySelector("#posts").innerHTML += postTamplate;
 
-    return postTamplate;
-  }
-
-  function loadPosts(container, idRef) {
-    const postsCollection = firebase.firestore().collection("posts");
-    container.querySelector(idRef).innerHTML = "Carregando...";
-    postsCollection.get().then((snap) => {
-      container.querySelector(idRef).innerHTML = " ";
-      snap.forEach((post) => {
-        addPost(post);
-      });
-    });
-  }
   container.querySelector(".logout").addEventListener("click", () => signOut());
 
   return container;

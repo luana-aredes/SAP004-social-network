@@ -18,7 +18,6 @@ body {
 
 .logo {
     width: 300px;
-
 }
 
 .container-main {
@@ -37,7 +36,6 @@ body {
 .sub-title {
     font-size: 20px;
     color: white;
-
 }
 
 .input-login {
@@ -91,24 +89,4 @@ body {
     .logo {
         width: 50vw;
     }
-
-}
-
-
-
-
-
-
-.publicacao {
-    width: 500px;
-    margin-top: 40px;
-
-}
-
-.botao {
-    width: 100px;
-}
-
-#contador {
-    width: 20px;
 }

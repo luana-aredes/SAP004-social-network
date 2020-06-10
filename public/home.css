@@ -8,3 +8,9 @@ body {
     height: 100vh;
     color: white;
 }
+
+
+.post-title {
+    width: 500px;
+    margin-top: 40px;
+}

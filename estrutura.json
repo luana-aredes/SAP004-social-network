@@ -1,0 +1,30 @@
+{
+    "users": {
+        "uid124326": {
+            "name": "karine",
+            "email": "teste@teste.com",
+            "profession": "dev",
+            "place": "São Paulo",
+            "photo": "foto.jpg",
+            "bio": "estudante de desenvolvimento frontend"
+
+        }
+
+    },
+    "posts": {
+        "uid135638": {
+            "userId": "1524362",
+            "text": "Bom dia",
+            "likes": "2",
+            "created": "01/01/2020 14:29",
+            "privacy": "publico",
+            "comments": [{
+                "userId": "1524362",
+                "created": "01/01/2020 14:29",
+                "comment": "Bom dia"
+            }]
+        }
+    }
+
+
+}
