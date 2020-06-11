@@ -1,34 +1,41 @@
-export const createPost = (userUid, texto, name) => {
+export const createPost = (userId, texto, privacy) => {
     firebase.firestore().collection("posts").add({
-            userId: userUid,
-            name: name,
+            userId: userId,
             text: texto,
             likes: 0,
             created: new Date(),
-            privacy: "publico",
+            privacy: privacy,
             comments: [{
-                userId: userUid,
+                userId: userId,
                 created: new Date(),
                 comment: "Bom dia"
             }],
         })
-        .then(function (docRef) {
+        .then(function(docRef) {
             console.log("Document written with ID:", docRef.id);
         })
-        .catch(function (error) {
+        .catch(function(error) {
             console.log("Error adding document:", error);
         });
 }
 
 
-export const readPosts = (callback) => {
-    firebase.firestore().collection("posts")
-        .onSnapshot(function (querySnapshot) {
-            var posts = [];
-            querySnapshot.forEach(function (doc) {
+export const readPosts = (callback, userId) => {
+    var posts = [];
+    firebase.firestore().collection("posts").where("privacy", "==", "publico")
+        .onSnapshot(function(querySnapshot) {
+            querySnapshot.forEach(function(doc) {
+
                 posts.push(doc.data());
             });
-            callback(posts);
+            firebase.firestore().collection("posts").where("privacy", "==", "privado").where("userId", "==", userId)
+                .onSnapshot(function(querySnapshot) {
+                    querySnapshot.forEach(function(doc) {
+
+                        posts.push(doc.data());
+                    });
+                    callback(posts);
+                })
         })
 }
 

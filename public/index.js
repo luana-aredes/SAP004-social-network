@@ -17,11 +17,9 @@ const init = () => {
                 <h1 class="title">Workbook</h1>
             </section>
             <section class="headerWeb">
-                <div class="menuWeb">
-                ${user.displayName}
-                <span id="menuTriangle">🔻</span>
-                
-                    </div>
+                <div class="menuWeb"> 
+                <a href= "./#profile">${user.displayName}</a>
+                </div>
                 <h1>SpaceJobs</h1>
                 <img src="images/icon-exit-png-1.png" alt="" class="logout">
                             </section>
