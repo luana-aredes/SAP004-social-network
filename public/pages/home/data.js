@@ -22,26 +22,24 @@ export const createPost = (userId, texto, privacy) => {
 
 
 export const readPosts = (callback, userId) => {
-    var posts = [];
+    const posts = [];
     firebase.firestore().collection("posts").where("privacy", "==", "publico")
-        .onSnapshot(function(querySnapshot) {
+        .get().then(function(querySnapshot) {
             querySnapshot.forEach(function(doc) {
-
                 posts.push(doc.data());
             });
             firebase.firestore().collection("posts").where("privacy", "==", "privado").where("userId", "==", userId)
-                .onSnapshot(function(querySnapshot) {
+                .get().then(function(querySnapshot) {
                     querySnapshot.forEach(function(doc) {
-
                         posts.push(doc.data());
                     });
                     callback(posts);
                 })
         })
 }
-export const likePost = (event) => {
+export const likePost = (event, likes) => {
     console.log(event.srcElement.id);
-    firebase.firestore().collection("posts")
+    return firebase.firestore().collection("posts")
         .doc(event.srcElement.id).get().then((doc) => {
             const post = doc.data();
             const qtdAtualLikes = post.likes + 1;

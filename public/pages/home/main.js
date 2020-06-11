@@ -63,10 +63,15 @@ export default () => {
             )
             .join("");
 
-        postsContainer.querySelectorAll('.botao-like').forEach((item) => {
+        let likes = postsContainer.querySelectorAll('.botao-like').forEach((item) => {
             item.addEventListener("click", (event) => {
-                likePost(event);
+                likePost(event, likes).then(() => {
+
+                    readPosts(postTemplate, user.uid);
+                });
+
             });
+
         });
 
 
