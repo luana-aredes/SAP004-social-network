@@ -1,12 +1,12 @@
 import {
-    createPost,
-    readPosts,
-    deletePost
+  createPost,
+  readPosts,
+  deletePost
 } from "./data.js";
 
 export default () => {
-    let container = document.createElement("div");
-    container.innerHTML = `
+  let container = document.createElement("div");
+  container.innerHTML = `
       </header>
     <form action="submit" id="post">
       <textarea type="text" id="post-text" rows="10" cols="50" maxlength="500" wrap="hard" spellcheck="true" placeholder="Escreva algo para compartilhar com seus amigos!" ></textarea> 
@@ -22,27 +22,37 @@ export default () => {
     <button type="button"> <a href= "./#profile">Provisorio</a> </button>
     `;
 
-    const publishBtn = container.querySelector("#publish-button");
-    const postsContainer = container.querySelector("#posts");
-    let texto = container.querySelector("#post-text");
-    const user = firebase.auth().currentUser;
-    const name = firebase.firestore().collection("users").doc(user.uid);
+  const publishBtn = container.querySelector("#publish-button");
+  const postsContainer = container.querySelector("#posts");
+  let texto = container.querySelector("#post-text");
+  const user = firebase.auth().currentUser;
+  const name = firebase.firestore().collection("users").doc(user.uid);
 
-    publishBtn.addEventListener("click", (event) => {
-        event.preventDefault();
-        createPost(user.uid, texto.value, name);
-        texto.innerHTML = " ";
-        readPosts(postTemplate);
-    });
+  /*
+    Pega o nome do usuario logado (or email ou google)
+    const publicadoPor = () => {
+      return user.providerData.forEach(function (profile) {
+        "name: " + profile.displayName;
+      })
+    }
+  */
 
-    const postTemplate = (array) => {
-        postsContainer.innerHTML = array
-            .map(
-                (post) =>
-                `
+  publishBtn.addEventListener("click", (event) => {
+    event.preventDefault();
+    createPost(user.uid, user, texto.value, name);
+    texto.innerHTML = " ";
+    readPosts(postTemplate);
+  });
+
+
+  const postTemplate = (array) => {
+    postsContainer.innerHTML = array
+      .map(
+        (post) =>
+        `
           <section id='publicacao'>
             <header>
-            publicado por: | Publico
+            publicado por: ${post.nome}  ${post.id}| Publico
             <button type="button" id="botao-apagar"> ❌ </button>
             </header>
             <main>
@@ -56,11 +66,11 @@ export default () => {
             </main>
           </section>    
           `
-            )
-            .join("");
-    };
+      )
+      .join("");
+  };
 
-    readPosts(postTemplate);
+  readPosts(postTemplate);
 
-    return container;
+  return container;
 };

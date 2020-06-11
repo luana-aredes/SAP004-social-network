@@ -1,5 +1,6 @@
-export const createPost = (userUid, texto, name) => {
+export const createPost = (userUid, user, texto, name) => {
     firebase.firestore().collection("posts").add({
+            nome: user.displayName,
             userId: userUid,
             name: name,
             text: texto,
@@ -14,10 +15,14 @@ export const createPost = (userUid, texto, name) => {
         })
         .then(function (docRef) {
             console.log("Document written with ID:", docRef.id);
+            firebase.firestore().collection("posts").doc(docRef.id).update({
+                idPost: docRef
+            })
         })
         .catch(function (error) {
             console.log("Error adding document:", error);
         });
+
 }
 
 
@@ -31,6 +36,7 @@ export const readPosts = (callback) => {
             callback(posts);
         })
 }
+
 
 
 export const deletePost = () => {

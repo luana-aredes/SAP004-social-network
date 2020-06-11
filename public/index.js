@@ -2,7 +2,9 @@ import home from "./pages/home/main.js";
 import login from "./pages/login/main.js";
 import profile from "./pages/profile/main.js";
 import register from "./pages/register/main.js";
-import { signOut } from "./pages/login/data.js"
+import {
+    signOut
+} from "./pages/login/data.js"
 
 
 const main = document.querySelector('#root');
