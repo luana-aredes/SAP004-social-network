@@ -19,11 +19,11 @@ const init = () => {
             <section class="headerWeb">
                 <div class="menuWeb">
                 ${user.displayName}
-                <span id="menuTriangle">🔻</span>
+                <i class="fas fa-caret-down"></i>
                 
                     </div>
                 <h1>SpaceJobs</h1>
-                <img src="images/icon-exit-png-1.png" alt="" class="logout">
+                <i class="fas fa-sign-out-alt logout"></i>
                             </section>
         </header>`
 

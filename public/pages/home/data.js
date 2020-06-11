@@ -14,6 +14,7 @@ export const createPost = (userUid, texto, name) => {
         })
         .then(function (docRef) {
             console.log("Document written with ID:", docRef.id);
+            firebase.firestore().collection('posts').doc(docRef.id).update({postId: docRef.id});
         })
         .catch(function (error) {
             console.log("Error adding document:", error);
@@ -38,3 +39,14 @@ export const deletePost = () => {
         post.remove();
     })
 };
+
+export const likePost = (event) => {
+    firebase.firestore().collection("posts")
+        .doc(event.srcElement.id).get().then((doc) => {
+            const post = doc.data();
+            const qtdAtualLikes = post.likes + 1;
+            firebase.firestore().collection('posts').doc(event.srcElement.id)
+                .update({likes: qtdAtualLikes});
+        });
+    
+}
