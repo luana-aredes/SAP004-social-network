@@ -9,10 +9,11 @@ body {
 }
 
 .title {
-    color: white;
+    color: #E2F205;
     font-weight: bold;
     font-size: 30px;
     margin-bottom: 20px;
+    margin-top: 40px;
 }
 
 p {
@@ -20,7 +21,7 @@ p {
 }
 
 label {
-    color: white;
+    color: #E2F205;
     position: relative;
 }
 

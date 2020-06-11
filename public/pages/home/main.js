@@ -1,7 +1,8 @@
 import {
   createPost,
   readPosts,
-  deletePost
+  deletePost,
+  likePost
 } from "./data.js";
 
 export default () => {
@@ -53,12 +54,12 @@ export default () => {
           <section id='publicacao'>
             <header>
             publicado por: ${post.nome}  ${post.id}| Publico
-            <button type="button" id="botao-apagar"> ❌ </button>
+            <button type="button" id="botao-apagar"><i class="fas fa-times"></i></button>
             </header>
             <main>
             <textarea type="text" rows="10" cols="50" readonly > ${post.text} </textarea
             <div id="botoes">
-            <button type="button" id="botao" class="botao" > 💓 </button>
+            <button type="button" id="${post.postId}" class="botao-like"> <i class="fas fa-thumbs-up"></i> </button>
             <div id="contador"> ${post.likes} </div>
             <button type="submit" id="button-comentar" class="botao"> Comentar </button>
             <button type="button" class="botao"> Editar </button>
@@ -68,9 +69,23 @@ export default () => {
           `
       )
       .join("");
+
+    console.log(postsContainer.querySelectorAll('.botao-like'));
+    postsContainer.querySelectorAll('.botao-like').forEach((item) => {
+      item.addEventListener("click", (event) => {
+        likePost(event);
+      });
+    });
+
+
   };
 
   readPosts(postTemplate);
+
+  /*document.querySelector(".botao-like").addEventListener("click", (event) => {
+    return likePost(event);   
+
+  });*/
 
   return container;
 };

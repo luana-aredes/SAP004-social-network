@@ -16,7 +16,7 @@ export const createPost = (userUid, user, texto, name) => {
         .then(function (docRef) {
             console.log("Document written with ID:", docRef.id);
             firebase.firestore().collection("posts").doc(docRef.id).update({
-                idPost: docRef
+                idPost: docRef.id
             })
         })
         .catch(function (error) {
@@ -44,3 +44,16 @@ export const deletePost = () => {
         post.remove();
     })
 };
+
+export const likePost = (event) => {
+    firebase.firestore().collection("posts")
+        .doc(event.srcElement.id).get().then((doc) => {
+            const post = doc.data();
+            const qtdAtualLikes = post.likes + 1;
+            firebase.firestore().collection('posts').doc(event.srcElement.id)
+                .update({
+                    likes: qtdAtualLikes
+                });
+        });
+
+}

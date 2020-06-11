@@ -15,17 +15,19 @@ const init = () => {
             console.log(user.displayName);
             main.innerHTML = `<header class="header">
             <section class="headerMobile">
-                <img src="images/menu-square-button_icon-icons.com_73216.png" alt="" class="menuMobile">
-                <h1 class="title">Workbook</h1>
+                <i class="fas fa-bars"></i>
+                <h1 class="title">SpaceJobs</h1>
+                <i class="fas fa-sign-out-alt logout"></i>
             </section>
             <section class="headerWeb">
                 <div class="menuWeb">
                 ${user.displayName}
-                <span id="menuTriangle">🔻</span>
+                <i class="fas fa-caret-down"></i>
                 
                     </div>
                 <h1>SpaceJobs</h1>
-                <img src="images/icon-exit-png-1.png" alt="" class="logout">
+                <button id="botao-google" class="btn-singOut"><i class="fas fa-sign-out-alt logout"></i></button>
+                
                             </section>
         </header>`
 
