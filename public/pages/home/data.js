@@ -15,9 +15,9 @@ export const createPost = (userUid, user, texto, name) => {
         })
         .then(function (docRef) {
             console.log("Document written with ID:", docRef.id);
-            firebase.firestore().collection("posts").doc(docRef.id).update({
-                idPost: docRef.id
-            })
+            firebase.firestore().collection('posts').doc(docRef.id).update({
+                postId: docRef.id
+            });
         })
         .catch(function (error) {
             console.log("Error adding document:", error);
