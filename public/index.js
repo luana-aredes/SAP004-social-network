@@ -20,10 +20,11 @@ const init = () => {
                 <i class="fas fa-sign-out-alt logout"></i>
             </section>
             <section class="headerWeb">
-                <div class="menuWeb">
-                ${user.displayName}
+                <div class="menuWeb"> 
+                <a href= "./#profile">${user.displayName}</a>
                 <i class="fas fa-caret-down"></i>
-                
+                </div>
+                              
                     </div>
                 <h1>SpaceJobs</h1>
                 <button id="botao-google" class="btn-singOut"><i class="fas fa-sign-out-alt logout"></i></button>
@@ -31,7 +32,7 @@ const init = () => {
                             </section>
         </header>`
 
-            main.querySelector(".logout").addEventListener("click", () => signOut());
+            main.querySelector(".btn-singOut").addEventListener("click", () => signOut());
 
             switch (window.location.hash) {
                 case "#home":

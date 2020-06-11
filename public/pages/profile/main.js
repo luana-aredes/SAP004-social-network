@@ -27,7 +27,9 @@ export default () => {
         <section class="buttons">
             <button class="edit">Editar Perfil</button>
             <button class="save">Salvar</button>
-        </section>`;
+        </section>
+        <button type="button"> <a href= "./#home">ProvisorioHome</a> </button>
+        `;
 
     container.innerHTML = template;
     return container;

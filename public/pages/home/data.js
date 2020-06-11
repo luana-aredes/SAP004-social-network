@@ -1,14 +1,14 @@
-export const createPost = (userUid, user, texto, name) => {
+export const createPost = (userUid, user, texto, privacy) => {
     firebase.firestore().collection("posts").add({
-            nome: user.displayName,
+            name: user.displayName,
             userId: userUid,
-            name: name,
+            userId: userId,
             text: texto,
             likes: 0,
             created: new Date(),
-            privacy: "publico",
+            privacy: privacy,
             comments: [{
-                userId: userUid,
+                userId: userId,
                 created: new Date(),
                 comment: "Bom dia"
             }],
@@ -26,26 +26,28 @@ export const createPost = (userUid, user, texto, name) => {
 }
 
 
-export const readPosts = (callback) => {
-    firebase.firestore().collection("posts")
+export const readPosts = (callback, userId) => {
+    var posts = [];
+    firebase.firestore().collection("posts").where("privacy", "==", "publico")
         .onSnapshot(function (querySnapshot) {
-            var posts = [];
             querySnapshot.forEach(function (doc) {
+
                 posts.push(doc.data());
             });
-            callback(posts);
+            firebase.firestore().collection("posts").where("privacy", "==", "privado").where("userId", "==", userId)
+                .onSnapshot(function (querySnapshot) {
+                    querySnapshot.forEach(function (doc) {
+
+                        posts.push(doc.data());
+                    });
+                    callback(posts);
+                })
         })
 }
 
 
-
-export const deletePost = () => {
-    firebase.firestore().collection('posts').doc().delete().then(() => {
-        post.remove();
-    })
-};
-
 export const likePost = (event) => {
+    console.log(event.srcElement.id);
     firebase.firestore().collection("posts")
         .doc(event.srcElement.id).get().then((doc) => {
             const post = doc.data();
@@ -57,3 +59,9 @@ export const likePost = (event) => {
         });
 
 }
+
+export const deletePost = () => {
+    firebase.firestore().collection('posts').doc().delete().then(() => {
+        post.remove();
+    })
+};
