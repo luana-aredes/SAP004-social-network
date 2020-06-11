@@ -3,10 +3,12 @@
 }
 
 body {
-    background-image: linear-gradient(to bottom right, rgb(0, 153, 255), rgb(79, 71, 197), rgb(6, 6, 212));
+    background: #AB05F2;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    height: 100vh;
-    color: white;
+    height: 80vh;
+    color: #E2F205;
+    font-size: 20px;
+    font-weight: bold;
 }
 
 .container-title {
@@ -18,6 +20,7 @@ body {
 
 .logo {
     width: 300px;
+    margin-top: 50px;
 }
 
 .container-main {
@@ -26,16 +29,9 @@ body {
     justify-content: center;
 }
 
-.title {
-    color: white;
-    font-weight: bold;
-    font-size: 30px;
-    margin-bottom: 20px;
-}
-
 .sub-title {
-    font-size: 20px;
-    color: white;
+    font-size: 25px;
+    color:#E2F205;
 }
 
 .input-login {
@@ -56,12 +52,12 @@ body {
     border-radius: 12px;
     width: 100px;
     font-weight: bold;
-    color: white;
+    color: #5207F2;
     font-size: 15px;
 }
 
 .fa-google {
-    color: white;
+    color: #5207F2;
     font-size: 15px;
 }
 
@@ -79,14 +75,22 @@ body {
         display: flex;
         justify-content: space-around;
         align-items: center;
-        margin-top: 15vh;
+       
     }
 
     .container-web {
-        width: 300px;
+        width: 400px;
     }
 
     .logo {
-        width: 50vw;
+        width: 40vw;
+    }
+    .sub-title {
+        font-size:30px;
+        font-weight: bold;
+    }
+    .input-login {
+        width: 200px;
+        height: 30px;
     }
 }
