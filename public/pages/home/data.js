@@ -13,6 +13,7 @@ export const createPost = (userId, texto, privacy) => {
         })
         .then(function(docRef) {
             console.log("Document written with ID:", docRef.id);
+            firebase.firestore().collection('posts').doc(docRef.id).update({ postId: docRef.id });
         })
         .catch(function(error) {
             console.log("Error adding document:", error);
@@ -38,10 +39,22 @@ export const readPosts = (callback, userId) => {
                 })
         })
 }
+export const likePost = (event) => {
+    console.log(event.srcElement.id);
+    firebase.firestore().collection("posts")
+        .doc(event.srcElement.id).get().then((doc) => {
+            const post = doc.data();
+            const qtdAtualLikes = post.likes + 1;
+            firebase.firestore().collection('posts').doc(event.srcElement.id)
+                .update({ likes: qtdAtualLikes });
+        });
+
+
+};
 
 
 export const deletePost = () => {
     firebase.firestore().collection('posts').doc().delete().then(() => {
         post.remove();
     })
-};
+}
