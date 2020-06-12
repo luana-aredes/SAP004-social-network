@@ -15,24 +15,25 @@ const init = () => {
             console.log(user.displayName);
             main.innerHTML = `<header class="header">
             <section class="headerMobile">
-                <i class="fas fa-bars"></i>
+                <a href= "./#profile" id= "btn-menu"><i class="fas fa-bars"></i></a>
                 <h1 class="title">SpaceJobs</h1>
-                <i class="fas fa-sign-out-alt logout"></i>
+                <i id= "btn-signOut" class="fas fa-sign-out-alt logout"></i>
             </section>
             <section class="headerWeb">
                 <div class="menuWeb"> 
-                <a href= "./#profile">${user.displayName}</a>
-                <i class="fas fa-caret-down"></i>
+                <a class= "menu-profile" href= "./#profile">Profile</a>
+                <a href= "./#home">Feed</a>
                 </div>
                               
                     </div>
-                <h1>SpaceJobs</h1>
-                <button id="botao-google" class="btn-singOut"><i class="fas fa-sign-out-alt logout"></i></button>
+                <h1 class= "title-web">SpaceJobs</h1>
+                <i id= "btn-signOut-web" class="fas fa-sign-out-alt logout"></i>
                 
-                            </section>
+            </section>
         </header>`
 
-            main.querySelector(".btn-singOut").addEventListener("click", () => signOut());
+            main.querySelector("#btn-signOut").addEventListener("click", () => signOut());
+            main.querySelector("#btn-signOut-web").addEventListener("click", () => signOut());
 
             switch (window.location.hash) {
                 case "#home":
