@@ -28,9 +28,8 @@ export default () => {
             <button class="edit">Editar Perfil</button>
             <button class="save">Salvar</button>
         </section>
-        <button type="button"> <a href= "./#home">ProvisorioHome</a> </button>
         `;
-
-    container.innerHTML = template;
+        container.innerHTML = template;
+        document.querySelector("body").classList.add("profile-body")
     return container;
 }
