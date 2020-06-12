@@ -10,9 +10,7 @@ export default () => {
             <img src="images/Perfil.png" alt="" class="photo">
             
         </div>
-
         <input type="file" class="photoEdit"></div>
-
         <div class="name">
             <h2>Nome</h2>
         </div>
