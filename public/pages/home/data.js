@@ -23,7 +23,7 @@ export const createPost = (userId, texto, privacy) => {
 
 
 export const readPosts = (callback, userId) => {
-    const posts = [];
+    let posts = [];
     firebase.firestore().collection("posts").where("privacy", "==", "publico")
         .get().then(function(querySnapshot) {
             querySnapshot.forEach(function(doc) {
@@ -34,6 +34,17 @@ export const readPosts = (callback, userId) => {
                     querySnapshot.forEach(function(doc) {
                         posts.push(doc.data());
                     });
+                    console.log(posts)
+                    posts = posts.sort(function(a, b) {
+                        console.log(a)
+                        if (a.created < b.created) {
+                            return 1;
+                        }
+                        if (a.created > b.created) {
+                            return -1;
+                        }
+
+                    })
                     callback(posts);
                 })
         })

@@ -1,7 +1,6 @@
 import {
     createPost,
     readPosts,
-    deletePost,
     likePost
 } from "./data.js";
 
