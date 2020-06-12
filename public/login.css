@@ -19,7 +19,7 @@ body {
 }
 
 .logo {
-    width: 300px;
+    width: 350px;
     margin-top: 50px;
 }
 
@@ -46,19 +46,26 @@ body {
     margin: 8px;
 }
 
-.btn {
+.btn-login {
     background: rgb(83, 153, 233);
     border: 0px;
     border-radius: 12px;
     width: 100px;
+    height: 30px;
     font-weight: bold;
     color: #5207F2;
     font-size: 15px;
+    transition: 0.3s ease-in;
+}
+
+.btn-login:hover{
+   font-size: 18px; 
 }
 
 .fa-google {
     color: #5207F2;
     font-size: 15px;
+    font-weight: bold;
 }
 
 .btn-google {
@@ -68,6 +75,11 @@ body {
     height: 35px;
     width: 35px;
     padding: 10px;
+    transition: 0.3s ease-in;
+}
+
+.fa-google:hover{
+    font-size: 18px;
 }
 
 @media(Min-width:600px) {
@@ -83,7 +95,7 @@ body {
     }
 
     .logo {
-        width: 40vw;
+        width: 50vw;
     }
     .sub-title {
         font-size:30px;

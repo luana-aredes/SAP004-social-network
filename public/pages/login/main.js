@@ -8,7 +8,7 @@ export default () => {
 
   const template = `
     <div class= "container-flex">
-    <figure class="container-title"><img class="logo"src="./img/img1.jpeg" alt=""></figure>
+    <figure class="container-title"><img class="logo"src="./img/slide2.PNG" alt=""></figure>
     <div class="container-web">
     <div class="container-title" >
     <h2 class="sub-title items">Seja bem vindo(a)!!!</h2>
@@ -19,7 +19,7 @@ export default () => {
     <input type="password" id="senha" placeholder="  Digite sua senha:" class="input-login">
     </div>
     <div class="items">
-    <button class="btn" id="botao-login-cadastrado">Entrar</button>
+    <button class="btn-login" id="botao-login-cadastrado">Entrar</button>
     </div>
     <div class="items">
     <p class=""> Deseja logar com...</p>
@@ -39,8 +39,6 @@ export default () => {
     .addEventListener("click", () => {
       const email = container.querySelector("#email").value;
       const password = container.querySelector("#senha").value;
-      console.log(email);
-      console.log(password);
       return loginWithExistingEmail(email, password);
     });
 
