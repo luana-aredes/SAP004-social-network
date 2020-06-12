@@ -46,13 +46,13 @@ export default () => {
                 `
           <section id='publicacao'>
             <header>
-            publicado por:|  ${post.privacy}
+            publicado por:${post.name} em ${post.created}|  ${post.privacy}
             <button type="button" id="botao-apagar"><i class="fas fa-times"></i></button>
             </header>
             <main>
             <textarea type="text" rows="10" cols="50" readonly > ${post.text} </textarea
             <div id="botoes">
-            <button type="button" id="${post.postId}" class="botao-like"> <i class="fas fa-thumbs-up"></i> </button>
+            <button type="button" id="${post.postId}" class="botao-like"> <i  id="${post.postId}"  class="fas fa-thumbs-up"></i> </button>
             <div id="contador"> ${post.likes} </div>
             <button type="submit" id="button-comentar" class="botao"> Comentar </button>
             <button type="button" class="botao"> Editar </button>
@@ -73,7 +73,6 @@ export default () => {
             });
 
         });
-
 
     };
 

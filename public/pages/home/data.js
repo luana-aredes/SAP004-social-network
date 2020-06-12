@@ -1,9 +1,10 @@
 export const createPost = (userId, texto, privacy) => {
     firebase.firestore().collection("posts").add({
             userId: userId,
+            name: firebase.auth().currentUser.displayName,
             text: texto,
             likes: 0,
-            created: new Date(),
+            created: firebase.firestore.Timestamp.fromDate(new Date()).toDate().toLocaleString('pt-BR'),
             privacy: privacy,
             comments: [{
                 userId: userId,
@@ -49,10 +50,3 @@ export const likePost = (event, likes) => {
 
 
 };
-
-
-export const deletePost = () => {
-    firebase.firestore().collection('posts').doc().delete().then(() => {
-        post.remove();
-    })
-}
