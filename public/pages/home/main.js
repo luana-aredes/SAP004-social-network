@@ -1,8 +1,4 @@
-import {
-  createPost,
-  readPosts,
-  likePost
-} from "./data.js";
+import { createPost, readPosts, likePost } from "./data.js";
 
 export default () => {
   let container = document.createElement("div");
@@ -38,21 +34,20 @@ export default () => {
     readPosts(postTemplate, user.uid);
   });
 
-
   const postTemplate = (array) => {
     postsContainer.innerHTML = array
       .map(
         (post) =>
-        `
+          `
         <section id='${post.postId}'>
           <header>
           publicado por: ${post.name}|  ${post.privacy}
-          <button type="button" class="botao-apagar"><i class="fas fa-times"></i></button>
+          <button type="button" class="botao-apagar" id="${post.postId}"> <i id="${post.postId}" class="fas fa-times"></i></button>
           </header>
           <main>
           <textarea type="text" rows="10" cols="50" readonly > ${post.text} </textarea
           <div id="botoes">
-          <button type="button" id="${post.postId}" class="botao-like"> <i class="fas fa-thumbs-up"></i> </button>
+          <button type="button" id="${post.postId}" class="botao-like"> <i id="${post.postId}" class="fas fa-thumbs-up"></i> </button>
           <div id="contador"> ${post.likes} </div>
           <button type="submit" id="button-comentar" class="botao"> Comentar </button>
           <button type="button" class="botao"> Editar </button>
@@ -63,27 +58,30 @@ export default () => {
       )
       .join("");
 
-    let likes = postsContainer.querySelectorAll('.botao-like').forEach((item) => {
-      item.addEventListener("click", (event) => {
-        likePost(event, likes).then(() => {
-
-          readPosts(postTemplate, user.uid);
+    let likes = postsContainer
+      .querySelectorAll(".botao-like")
+      .forEach((item) => {
+        item.addEventListener("click", (event) => {
+          likePost(event, likes).then(() => {
+            readPosts(postTemplate, user.uid);
+          });
         });
       });
-    });
-
   };
-
 
   let deletar = container.querySelectorAll(".botao-apagar").forEach((item) => {
     item.addEventListener("click", (event) => {
       deletePost(event).then(() => {
-        readPosts(postTemplate, user.uid)
+        readPosts(postTemplate, user.uid);
       });
     });
-
   });
 
+  /*
+  postsContainer.querySelectorAll(".botao-apagar").addEventListener("click", deleteButton())
+  container.querySelector(".botao-apagar").addEventListener('click', deletePost(post.userId))
+container.querySelector("#post")
+*/
 
   readPosts(postTemplate, user.uid);
 
