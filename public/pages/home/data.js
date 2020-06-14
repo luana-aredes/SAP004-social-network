@@ -54,21 +54,40 @@ export const readPosts = (callback, userId) => {
 
 export const likePost = (event, likes) => {
   console.log(event.srcElement.id);
-  return firebase.firestore().collection("posts").doc(event.srcElement.id).get()
-    .then((doc) => {
+  return firebase.firestore().collection("posts")
+    .doc(event.srcElement.id).get().then((doc) => {
       const post = doc.data();
       const qtdAtualLikes = post.likes + 1;
-      firebase.firestore().collection("posts").doc(event.srcElement.id).update({
-        likes: qtdAtualLikes,
-      });
+      firebase.firestore().collection('posts').doc(event.srcElement.id)
+        .update({
+          likes: qtdAtualLikes
+        });
     });
 };
 
+export const filterMyPosts = async (userId) => {
+  let posts = [];
+  const querySnapshot = await firebase.firestore().collection("posts").where("userId", "==", userId).get()
 
-export const deletePost = (event) => {
-  return firebase.firestore().collection("posts").doc(event.srcElement.id).delete().then(function () {
-    console.log("Document successfully deleted!");
-  }).catch(function (error) {
-    console.error("Error removing document: ", error);
+  querySnapshot.forEach(function (doc) {
+    posts.push(doc.data());
+
   });
+  return posts;
+};
+
+
+export const deletePost = (event, userId) => {
+  firebase.firestore().collection("posts").doc(event.srcElement.id).get().then((doc) => {
+    const post = doc.data();
+    if (userId == post.userId) {
+      firebase.firestore().collection("posts").doc(event.srcElement.id).delete().then(function () {
+        console.log("Document successfully deleted!");
+      }).catch(function (error) {
+        console.error("Error removing document: ", error);
+      });
+    } else {
+      console.log("Essa publicação não foi feita por voce, portanto vocẽ não pode apaga-la")
+    }
+  })
 }

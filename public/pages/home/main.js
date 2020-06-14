@@ -2,7 +2,8 @@ import {
   createPost,
   readPosts,
   likePost,
-  deletePost
+  deletePost,
+  filterMyPosts
 } from "./data.js";
 
 export default () => {
@@ -16,15 +17,20 @@ export default () => {
     <option value="publico">Publico</option>
     <option value="privado">Privado</option>
 </select>
-    
-</p>
-        <button type="submit" value="button" id="publish-button" class="botao"> Publicar </button>
-  </form>
-  <section class="card-post" id="posts">
-  </section>
-  <section id="comments">
-  </section>
-  `;
+      
+  </p>
+          <button type="submit" value="button" id="publish-button" class="botao"> Publicar </button>
+          <select name="" id="filter-posts">
+          <option value="allPosts">Todos os posts</option>
+          <option value="myPosts">Meus Posts</option>
+    </select>
+
+    </form>
+    <section class="card-post" id="posts">
+    </section>
+    <section id="comments">
+    </section>
+    `;
 
   const publishBtn = container.querySelector("#publish-button");
   const postsContainer = container.querySelector("#posts");
@@ -69,7 +75,7 @@ export default () => {
     const deleteBtn = postsContainer.querySelectorAll(".botao-apagar");
     deleteBtn.forEach((item) => {
       item.addEventListener("click", (event) => {
-        deletePost(event)
+        deletePost(event, user.uid)
         readPosts(postTemplate, user.uid);
       });
     });
@@ -83,6 +89,19 @@ export default () => {
       });
     });
   };
+
+  const filterPosts = container.querySelector("#filter-posts");
+  filterPosts.addEventListener("change", async (event) => {
+    console.log(event.target.value);
+    if (event.target.value == "myPosts") {
+      const posts = await filterMyPosts(user.uid);
+      postTemplate(posts);
+    } else {
+      readPosts(postTemplate, user.uid);
+
+    }
+
+  });
 
 
   readPosts(postTemplate, user.uid);
