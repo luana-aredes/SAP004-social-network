@@ -1,7 +1,8 @@
 import {
     createPost,
     readPosts,
-    likePost
+    likePost,
+    filterMyPosts
 } from "./data.js";
 
 export default () => {
@@ -18,6 +19,11 @@ export default () => {
       
   </p>
           <button type="submit" value="button" id="publish-button" class="botao"> Publicar </button>
+          <select name="" id="filter-posts">
+          <option value="allPosts">Todos os posts</option>
+          <option value="myPosts">Meus Posts</option>
+    </select>
+
     </form>
     <section class="card-post" id="posts">
     </section>
@@ -70,6 +76,18 @@ export default () => {
                 });
 
             });
+
+        });
+        const filterPosts = container.querySelector("#filter-posts");
+        filterPosts.addEventListener("change", async(event) => {
+            console.log(event.target.value);
+            if (event.target.value == "myPosts") {
+                const posts = await filterMyPosts(user.uid);
+                postTemplate(posts);
+            } else {
+                readPosts(postTemplate, user.uid);
+
+            }
 
         });
 

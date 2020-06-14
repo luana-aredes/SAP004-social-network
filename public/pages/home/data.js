@@ -58,6 +58,15 @@ export const likePost = (event, likes) => {
             firebase.firestore().collection('posts').doc(event.srcElement.id)
                 .update({ likes: qtdAtualLikes });
         });
-
-
 };
+export const filterMyPosts = async(userId) => {
+    let posts = [];
+    const querySnapshot = await firebase.firestore().collection("posts").where("userId", "==", userId).get()
+
+    querySnapshot.forEach(function(doc) {
+        posts.push(doc.data());
+
+    });
+    return posts;
+
+}
