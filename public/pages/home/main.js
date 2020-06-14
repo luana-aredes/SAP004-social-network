@@ -1,4 +1,9 @@
-import { createPost, readPosts, likePost } from "./data.js";
+import {
+  createPost,
+  readPosts,
+  likePost,
+  deletePost
+} from "./data.js";
 
 export default () => {
   let container = document.createElement("div");
@@ -25,63 +30,60 @@ export default () => {
   const postsContainer = container.querySelector("#posts");
   const user = firebase.auth().currentUser;
 
+
   publishBtn.addEventListener("click", (event) => {
     event.preventDefault();
     let texto = container.querySelector("#post-text");
     const privacy = container.querySelector("#privacy-type");
-    createPost(user.uid, user, texto.value, privacy.value);
+    createPost(user.uid, texto.value, privacy.value);
     texto.innerHTML = " ";
     readPosts(postTemplate, user.uid);
   });
+
 
   const postTemplate = (array) => {
     postsContainer.innerHTML = array
       .map(
         (post) =>
-          `
-        <section id='${post.postId}'>
-          <header>
-          publicado por: ${post.name}|  ${post.privacy}
-          <button type="button" class="botao-apagar" id="${post.postId}"> <i id="${post.postId}" class="fas fa-times"></i></button>
-          </header>
-          <main>
-          <textarea type="text" rows="10" cols="50" readonly > ${post.text} </textarea
-          <div id="botoes">
-          <button type="button" id="${post.postId}" class="botao-like"> <i id="${post.postId}" class="fas fa-thumbs-up"></i> </button>
-          <div id="contador"> ${post.likes} </div>
-          <button type="submit" id="button-comentar" class="botao"> Comentar </button>
-          <button type="button" class="botao"> Editar </button>
-          </div>
-          </main>
-        </section>    
         `
+          <section id='publicacao'>
+            <header>
+            publicado por:${post.name} em ${post.created}|  ${post.privacy}
+            <button type="button" id="${post.postId}"  class="botao-apagar"><i id="${post.postId}" class="fas fa-times"></i></button>
+            </header>
+            <main>
+            <textarea type="text" rows="10" cols="50" readonly > ${post.text} </textarea
+            <div id="botoes">
+            <button type="button" id="${post.postId}" class="botao-like"> <i  id="${post.postId}"  class="fas fa-thumbs-up"></i> </button>
+            <div id="contador"> ${post.likes} </div>
+            <button type="submit" id="button-comentar" class="botao"> Comentar </button>
+            <button type="button" class="botao"> Editar </button>
+            </div>
+            </main>
+          </section>    
+          `
       )
       .join("");
 
-    let likes = postsContainer
-      .querySelectorAll(".botao-like")
-      .forEach((item) => {
-        item.addEventListener("click", (event) => {
-          likePost(event, likes).then(() => {
-            readPosts(postTemplate, user.uid);
-          });
-        });
-      });
-  };
 
-  let deletar = container.querySelectorAll(".botao-apagar").forEach((item) => {
-    item.addEventListener("click", (event) => {
-      deletePost(event).then(() => {
+    const deleteBtn = postsContainer.querySelectorAll(".botao-apagar");
+    deleteBtn.forEach((item) => {
+      item.addEventListener("click", (event) => {
+        deletePost(event)
         readPosts(postTemplate, user.uid);
       });
     });
-  });
 
-  /*
-  postsContainer.querySelectorAll(".botao-apagar").addEventListener("click", deleteButton())
-  container.querySelector(".botao-apagar").addEventListener('click', deletePost(post.userId))
-container.querySelector("#post")
-*/
+
+    let likes = postsContainer.querySelectorAll(".botao-like").forEach((item) => {
+      item.addEventListener("click", (event) => {
+        likePost(event, likes).then(() => {
+          readPosts(postTemplate, user.uid);
+        });
+      });
+    });
+  };
+
 
   readPosts(postTemplate, user.uid);
 
