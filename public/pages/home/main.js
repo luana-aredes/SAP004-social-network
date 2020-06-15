@@ -1,7 +1,9 @@
 import {
     createPost,
     readPosts,
-    likePost
+    likePost,
+    readComments,
+    comment
 } from "./data.js";
 
 export default () => {
@@ -20,8 +22,6 @@ export default () => {
           <button type="submit" value="button" id="publish-button" class="botao"> Publicar </button>
     </form>
     <section class="card-post" id="posts">
-    </section>
-    <section id="comments">
     </section>
     `;
 
@@ -49,12 +49,13 @@ export default () => {
             <button type="button" id="botao-apagar"><i class="fas fa-times"></i></button>
             </header>
             <main>
-            <textarea type="text" rows="10" cols="50" readonly > ${post.text} </textarea
+            <textarea type="text" rows="10" cols="50" readonly > ${post.text} </textarea>
             <div id="botoes">
             <button type="button" id="${post.postId}" class="botao-like"> <i  id="${post.postId}"  class="fas fa-thumbs-up"></i> </button>
             <div id="contador"> ${post.likes} </div>
-            <button type="submit" id="button-comentar" class="botao"> Comentar </button>
-            <button type="button" class="botao"> Editar </button>
+            <i  id="${post.postId}" class="far fa-comment-dots btn-comment"></i>
+            <i class="btn-edit" class="fas fa-pencil-alt"></i>
+            <div id= "comments${post.postId}"></div>
             </div>
             </main>
           </section>    
@@ -62,9 +63,10 @@ export default () => {
             )
             .join("");
 
+                
         let likes = postsContainer.querySelectorAll('.botao-like').forEach((item) => {
             item.addEventListener("click", (event) => {
-                likePost(event, likes).then(() => {
+                likePost(event).then(() => {
 
                     readPosts(postTemplate, user.uid);
                 });
@@ -72,15 +74,42 @@ export default () => {
             });
 
         });
+        let comments = postsContainer.querySelectorAll('.btn-comment').forEach((item) =>{
+            item.addEventListener('click', (event) =>{
+                readComments(loadComments, event);
+            });
+        });
+        const loadComments = (array, id) => {
+            const commentsContainer= postsContainer.querySelector(`#comments${id}`);
+            commentsContainer.innerHTML = array
+                .map(
+                    (comment) =>`
+                <main>
+                <div>
+                <span>${comment.userName} em ${comment.created} | ${comment.comment}</span>
+                </div>
+                </main>
+                
+                `
+                );
 
+                const newComment= document.createElement("div");
+                newComment.innerHTML = `
+                <textarea type="text" rows="3" cols="30" id = "new-comment" > </textarea>
+                    <button type="button" id= "${id}" class="btn-newComment"> Comentar </button>
+                `
+                commentsContainer.appendChild(newComment);
+                const text = commentsContainer.querySelector("#new-comment") 
+                commentsContainer.querySelector(".btn-newComment")
+                    .addEventListener("click",(event) => {
+                        
+                        comment(text.value, user.uid, event, user.displayName);
+                        readPosts(postTemplate, user.uid);
+                    });
+            };
     };
 
     readPosts(postTemplate, user.uid);
-
-    /*document.querySelector(".botao-like").addEventListener("click", (event) => {
-      return likePost(event);   
-
-    });*/
 
     return container;
 };
