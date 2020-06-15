@@ -31,7 +31,7 @@ body {
 
 .sub-title {
     font-size: 25px;
-    color:#E2F205;
+    color: #E2F205;
 }
 
 .input-login {
@@ -58,8 +58,8 @@ body {
     transition: 0.3s ease-in;
 }
 
-.btn-login:hover{
-   font-size: 18px; 
+.btn-login:hover {
+    font-size: 18px;
 }
 
 .fa-google {
@@ -78,16 +78,48 @@ body {
     transition: 0.3s ease-in;
 }
 
-.fa-google:hover{
+.fa-google:hover {
     font-size: 18px;
 }
+
+/*
+Precisa passar para o home.css
+
+.footer {
+    display: none;
+}
+*/
+
+#publicacao {
+    width: 600px;
+    margin: 40px 300px;
+}
+
+.botao {
+    width: 80px;
+    margin: 5px;
+}
+
+#contador {
+    width: 30px;
+}
+
+
+div {
+    display: inline;
+}
+
+main {
+    display: inline;
+}
+
 
 @media(Min-width:600px) {
     .container-flex {
         display: flex;
         justify-content: space-around;
         align-items: center;
-       
+
     }
 
     .container-web {
@@ -97,10 +129,12 @@ body {
     .logo {
         width: 50vw;
     }
+
     .sub-title {
-        font-size:30px;
+        font-size: 30px;
         font-weight: bold;
     }
+
     .input-login {
         width: 200px;
         height: 30px;

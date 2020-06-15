@@ -88,6 +88,25 @@ export const deletePost = (event, userId) => {
       });
     } else {
       console.log("Essa publicação não foi feita por voce, portanto vocẽ não pode apaga-la")
-    }
-  })
-}
+    };
+  });
+};
+
+export const editPost = (event, userId, texto, privacy) => {
+  firebase.firestore().collection("posts").doc(event.srcElement.id).get().then((doc) => {
+    const post = doc.data();
+    console.log(event.srcElement.id)
+    if (userId == post.userId) {
+      const docRef = firebase.firestore().collection("posts").doc(event.srcElement.id);
+      docRef.update({
+          text: "mudou o texto",
+          privacy: "privado"
+        }).then(function () {
+          console.log("Document successfully updated!");
+        })
+        .catch(function (error) {
+          console.error("Error updating document: ", error);
+        });
+    };
+  });
+};
