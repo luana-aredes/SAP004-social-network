@@ -3,6 +3,7 @@ import {
     createLogin,
     createUser
 } from "./data.js";
+import { signOut } from "../login/data.js";
 
 export default () => {
     const container = document.createElement('div');
@@ -45,9 +46,12 @@ export default () => {
         const password = formData.get("password");
 
         if (validator(email, password, name)) {
+            window.location.hash = "#login";
+
             const user = await createLogin(email, password, name);
             console.log(user);
             createUser(name, email, user.uid);
+            signOut();
         };
 
 

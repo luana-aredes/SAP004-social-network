@@ -12,25 +12,38 @@ export default () => {
   let container = document.createElement("div");
   container.innerHTML = `
   <form action="submit" id="post">
+  <div class = "form-profile">
+  <div class = "photos-profile">
+  <img src="images/Perfil.png" alt="" class="photos">
+  <div class = "profile">
+  <p>Nome</p>
+  <p>Profissão</p>
+  </div>
+  </div>
+  <section class= "post">
     <textarea type="text" id="post-text" rows="10" cols="50" maxlength="500" wrap="hard" spellcheck="true" placeholder="Escreva algo para compartilhar com seus amigos!" ></textarea> 
-    <button type="button"> Carregar arquivo </button>
-    <p>
+    <div class = "post-items">
+    <i class="far fa-image"></i>
     <select name="" id="privacy-type">
     <option value="publico">Publico</option>
     <option value="privado">Privado</option>
-</select>
-      
-  </p>
-          <button type="submit" value="button" id="publish-button" class="botao"> Publicar </button>
+    
+</select>      
+          <i class="fas fa-share-alt" value="button" id="publish-button"></i>
+          </div>
+          </div>
+        </section>
           <select name="" id="filter-posts">
           <option value="allPosts">Todos os posts</option>
           <option value="myPosts">Meus Posts</option>
     </select>
+    
 
     </form>
     <section class="card-post" id="posts">
     </section>
     `;
+    document.querySelector("body").classList.add("register-body")
 
   const publishBtn = container.querySelector("#publish-button");
   const postsContainer = container.querySelector("#posts");
@@ -52,22 +65,26 @@ export default () => {
       .map(
         (post) =>
         `
-          <section id='publicacao'>
-            <header>
-            publicado por:${post.name} em ${post.created}|  ${post.privacy}
-            <button type="button" id="${post.postId}"  class="botao-apagar"><i id="${post.postId}" class="fas fa-times"></i></button>
-            </header>
-            <main>
-            <textarea type="text" rows="10" cols="50" readonly > ${post.text} </textarea>
-            <div id="botoes">
-            <button type="button" id="${post.postId}" class="botao-like"> <i  id="${post.postId}"  class="fas fa-thumbs-up"></i> </button>
-            <div id="contador"> ${post.likes} </div>
-            <i  id="${post.postId}" class="far fa-comment-dots btn-comment"></i>
-            <i class="btn-edit" class="fas fa-pencil-alt"></i>
-            <div id= "comments${post.postId}"></div>
+        <section id='publicacao'>
+          <div class = "template-public">
+            <div class ="post-privacy">
+              Publicado por: ${post.name} em ${post.created}|  ${post.privacy}
+              <i id="${post.postId}" class="fas fa-times"></i>
             </div>
+            <main>
+              <textarea type="text" rows="10" cols="40" readonly class ="public" > ${post.text} </textarea>
+              <div id="botoes" class = "btn-public">
+              <div class = "btn-likes">
+              <i  id="${post.postId}"  class="fas fa-thumbs-up"></i>
+              <div id="contador"> ${post.likes} </div>
+              </div>
+                <i  id="${post.postId}" class="far fa-comment-dots btn-comment"></i>
+                <i class="fas fa-edit"></i>
+                <div id= "comments${post.postId}"></div>
+              </div>
             </main>
-          </section>    
+          </div>
+        </section>    
           `
       )
       .join("");

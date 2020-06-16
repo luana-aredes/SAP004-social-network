@@ -15,7 +15,7 @@ export const uploadPhoto = async(file, userId) => {
 export const editProfile = (userId, name) => {
 
     user.updateProfile({
-        displayName: "Jane Q. User",
+        displayName: "nome editado",
     }).then(function() {
         // Update successful.
     }).catch(function(error) {
