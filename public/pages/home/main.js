@@ -6,37 +6,51 @@ import {
   filterMyPosts,
   editPost,
   readComments,
-
+  comment
 
 } from "./data.js";
 
 export default () => {
+  const user = firebase.auth().currentUser;
   let container = document.createElement("div");
   container.innerHTML = `
+    
   <form action="submit" id="post">
-    <textarea type="text" id="post-text" rows="10" cols="70" maxlength="500" wrap="hard" spellcheck="true" placeholder="Escreva algo para compartilhar com seus amigos!" ></textarea> 
-    <button type="button" class="botao"> Carregar arquivo </button>
-    <p>
+  <div class = "form-profile">
+  <div class = "photos-profile">
+  <img src="images/Perfil.png" alt="" class="photos">
+  <div class = "profile">
+  <p>${user.displayName}</p>
+  <p>Profissão</p>
+  </div>
+  </div>
+  <section class= "post">
+    <textarea type="text" id="post-text" rows="10" cols="50" maxlength="500" wrap="hard" spellcheck="true" placeholder="Escreva algo para compartilhar com seus amigos!" ></textarea> 
+    <div class = "post-items">
+    <i class="far fa-image"></i>
     <select name="" id="privacy-type">
     <option value="publico">Publico</option>
     <option value="privado">Privado</option>
-</select>
-      
-  </p>
-          <button type="submit" value="button" id="publish-button" class="botao"> Publicar </button>
+    
+</select>      
+          <i class="fas fa-share-alt" value="button" id="publish-button"></i>
+          </div>
+          </div>
+        </section>
           <select name="" id="filter-posts">
           <option value="allPosts">Todos os posts</option>
           <option value="myPosts">Meus Posts</option>
     </select>
+    
 
     </form>
     <section class="card-post" id="posts">
     </section>
     `;
+  document.querySelector("body").classList.add("register-body")
 
   const publishBtn = container.querySelector("#publish-button");
   const postsContainer = container.querySelector("#posts");
-  const user = firebase.auth().currentUser;
 
 
   publishBtn.addEventListener("click", (event) => {
@@ -54,54 +68,64 @@ export default () => {
       .map(
         (post) =>
         `
-          <section id='publicacao'>
-            <header>
+        <section id='publicacao'>
+          <div class = "template-public">
+            <div class ="post-privacy">
               publicado por:${post.name} em ${post.created}|  ${post.privacy}
-              <button type="button" id="${post.postId}"  class="botao-apagar"><i id="${post.postId}" class="fas fa-times"></i></button>
-            </header>
+              <i id="${post.postId}" class="fas fa-times botao-apagar" ></i>
+            </div>
             <main>
-              <textarea type="text" rows="10" cols="50"  id= "${post.postId}" class="post-textoo" > ${post.text}  </textarea>
-              <div id="botoes">
-                <button type="button" id="${post.postId}" class="botao-like botao"> <i  id="${post.postId}"  class="fas fa-thumbs-up"></i> </button>
-                <div id="contador" > ${post.likes} </div>
+              <textarea type="text" rows="10" cols="40" class ="public" > ${post.text} </textarea>
+              <div id="botoes" class = "btn-public">
+                <div class = "btn-likes">
+                  <i  id="${post.postId}"  class="fas fa-thumbs-up botao-like"></i>
+                  <div id="contador"> ${post.likes} </div>
+                </div>
                 <i  id="${post.postId}" class="far fa-comment-dots btn-comment"></i>
-                <i class="btn-edit" class="fas fa-pencil-alt"></i>
+                <i class="fas fa-edit edit-btn"></i>
                 <div id= "comments${post.postId}"></div>
-                <button type="button" class="botao"> Editar </button>
               </div>
               <div class="edit">
-                <p>
-                  <select name="" id= "${post.postId}"  class="privacy-typee" >
+                <i class="far fa-image"></i>
+                <select name="" id= "${post.postId}"  class="privacy-edit" >
                   <option value="publico">Publico</option>
                   <option value="privado">Privado</option>
-                  </select>    
-                </p>
-                <button type="button" value="alterar"  id="${post.postId}" class="change-button"> Salvar alterações </button>
+                </select>    
+                <button type="button" value="alterar"  id="${post.postId}" class="save-button-change"> Salvar alterações </button>
               </div>
             </main>
-          </section>    
+          </div>
+        </section>    
           `
       )
       .join("");
-    //readonly
 
 
+    const editRef = postsContainer.querySelector(".edit");
+    editRef.classList.add("invisible")
+
+    const buttonEdit = postsContainer.querySelectorAll(".edit-btn");
+    buttonEdit.forEach((item) => {
+      item.addEventListener("click", (event) => {
+        editRef.classList.remove("invisible")
+      })
+    })
 
 
-    const changeButton = postsContainer.querySelectorAll(".change-button");
-    changeButton.forEach((item) => {
-      item.addEventListener("click", async (event) => {
-        const textoPost = postsContainer.querySelector(".post-textoo");
-        const privacyPost = postsContainer.querySelector(".privacy-typee");
+    const saveButtonChange = postsContainer.querySelectorAll(".save-button-change");
+    saveButtonChange.forEach((item) => {
+      item.addEventListener("click", (event) => {
+        const textoPost = postsContainer.querySelector(".public");
+        const privacyPost = postsContainer.querySelector(".privacy-edit");
         editPost(event, user.uid, textoPost.value, privacyPost.value);
-        await readPosts(postTemplate, user.uid);
+        readPosts(postTemplate, user.uid);
       })
     });
 
 
     const deleteBtn = postsContainer.querySelectorAll(".botao-apagar");
     deleteBtn.forEach((item) => {
-      item.addEventListener("click", (event) => {
+      item.addEventListener("click", async (event) => {
         deletePost(event, user.uid)
         readPosts(postTemplate, user.uid);
       });

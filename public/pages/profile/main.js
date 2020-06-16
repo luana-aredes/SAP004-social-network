@@ -1,8 +1,11 @@
 import {
-    signOut
-} from "../login/data.js"
+    uploadPhoto,
+    editProfile
+} from "./data.js"
 
 export default () => {
+
+    const user = firebase.auth().currentUser;
     const container = document.createElement('div');
     const template = ` 
   
@@ -12,7 +15,7 @@ export default () => {
         </div>
         <input type="file" class="photoEdit"></div>
         <div class="name">
-            <h2>Nome</h2>
+            <h2>${user.displayName}</h2>
         </div>
         <div class="Profession">
             <h3>Profissão</h3>
@@ -27,7 +30,22 @@ export default () => {
             <button class="save">Salvar</button>
         </section>
         `;
-        container.innerHTML = template;
-        document.querySelector("body").classList.add("profile-body")
+    container.innerHTML = template;
+    document.querySelector("body").classList.add("profile-body")
+
+    const photoEdit = container.querySelector(".photoEdit");
+    photoEdit.addEventListener("change", async(event) => {
+        const file = event.target.files[0]
+        const url = await uploadPhoto(file, user.uid);
+        console.log(url)
+    });
+
+    const edit = container.querySelector(".edit");
+    edit.addEventListener("click", (event) => {
+
+        editProfile(user.displayName);
+        console.log(user.displayName);
+    });
     return container;
+
 }

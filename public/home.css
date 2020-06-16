@@ -11,14 +11,130 @@ body {
     font-weight: bold;
 }
 
+.register-body {
+    margin: 0;
+}
+
+.photos {
+    width: 100px;
+    margin: 20px;
+    border-radius: 50px;
+}
+
+.post {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    border-radius: 20px;
+    padding: 15px;
+    margin: 0 20px;
+    background-color: #9d3efa;
+}
+
+#post-text {
+    border-radius: 10px;
+}
+
+.post-items {
+    display: flex;
+    justify-content: space-around;
+    width: 400px;
+    margin: 5px;
+
+}
+
+.fa-image {
+    color: #E2F205;
+    font-size: 25px;
+}
+
+#privacy-type {
+    border-radius: 5px;
+    background-color: #23D9B7;
+    font-weight: bold;
+    color: #5207F2;
+    height: 20px;
+    margin: 3px;
+
+}
+
+#filter-posts {
+    border-radius: 5px;
+    background-color: #23D9B7;
+    font-weight: bold;
+    color: #5207F2;
+    margin-top: 10px;
+    height: 30px;
+}
+
+.template-public {
+    text-align: center;
+    padding: 15px;
+    background-color: #9d3efa;
+    margin: 15px 20px;
+    border-radius: 20px;
+}
+
+.post-privacy {
+    width: 350px;
+
+}
+
+.public {
+    border-radius: 10px;
+}
+
+.btn-public {
+    display: flex;
+    justify-content: space-between;
+    padding-left: 180px;
+    padding-top: 10px;
+}
+
+.btn-likes {
+    display: flex;
+    justify-content: space-between;
+    width: 40px;
+}
+
+
 .headerMobile {
     background-color: #7D07F2;
     display: flex;
     flex-direction: row;
 }
 
+.invisible {
+    display: none;
+}
 
-.post-title {
-    width: 500px;
-    margin-top: 40px;
+@media(Min-width:600px) {
+    .photos-profile {
+        display: flex;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+        border-radius: 10px;
+        width: 300px;
+        margin: 50px;
+        background-color: #9d3efa;
+    }
+
+    .profile {
+        padding: 40px 0;
+    }
+
+    .post {
+        width: 500px;
+    }
+
+    .form-profile {
+        display: flex;
+        justify-content: center;
+        padding: 50px 0;
+    }
+
+    .template-public {
+        width: 500px;
+        margin: 10px auto;
+    }
 }

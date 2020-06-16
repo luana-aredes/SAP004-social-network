@@ -12,35 +12,38 @@ const main = document.querySelector('#root');
 const init = () => {
     firebase.auth().onAuthStateChanged((user) => {
         if (user) {
-            console.log(user.displayName);
-            main.innerHTML = `<header class="header">
-            <section class="headerMobile">
-                <a href= "./#profile" id= "btn-menu"><i class="fas fa-bars"></i></a>
-                <h1 class="title">SpaceJobs</h1>
-                <i id= "btn-signOut" class="fas fa-sign-out-alt logout"></i>
-            </section>
-            <section class="headerWeb">
-                <div class="menuWeb"> 
-                <a class= "menu-profile" href= "./#profile">Profile</a>
-                <a href= "./#home">Feed</a>
-                </div>
-                              
+            console.log(user.displayName);   
+            if(window.location.hash != "#login"){
+                main.innerHTML = `<header class="header">
+                <section class="headerMobile">
+                    <a href= "./#profile" id= "btn-menu"><i class="fas fa-bars"></i></a>
+                    <h1 class="header-title">SpaceJobs</h1>
+                    <i id= "btn-signOut" class="fas fa-sign-out-alt logout"></i>
+                </section>
+                <section class="headerWeb">
+                    <div class="menuWeb"> 
+                    <a class= "menu-profile" href= "./#profile">Profile</a>
+                    <a href= "./#home">Feed</a>
                     </div>
-                <h1 class= "title-web">SpaceJobs</h1>
-                <i id= "btn-signOut-web" class="fas fa-sign-out-alt logout"></i>
-                
-            </section>
-        </header>`
+                    </div>
+                    <h1 class= "title-web">SpaceJobs</h1>
+                    <i id= "btn-signOut-web" class="fas fa-sign-out-alt logout"></i>
+                    
+                </section>
+            </header>`
 
-            main.querySelector("#btn-signOut").addEventListener("click", () => signOut());
-            main.querySelector("#btn-signOut-web").addEventListener("click", () => signOut());
-
+                main.querySelector("#btn-signOut").addEventListener("click", () => signOut());
+                main.querySelector("#btn-signOut-web").addEventListener("click", () => signOut());
+            }
             switch (window.location.hash) {
                 case "#home":
                     main.appendChild(home());
                     break;
                 case "#profile":
                     main.appendChild(profile());
+                    break;
+                case "#login":
+                    main.appendChild(login());
                     break;
                 default:
                     main.appendChild(home());
