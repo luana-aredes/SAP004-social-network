@@ -20,7 +20,7 @@ export const createPost = (userId, texto, privacy) => {
       });
     })
     .catch(function (error) {
-      console.log("Error adding document:", error);
+      // console.log("Error adding document:", error);
     });
 }
 
@@ -37,9 +37,7 @@ export const readPosts = (callback, userId) => {
           querySnapshot.forEach(function (doc) {
             posts.push(doc.data());
           });
-          console.log(posts)
           posts = posts.sort(function (a, b) {
-            console.log(a)
             if (a.created < b.created) {
               return 1;
             }
@@ -53,7 +51,6 @@ export const readPosts = (callback, userId) => {
     })
 }
 export const likePost = (event) => {
-  console.log(event.srcElement.id);
   return firebase.firestore().collection("posts")
     .doc(event.srcElement.id).get().then((doc) => {
       const post = doc.data();
@@ -77,7 +74,6 @@ export const comment = (text, userId, event, userName) => {
 };
 
 export const readComments = (loadComments, event) => {
-  console.log(event);
   firebase.firestore().collection("posts").doc(event.srcElement.id)
     .get().then(function (snap) {
       const post = snap.data()
@@ -95,14 +91,12 @@ export const filterMyPosts = async (userId) => {
 
   });
   posts = posts.sort(function (a, b) {
-    console.log(a)
     if (a.created < b.created) {
       return 1;
     }
     if (a.created > b.created) {
       return -1;
     }
-    console.log("teste", posts);
   });
   return posts;
 
@@ -118,7 +112,7 @@ export const deletePost = (event, userId) => {
         console.error("Error removing document: ", error);
       });
     } else {
-      console.log("Essa publicação não foi feita por voce, portanto vocẽ não pode apaga-la")
+      // console.log("Essa publicação não foi feita por voce, portanto vocẽ não pode apaga-la")
     };
   });
 };
@@ -126,7 +120,6 @@ export const deletePost = (event, userId) => {
 export const editPost = (event, userId, texto, privacy) => {
   firebase.firestore().collection("posts").doc(event.srcElement.id).get().then((doc) => {
     const post = doc.data();
-    console.log(event.srcElement.id)
     if (userId == post.userId) {
       const docRef = firebase.firestore().collection("posts").doc(event.srcElement.id);
       docRef.update({
