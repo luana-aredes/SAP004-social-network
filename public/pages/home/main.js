@@ -4,7 +4,10 @@ import {
   likePost,
   deletePost,
   filterMyPosts,
-  editPost
+  editPost,
+  readComments,
+
+
 } from "./data.js";
 
 export default () => {
@@ -14,21 +17,21 @@ export default () => {
     <textarea type="text" id="post-text" rows="10" cols="70" maxlength="500" wrap="hard" spellcheck="true" placeholder="Escreva algo para compartilhar com seus amigos!" ></textarea> 
     <button type="button" class="botao"> Carregar arquivo </button>
     <p>
-      <select name="" id="privacy-type" class="botao">
-      <option value="publico">Publico</option>
-      <option value="privado">Privado</option>
-      </select>    
-    </p>
-    <button type="submit" value="button" id="publish-button" class="botao"> Publicar </button>
-      <select name="" id="filter-posts" class="botao">
-        <option value="allPosts">Todos os posts</option>
-        <option value="myPosts">Meus Posts</option>
-      </select>
-  </form>
-  <section class="card-post" id="posts">
-  </section>
-  <section id="comments">
-  </section>
+    <select name="" id="privacy-type">
+    <option value="publico">Publico</option>
+    <option value="privado">Privado</option>
+</select>
+      
+  </p>
+          <button type="submit" value="button" id="publish-button" class="botao"> Publicar </button>
+          <select name="" id="filter-posts">
+          <option value="allPosts">Todos os posts</option>
+          <option value="myPosts">Meus Posts</option>
+    </select>
+
+    </form>
+    <section class="card-post" id="posts">
+    </section>
     `;
 
   const publishBtn = container.querySelector("#publish-button");
@@ -57,46 +60,43 @@ export default () => {
               <button type="button" id="${post.postId}"  class="botao-apagar"><i id="${post.postId}" class="fas fa-times"></i></button>
             </header>
             <main>
-              <textarea type="text" rows="10" cols="70"  class="post-textoo" > ${post.text}  </textarea>
-              <div>
+              <textarea type="text" rows="10" cols="50"  id= "${post.postId}" class="post-textoo" > ${post.text}  </textarea>
+              <div id="botoes">
                 <button type="button" id="${post.postId}" class="botao-like botao"> <i  id="${post.postId}"  class="fas fa-thumbs-up"></i> </button>
                 <div id="contador" > ${post.likes} </div>
-                <button type="submit" id="button-comentar" class="botao"> Comentar </button>
+                <i  id="${post.postId}" class="far fa-comment-dots btn-comment"></i>
+                <i class="btn-edit" class="fas fa-pencil-alt"></i>
+                <div id= "comments${post.postId}"></div>
                 <button type="button" class="botao"> Editar </button>
               </div>
+              <div class="edit">
+                <p>
+                  <select name="" id= "${post.postId}"  class="privacy-typee" >
+                  <option value="publico">Publico</option>
+                  <option value="privado">Privado</option>
+                  </select>    
+                </p>
+                <button type="button" value="alterar"  id="${post.postId}" class="change-button"> Salvar alterações </button>
+              </div>
             </main>
-            <footer class="footer">
-              <p>
-                <select name="" class="privacy-typee" >
-                <option value="publico">Publico</option>
-                <option value="privado">Privado</option>
-                </select>    
-              </p>
-              <button type="button" value="alterar"  id="${post.postId}" class="change-button"> Salvar alterações </button>
-            </footer>
           </section>    
           `
       )
       .join("");
-
-
     //readonly
 
 
-    /*
+
+
     const changeButton = postsContainer.querySelectorAll(".change-button");
     changeButton.forEach((item) => {
-      item.addEventListener("click", (event) => {
-        let textoo = postsContainer.querySelectorAll(".post-textoo");
-        const privacyy = postsContainer.querySelectorAll(".privacy-typee");
-        console.log(textoo.value);
-        console.log(privacyy.value);
-        editPost(event, user.uid, textoo.value, privacyy.value);
-        readPosts(postTemplate, user.uid);
+      item.addEventListener("click", async (event) => {
+        const textoPost = postsContainer.querySelector(".post-textoo");
+        const privacyPost = postsContainer.querySelector(".privacy-typee");
+        editPost(event, user.uid, textoPost.value, privacyPost.value);
+        await readPosts(postTemplate, user.uid);
       })
-    })
-    */
-
+    });
 
 
     const deleteBtn = postsContainer.querySelectorAll(".botao-apagar");
@@ -110,11 +110,44 @@ export default () => {
 
     let likes = postsContainer.querySelectorAll(".botao-like").forEach((item) => {
       item.addEventListener("click", (event) => {
-        likePost(event, likes).then(() => {
+        likePost(event).then(() => {
           readPosts(postTemplate, user.uid);
         });
       });
     });
+    let comments = postsContainer.querySelectorAll('.btn-comment').forEach((item) => {
+      item.addEventListener('click', (event) => {
+        readComments(loadComments, event);
+      });
+    });
+    const loadComments = (array, id) => {
+      const commentsContainer = postsContainer.querySelector(`#comments${id}`);
+      commentsContainer.innerHTML = array
+        .map(
+          (comment) => `
+                <main>
+                <div>
+                <span>${comment.userName} em ${comment.created} | ${comment.comment}</span>
+                </div>
+                </main>
+                
+                `
+        );
+
+      const newComment = document.createElement("div");
+      newComment.innerHTML = `
+                <textarea type="text" rows="3" cols="30" id = "new-comment" > </textarea>
+                    <button type="button" id= "${id}" class="btn-newComment"> Comentar </button>
+                `
+      commentsContainer.appendChild(newComment);
+      const text = commentsContainer.querySelector("#new-comment")
+      commentsContainer.querySelector(".btn-newComment")
+        .addEventListener("click", (event) => {
+
+          comment(text.value, user.uid, event, user.displayName);
+          readPosts(postTemplate, user.uid);
+        });
+    };
   };
 
   const filterPosts = container.querySelector("#filter-posts");

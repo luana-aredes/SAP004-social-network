@@ -8,8 +8,9 @@ export const createPost = (userId, texto, privacy) => {
       privacy: privacy,
       comments: [{
         userId: userId,
-        created: new Date(),
-        comment: "Bom dia"
+        created: firebase.firestore.Timestamp.fromDate(new Date()).toDate().toLocaleString('pt-BR'),
+        comment: "",
+        userName: ""
       }],
     })
     .then(function (docRef) {
@@ -51,8 +52,7 @@ export const readPosts = (callback, userId) => {
         })
     })
 }
-
-export const likePost = (event, likes) => {
+export const likePost = (event) => {
   console.log(event.srcElement.id);
   return firebase.firestore().collection("posts")
     .doc(event.srcElement.id).get().then((doc) => {
@@ -64,6 +64,27 @@ export const likePost = (event, likes) => {
         });
     });
 };
+export const comment = (text, userId, event, userName) => {
+
+  firebase.firestore().collection('posts').doc(event.srcElement.id).update({
+    comments: firebase.firestore.FieldValue.arrayUnion({
+      comment: text,
+      created: firebase.firestore.Timestamp.fromDate(new Date()).toDate().toLocaleString('pt-BR'),
+      userId: userId,
+      userName: userName
+    })
+  });
+};
+
+export const readComments = (loadComments, event) => {
+  console.log(event);
+  firebase.firestore().collection("posts").doc(event.srcElement.id)
+    .get().then(function (snap) {
+      const post = snap.data()
+      const comments = post.comments;
+      loadComments(comments, event.srcElement.id);
+    });
+};
 
 export const filterMyPosts = async (userId) => {
   let posts = [];
@@ -73,9 +94,19 @@ export const filterMyPosts = async (userId) => {
     posts.push(doc.data());
 
   });
+  posts = posts.sort(function (a, b) {
+    console.log(a)
+    if (a.created < b.created) {
+      return 1;
+    }
+    if (a.created > b.created) {
+      return -1;
+    }
+    console.log("teste", posts);
+  });
   return posts;
-};
 
+}
 
 export const deletePost = (event, userId) => {
   firebase.firestore().collection("posts").doc(event.srcElement.id).get().then((doc) => {
@@ -99,8 +130,8 @@ export const editPost = (event, userId, texto, privacy) => {
     if (userId == post.userId) {
       const docRef = firebase.firestore().collection("posts").doc(event.srcElement.id);
       docRef.update({
-          text: "mudou o texto",
-          privacy: "privado"
+          text: texto,
+          privacy: privacy,
         }).then(function () {
           console.log("Document successfully updated!");
         })
