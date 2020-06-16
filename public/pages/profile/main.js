@@ -1,7 +1,3 @@
-import {
-    signOut
-} from "../login/data.js"
-
 export default () => {
     const container = document.createElement('div');
     const template = ` 
