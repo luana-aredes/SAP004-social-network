@@ -50,7 +50,6 @@ export default () => {
             createUser(name, email, user.uid);
         };
 
-        return
 
     });
     return container;
