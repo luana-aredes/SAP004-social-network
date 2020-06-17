@@ -3,7 +3,6 @@ import {
     createLogin,
     createUser
 } from "./data.js";
-import { signOut } from "../login/data.js";
 
 export default () => {
     const container = document.createElement('div');
@@ -14,7 +13,17 @@ export default () => {
 
     <p>
         <label for="regName">Nome</label>
-        <input id="regName" class="regName" required="required" type="text" name="name"/>
+        <input id="regName" class="regName" required="required" type="text" name="name" placeholder="Digite aqui seu nome completo"/>
+    </p>
+
+    <p>
+    <label for="regProfession">Profissão</label>
+    <input id="regProfession" class="regProfession" required="required" type="text" name="profession"/>
+    </p>
+
+    <p>
+    <label for="regPlace">Cidade</label>
+    <input id="regPlace" class="regPlace" required="required" type="text" name="place"/>
     </p>
 
     <p>
@@ -43,6 +52,8 @@ export default () => {
         const formData = new FormData(formRegister);
         const email = formData.get("email");
         const name = formData.get("name");
+        const profession = formData.get("profession");
+        const place = formData.get("place");
         const password = formData.get("password");
 
         if (validator(email, password, name)) {
@@ -50,7 +61,7 @@ export default () => {
 
             const user = await createLogin(email, password, name);
             console.log(user);
-            createUser(name, email, user.uid);
+            createUser(name, profession, place, email, user.uid);
             signOut();
         };
 

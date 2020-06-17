@@ -1,16 +1,19 @@
 import {
     uploadPhoto,
-    editProfile
+    editProfile,
+    getUser
 } from "./data.js"
 
-export default () => {
+const load = async() => {
 
     const user = firebase.auth().currentUser;
+    const userData = await getUser(user.uid)
+
     const container = document.createElement('div');
     const template = ` 
   
             <div class="photodiv">
-            <img src="images/Perfil.png" alt="" class="photo">
+            <img src="${userData.photo || "images/Perfil.png"}" alt="" class="photo">
             
         </div>
         <input type="file" class="photoEdit"></div>
@@ -30,6 +33,7 @@ export default () => {
             <button class="save">Salvar</button>
         </section>
         `;
+    console.log(userData)
     container.innerHTML = template;
     document.querySelector("body").classList.add("profile-body")
 
@@ -37,15 +41,16 @@ export default () => {
     photoEdit.addEventListener("change", async(event) => {
         const file = event.target.files[0]
         const url = await uploadPhoto(file, user.uid);
-        console.log(url)
+        const data = { photo: url }
+        editProfile(user.uid, data)
+            // location.reload()
     });
 
     const edit = container.querySelector(".edit");
     edit.addEventListener("click", (event) => {
-
         editProfile(user.displayName);
-        console.log(user.displayName);
     });
     return container;
 
 }
+export default load

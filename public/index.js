@@ -10,10 +10,10 @@ import {
 const main = document.querySelector('#root');
 
 const init = () => {
-    firebase.auth().onAuthStateChanged((user) => {
+    firebase.auth().onAuthStateChanged(async(user) => {
         if (user) {
-            console.log(user.displayName);   
-            if(window.location.hash != "#login"){
+            console.log(user.displayName);
+            if (window.location.hash != "#login") {
                 main.innerHTML = `<header class="header">
                 <section class="headerMobile">
                     <a href= "./#profile" id= "btn-menu"><i class="fas fa-bars"></i></a>
@@ -40,7 +40,7 @@ const init = () => {
                     main.appendChild(home());
                     break;
                 case "#profile":
-                    main.appendChild(profile());
+                    main.appendChild(await profile());
                     break;
                 case "#login":
                     main.appendChild(login());
