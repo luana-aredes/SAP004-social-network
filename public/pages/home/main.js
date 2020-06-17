@@ -86,12 +86,12 @@ export default () => {
                 <div id= "comments${post.postId}"></div>
               </div>
               <div class="edit">
-                <i class="far fa-image"></i>
                 <select name="" id= "${post.postId}"  class="privacy-edit" >
                   <option value="publico">Publico</option>
                   <option value="privado">Privado</option>
                 </select>    
                 <button type="button" value="alterar"  id="${post.postId}" class="save-button-change"> Salvar alterações </button>
+                <button type="button" value="cancel" class="cancelEdit"> Cancelar edição </button>
               </div>
             </main>
           </div>
@@ -101,22 +101,31 @@ export default () => {
       .join("");
 
 
-    const editRef = postsContainer.querySelector(".edit");
-    editRef.classList.add("invisible")
+
+    postsContainer.querySelectorAll(".edit").forEach((item) => {
+      item.classList.add("invisible")
+    })
 
     const buttonEdit = postsContainer.querySelectorAll(".edit-btn");
     buttonEdit.forEach((item) => {
       item.addEventListener("click", (event) => {
-        editRef.classList.remove("invisible")
-      })
-    })
+        item.parentNode.parentNode.querySelector(".edit").classList.remove("invisible");
+      });
+    });
 
+    const cancelEdit = postsContainer.querySelectorAll(".cancelEdit");
+    cancelEdit.forEach((item) => {
+      item.addEventListener("click", (event) => {
+        item.parentNode.parentNode.querySelector(".edit").classList.add("invisible");
+      });
+    });
 
     const saveButtonChange = postsContainer.querySelectorAll(".save-button-change");
     saveButtonChange.forEach((item) => {
+
       item.addEventListener("click", (event) => {
-        const textoPost = postsContainer.querySelector(".public");
-        const privacyPost = postsContainer.querySelector(".privacy-edit");
+        const textoPost = item.parentNode.parentNode.querySelector(".public");
+        const privacyPost = item.parentNode.parentNode.querySelector(".privacy-edit")
         editPost(event, user.uid, textoPost.value, privacyPost.value);
         readPosts(postTemplate, user.uid);
       })
@@ -125,7 +134,7 @@ export default () => {
 
     const deleteBtn = postsContainer.querySelectorAll(".botao-apagar");
     deleteBtn.forEach((item) => {
-      item.addEventListener("click", async (event) => {
+      item.addEventListener("click", (event) => {
         deletePost(event, user.uid)
         readPosts(postTemplate, user.uid);
       });
@@ -176,7 +185,6 @@ export default () => {
 
   const filterPosts = container.querySelector("#filter-posts");
   filterPosts.addEventListener("change", async (event) => {
-    console.log(event.target.value);
     if (event.target.value == "myPosts") {
       const posts = await filterMyPosts(user.uid);
       postTemplate(posts);
