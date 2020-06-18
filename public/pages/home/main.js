@@ -22,10 +22,10 @@ export default async() => {
   <form action="submit" id="post">
   <div class = "form-profile">
   <div class = "photos-profile">
-  <img src="images/Perfil.png" alt="" class="photos">
+  <img src="${userData?.photo || "images/Perfil.png"}"alt="" class="photos">
   <div class = "profile">
-  <p>${userData.name}</p>
-  <p>Profissão</p>
+  <p>${userData?.name}</p>
+  <p>${userData?.profession || ""}</p>
   </div>
   </div>
   <section class= "post">

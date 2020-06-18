@@ -1,4 +1,4 @@
-.profile-body{
+.profile-body {
     margin: 0;
 }
 
@@ -22,7 +22,6 @@ main {
 
 .header-title {
     font-size: 30px;
-    
 }
 
 .menuMobile {
@@ -50,6 +49,19 @@ main {
     padding: 0px;
 }
 
+input {
+    text-align: center;
+    background: transparent;
+    border: 0;
+    color: #E2F205;
+    font-size: 14px;
+    outline: none;
+}
+
+.photoEdit {
+    font-size: 13px;
+}
+
 @media(Min-width:600px) {
     .headerMobile {
         display: none;
@@ -73,7 +85,7 @@ main {
         height: 30px;
         margin: 20px;
     }
-    .title-web{
+    .title-web {
         display: flex;
         justify-content: center;
         font-size: 30px;
@@ -81,8 +93,16 @@ main {
         margin: 20px;
         width: 30px;
     }
-    .menu-profile{
+    .menu-profile {
         margin-right: 15px;
         margin-left: 15px;
+    }
+    input {
+        text-align: center;
+        background: transparent;
+        border: 0;
+        color: #E2F205;
+        font-size: 30px;
+        outline: none;
     }
 }
