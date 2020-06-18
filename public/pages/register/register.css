@@ -45,7 +45,9 @@ a:hover {
 }
 
 .regName,
+.regProfession,
+.regPlace,
 .regEmail,
 .regSenha {
-    width: 50%;
+    width: 60%;
 }
