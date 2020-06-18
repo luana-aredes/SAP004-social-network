@@ -172,8 +172,8 @@ export default async () => {
                 <main>
                 <div>
                 <span>${comment.userName} em ${comment.created} | ${comment.comment}</span>
-                <button type="button" id= "${comment.comment}|${comment.created}|${comment.userId}|${comment.userName}" class="btn-newEdit"> Editar </button>
-                <button type="button" id= "${comment.comment}&${comment.created}&${comment.userId}&${comment.userName}" class = "btn-newDelete" > Deletar </button>
+                <i class="fas fa-pencil-alt btn-newEdit" id= "${comment.comment}|${comment.created}|${comment.userId}|${comment.userName}"></i>
+                <i class="far fa-trash-alt btn-newDelete" id= "${comment.comment}&${comment.created}&${comment.userId}&${comment.userName}"></i>
                 </div>
                 </main>
                 
