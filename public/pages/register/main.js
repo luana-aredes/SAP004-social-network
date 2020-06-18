@@ -7,7 +7,7 @@ import {
     signOut
 } from "../login/data.js";
 
-export default () => {
+export default async() => {
     const container = document.createElement('div');
     const template = ` 
 <div id="register" class="register">

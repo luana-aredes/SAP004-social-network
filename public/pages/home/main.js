@@ -9,9 +9,13 @@ import {
   comment
 
 } from "./data.js";
+import {
+  getUser
+} from "./../profile/data.js";
 
-export default () => {
+export default async () => {
   const user = firebase.auth().currentUser;
+  const userData = await getUser(user.uid)
   let container = document.createElement("div");
   container.innerHTML = `
     
@@ -20,7 +24,7 @@ export default () => {
   <div class = "photos-profile">
   <img src="images/Perfil.png" alt="" class="photos">
   <div class = "profile">
-  <p>${user.displayName}</p>
+  <p>${userData?.name}</p>
   <p>Profissão</p>
   </div>
   </div>
@@ -56,28 +60,6 @@ export default () => {
   arquivo.addEventListener("click", (event) => {
 
   })
-
-  /*
-
-  var storage = firebase.storage();
-  var storageRef = storage.ref()
-  var imagesRef = storageRef.child('images');
-  var storageRef = firebase.storage().ref();
-  var fileName = 'space.jpg';
-  var spaceRef = imagesRef.child(fileName);
-  var path = spaceRef.fullPath
-  var name = spaceRef.name
-  var imagesRef = spaceRef.parent;
-
-
-
-  var storageRef = firebase.storage().ref();
-  var mountainsRef = storageRef.child('mountains.jpg');
-  var mountainImagesRef = storageRef.child('images/mountains.jpg');
-  mountainsRef.name === mountainImagesRef.name            // true
-  mountainsRef.fullPath === mountainImagesRef.fullPath    // false
-
-  */
 
 
   publishBtn.addEventListener("click", (event) => {

@@ -14,21 +14,21 @@ const load = async () => {
   
     <form action="" id="formProfile">
             <div class="photodiv">
-            <img src="${userData.photo || "images/Perfil.png"}" alt="" class="photo">
+            <img src="${userData?.photo || "images/Perfil.png"}" alt="" class="photo">
             
         </div>
         <input type="file" class="photoEdit">
         </div>
         <div class="name">
-        <input id="regName" class="regName" required="required" type="text" name="name" value="${userData.name}">
+        <input id="regName" class="regName" required="required" type="text" name="name" placeholder="Digite seu nome" value="${userData?.name || ""}">
         </div>
         <div class="Profession">
-        <input id="regProfession" class="regProfession" required="required" type="text" name="profession" value="${userData.profession}">
+        <input id="regProfession" class="regProfession" required="required" type="text" name="profession" placeholder="Digite sua profissão" value="${userData?.profession  || ""}">
         </div>
         <div class="place"></div>
-        <input id="regPlace" class="regPlace" required="required" type="text" name="place" value="${userData.place}"/>
+        <input id="regPlace" class="regPlace" required="required" type="text" name="place" placeholder="Digite sua cidade" value="${userData?.place  || ""}"/>
         <div>
-            <textarea cols="30" rows="10" placeholder="Add a bio" class="bio" name="bio">${userData.bio}</textarea>
+            <textarea cols="30" rows="10" placeholder="Add a bio" class="bio" name="bio">${userData?.bio  || ""}</textarea>
         </div>
         <section class="buttons">
             <button type="submit" class="save">Salvar Alterações</button>
