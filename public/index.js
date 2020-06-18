@@ -3,67 +3,77 @@ import login from "./pages/login/main.js";
 import profile from "./pages/profile/main.js";
 import register from "./pages/register/main.js";
 import {
-    signOut
+  signOut
 } from "./pages/login/data.js"
 
 
 const main = document.querySelector('#root');
 
+
 const init = () => {
-    firebase.auth().onAuthStateChanged(async(user) => {
-        if (user) {
-            if (window.location.hash != "#login") {
-                main.innerHTML = `<header class="header">
+  firebase.auth().onAuthStateChanged(async (user) => {
+    if (user) {
+      if (window.location.hash != "#login") {
+        main.innerHTML =
+          `<header class="header">
                 <section class="headerMobile">
-                    <a href= "./#profile" id= "btn-menu"><i class="fas fa-bars"></i></a>
-                    <h1 class="header-title">SpaceJobs</h1>
-                    <i id= "btn-signOut" class="fas fa-sign-out-alt logout"></i>
+                  <label for="toggle-1"><i id="btn-men" class="fas fa-bars"></i></label>
+                  <h1 class="header-title">SpaceJobs</h1>
                 </section>
+                <input type="checkbox" id="toggle-1">
+                <nav class="menu-mobile invisible" id="mostra" > 
+                 <ul> <a class= "menu-profile" href= "./#profile">Profile</a> </ul>
+                 <ul> <a href= "./#home">Feed</a> </ul>
+                 <ul> <a id= "btn-signOut" class="logout"> Sair</a></ul>
+                </nav>
                 <section class="headerWeb">
-                    <div class="menuWeb"> 
+                  <div class="menuWeb"> 
                     <a class= "menu-profile" href= "./#profile">Profile</a>
                     <a href= "./#home">Feed</a>
-                    </div>
-                    </div>
-                    <h1 class= "title-web">SpaceJobs</h1>
-                    <i id= "btn-signOut-web" class="fas fa-sign-out-alt logout"></i>
-                    
+                  </div>
+                  <h1 class= "title-web">SpaceJobs</h1>
+                  <i id= "btn-signOut-web" class="fas fa-sign-out-alt logout"></i>        
                 </section>
-            </header>`
+              </header>`
 
-                main.querySelector("#btn-signOut").addEventListener("click", () => signOut());
-                main.querySelector("#btn-signOut-web").addEventListener("click", () => signOut());
-            }
-            switch (window.location.hash) {
-                case "#home":
-                    main.appendChild(await home());
-                    break;
-                case "#profile":
-                    main.appendChild(await profile());
-                    break;
-                case "#login":
-                    main.appendChild(await login());
-                    break;
-                default:
-                    main.appendChild(home());
-            }
-        } else {
-            main.innerHTML = ""
-            switch (window.location.hash) {
-                case '#register':
-                    main.appendChild(await register());
-                    break;
-                default:
-                    main.appendChild(await login());
-            }
-        }
-    });
+        main.querySelector("#btn-men").addEventListener("click", () => {
+          main.querySelector(".menu-mobile").classList.remove("invisible");
+          main.querySelector(".menu-mobile").classList.add("nav");
+        })
+
+        main.querySelector("#btn-signOut").addEventListener("click", () => signOut());
+        main.querySelector("#btn-signOut-web").addEventListener("click", () => signOut());
+      }
+      switch (window.location.hash) {
+        case "#home":
+          main.appendChild(await home());
+          break;
+        case "#profile":
+          main.appendChild(await profile());
+          break;
+        case "#login":
+          main.appendChild(await login());
+          break;
+        default:
+          main.appendChild(await home());
+      }
+    } else {
+      main.innerHTML = ""
+      switch (window.location.hash) {
+        case '#register':
+          main.appendChild(await register());
+          break;
+        default:
+          main.appendChild(await login());
+      }
+    }
+  });
 }
-window.addEventListener("load", async() => {
-    main.appendChild(await login());
-    init();
+window.addEventListener("load", async () => {
+  main.appendChild(await login());
+  init();
 });
 
 window.addEventListener("hashchange", () => {
-    init();
+  init();
 });

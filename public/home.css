@@ -48,14 +48,14 @@ body {
     font-size: 25px;
 }
 
-#privacy-type {
+.blue-button {
     border-radius: 5px;
     background-color: #23D9B7;
     font-weight: bold;
     color: #5207F2;
-    height: 20px;
+    height: 25px;
     margin: 3px;
-
+    padding: 4px;
 }
 
 #filter-posts {
@@ -89,6 +89,7 @@ body {
     justify-content: space-between;
     padding-left: 180px;
     padding-top: 10px;
+    padding-bottom: 12px;
 }
 
 .btn-likes {
@@ -97,16 +98,6 @@ body {
     width: 40px;
 }
 
-
-.headerMobile {
-    background-color: #7D07F2;
-    display: flex;
-    flex-direction: row;
-}
-
-.invisible {
-    display: none;
-}
 
 @media(Min-width:600px) {
     .photos-profile {

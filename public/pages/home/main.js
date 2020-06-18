@@ -18,39 +18,38 @@ export default async () => {
   const userData = await getUser(user.uid)
   let container = document.createElement("div");
   container.innerHTML = `
-    
-  <form action="submit" id="post">
+  
+<form action="submit" id="post">
   <div class = "form-profile">
-  <div class = "photos-profile">
-  <img src="images/Perfil.png" alt="" class="photos">
-  <div class = "profile">
-  <p>${userData?.name}</p>
-  <p>Profissão</p>
-  </div>
-  </div>
-  <section class= "post">
-    <textarea type="text" id="post-text" rows="10" cols="50" maxlength="500" wrap="hard" spellcheck="true" placeholder="Escreva algo para compartilhar com seus amigos!" ></textarea> 
-    <div class = "post-items">
-    <i class="far fa-image"></i>
-    <select name="" id="privacy-type">
-    <option value="publico">Publico</option>
-    <option value="privado">Privado</option>
-    
+<div class = "photos-profile">
+<img src="images/Perfil.png" alt="" class="photos">
+<div class = "profile">
+<p>${userData?.name}</p>
+<p>Profissão</p>
+</div>
+</div>
+<section class= "post">
+  <textarea type="text" id="post-text" rows="10" cols="50" maxlength="500" wrap="hard" spellcheck="true" placeholder="Escreva algo para compartilhar com seus amigos!" ></textarea> 
+  <div class = "post-items">
+  <i class="far fa-image"></i>
+  <select name="" id="privacy-type" class="blue-button">
+  <option value="publico">Publico</option>
+  <option value="privado">Privado</option>
+  
 </select>      
-          <i class="fas fa-share-alt" value="button" id="publish-button"></i>
-          </div>
-          </div>
-        </section>
-          <select name="" id="filter-posts">
-          <option value="allPosts">Todos os posts</option>
-          <option value="myPosts">Meus Posts</option>
-    </select>
-    
-
-    </form>
-    <section class="card-post" id="posts">
-    </section>
-    `;
+        <i class="fas fa-share-alt" value="publish" id="publish-button"></i>
+        </div>
+        </div>
+      </section>
+        <select name="" id="filter-posts">
+        <option value="allPosts">Todos os posts</option>
+        <option value="myPosts">Meus Posts</option>
+  </select>
+  
+  </form>
+  <section class="card-post" id="posts">
+  </section>
+  `;
   document.querySelector("body").classList.add("register-body")
 
   const publishBtn = container.querySelector("#publish-button");
@@ -62,7 +61,7 @@ export default async () => {
     let texto = container.querySelector("#post-text");
     const privacy = container.querySelector("#privacy-type");
     createPost(user.uid, texto.value, privacy.value);
-    texto.innerHTML = " ";
+    texto.value = "";
     readPosts(postTemplate, user.uid);
   });
 
@@ -71,40 +70,38 @@ export default async () => {
     postsContainer.innerHTML = array
       .map(
         (post) =>
-          `
-        <section id='publicacao'>
-          <div class = "template-public">
-          <i id="${post.postId}" class="fas fa-times btn-delete" ></i>
-            <div class ="post-privacy">
-              publicado por:${post.name} em ${post.created}|  ${post.privacy}
-            </div>
-            <main>
-              <textarea type="text" rows="10" cols="40" class ="public" > ${post.text} </textarea>
-              <div id="botoes" class = "btn-public">
-                <div class = "btn-likes">
-                  <i  id="${post.postId}"  class="fas fa-thumbs-up btn-like"></i>
-                  <div id="contador"> ${post.likes} </div>
-                </div>
-                <i  id="${post.postId}" class="far fa-comment-dots btn-comment"></i>
-                <i class="fas fa-edit edit-btn"></i>  
+        `
+      <section id='publicacao'>
+        <div class = "template-public">
+          <div class ="post-privacy">
+            publicado por:${post.name} em ${post.created}|  ${post.privacy}
+            <i id="${post.postId}" class="fas fa-times btn-delete" ></i>
+          </div>
+          <main>
+          <textarea type="text" rows="10" cols="40" class ="public" > ${post.text} </textarea>
+          <div id="botoes" class = "btn-public">
+          <div class = "btn-likes">
+          <i  id="${post.postId}"  class="fas fa-thumbs-up botao-like"></i>
+          <div id="contador"> ${post.likes} </div>
+          </div>
+              <i  id="${post.postId}" class="far fa-comment-dots btn-comment"></i>
+              <i class="fas fa-edit edit-btn"></i>
               </div>
               <div class="edit">
-                <select name="" id= "${post.postId}"  class="privacy-edit" >
-                  <option value="publico">Publico</option>
-                  <option value="privado">Privado</option>
-                </select>    
-                <button type="button" value="alterar"  id="${post.postId}" class="save-button-change"> Salvar alterações </button>
-                <button type="button" value="cancel" class="cancelEdit"> Cancelar edição </button>
+              <select name="" id= "${post.postId}"  class="privacy-edit blue-button" >
+              <option value="publico">Publico</option>
+              <option value="privado">Privado</option>
+              </select>    
+              <button type="button" value="alterar"  id="${post.postId}" class="save-button-change blue-button"> Salvar alterações </button>
+              <button type="button" value="cancel" class="cancelEdit blue-button"> Cancelar </button>
               </div>
-              
-            </main>
-          </div>
-        </section> 
-          <div id= "comments${post.postId}"></div>
-          `
+              </main>
+              </div>
+              </section>    
+              <div id= "comments${post.postId}"></div>
+        `
       )
       .join("");
-
 
 
     postsContainer.querySelectorAll(".edit").forEach((item) => {
@@ -156,6 +153,7 @@ export default async () => {
 
     let comments = postsContainer.querySelectorAll('.btn-comment').forEach((item) => {
       item.addEventListener('click', (event) => {
+
         readComments(loadComments, event);
       });
     });
@@ -166,7 +164,7 @@ export default async () => {
           <div>
           <i class="fas fa-times close-comment" ></i>
           </div>
-          `
+          `;
       const comments = document.createElement('div');
       comments.innerHTML = array
         .map(
@@ -181,7 +179,6 @@ export default async () => {
                 
                 `
         ).join("");
-
       commentsContainer.appendChild(comments);
       const newComment = document.createElement("div");
       newComment.innerHTML = `
