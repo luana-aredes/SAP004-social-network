@@ -12,7 +12,6 @@ const main = document.querySelector('#root');
 const init = () => {
     firebase.auth().onAuthStateChanged(async(user) => {
         if (user) {
-            console.log(user.displayName);
             if (window.location.hash != "#login") {
                 main.innerHTML = `<header class="header">
                 <section class="headerMobile">
@@ -37,31 +36,31 @@ const init = () => {
             }
             switch (window.location.hash) {
                 case "#home":
-                    main.appendChild(home());
+                    main.appendChild(await home());
                     break;
                 case "#profile":
                     main.appendChild(await profile());
                     break;
                 case "#login":
-                    main.appendChild(login());
+                    main.appendChild(await login());
                     break;
                 default:
-                    main.appendChild(home());
+                    main.appendChild(await home());
             }
         } else {
             main.innerHTML = ""
             switch (window.location.hash) {
                 case '#register':
-                    main.appendChild(register());
+                    main.appendChild(await register());
                     break;
                 default:
-                    main.appendChild(login());
+                    main.appendChild(await login());
             }
         }
     });
 }
-window.addEventListener("load", () => {
-    main.appendChild(login());
+window.addEventListener("load", async() => {
+    main.appendChild(await login());
     init();
 });
 

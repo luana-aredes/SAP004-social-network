@@ -9,9 +9,13 @@ import {
     comment
 
 } from "./data.js";
+import {
+    getUser
+} from "./../profile/data.js";
 
-export default () => {
+export default async() => {
     const user = firebase.auth().currentUser;
+    const userData = await getUser(user.uid)
     let container = document.createElement("div");
     container.innerHTML = `
     
@@ -20,7 +24,7 @@ export default () => {
   <div class = "photos-profile">
   <img src="images/Perfil.png" alt="" class="photos">
   <div class = "profile">
-  <p>${user.displayName}</p>
+  <p>${userData.name}</p>
   <p>Profissão</p>
   </div>
   </div>
