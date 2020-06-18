@@ -45,7 +45,7 @@ const init = () => {
                     main.appendChild(await login());
                     break;
                 default:
-                    main.appendChild(await home());
+                    main.appendChild(home());
             }
         } else {
             main.innerHTML = ""

@@ -1,5 +1,4 @@
 import {
-<<<<<<< HEAD
   createPost,
   readPosts,
   likePost,
@@ -9,34 +8,23 @@ import {
   readComments,
   comment,
   deleteComment
-=======
-    createPost,
-    readPosts,
-    likePost,
-    deletePost,
-    filterMyPosts,
-    editPost,
-    readComments,
-    comment
-
->>>>>>> 867cd87ff0acd5953cf87d7e763f3ee5abb7b4c4
 } from "./data.js";
 import {
-    getUser
+  getUser
 } from "./../profile/data.js";
 
-export default async() => {
-    const user = firebase.auth().currentUser;
-    const userData = await getUser(user.uid)
-    let container = document.createElement("div");
-    container.innerHTML = `
+export default async () => {
+  const user = firebase.auth().currentUser;
+  const userData = await getUser(user.uid)
+  let container = document.createElement("div");
+  container.innerHTML = `
     
   <form action="submit" id="post">
   <div class = "form-profile">
   <div class = "photos-profile">
   <img src="images/Perfil.png" alt="" class="photos">
   <div class = "profile">
-  <p>${userData.name}</p>
+  <p>${userData?.name}</p>
   <p>Profissão</p>
   </div>
   </div>
@@ -63,27 +51,27 @@ export default async() => {
     <section class="card-post" id="posts">
     </section>
     `;
-    document.querySelector("body").classList.add("register-body")
+  document.querySelector("body").classList.add("register-body")
 
-    const publishBtn = container.querySelector("#publish-button");
-    const postsContainer = container.querySelector("#posts");
-
-
-    publishBtn.addEventListener("click", (event) => {
-        event.preventDefault();
-        let texto = container.querySelector("#post-text");
-        const privacy = container.querySelector("#privacy-type");
-        createPost(user.uid, texto.value, privacy.value);
-        texto.innerHTML = " ";
-        readPosts(postTemplate, user.uid);
-    });
+  const publishBtn = container.querySelector("#publish-button");
+  const postsContainer = container.querySelector("#posts");
 
 
-    const postTemplate = (array) => {
-        postsContainer.innerHTML = array
-            .map(
-                (post) =>
-                `
+  publishBtn.addEventListener("click", (event) => {
+    event.preventDefault();
+    let texto = container.querySelector("#post-text");
+    const privacy = container.querySelector("#privacy-type");
+    createPost(user.uid, texto.value, privacy.value);
+    texto.innerHTML = " ";
+    readPosts(postTemplate, user.uid);
+  });
+
+
+  const postTemplate = (array) => {
+    postsContainer.innerHTML = array
+      .map(
+        (post) =>
+          `
         <section id='publicacao'>
           <div class = "template-public">
           <i id="${post.postId}" class="fas fa-times btn-delete" ></i>
@@ -114,102 +102,75 @@ export default async() => {
         </section> 
           <div id= "comments${post.postId}"></div>
           `
-            )
-            .join("");
+      )
+      .join("");
 
 
 
-        postsContainer.querySelectorAll(".edit").forEach((item) => {
-            item.classList.add("invisible")
-        })
+    postsContainer.querySelectorAll(".edit").forEach((item) => {
+      item.classList.add("invisible")
+    })
 
-        const buttonEdit = postsContainer.querySelectorAll(".edit-btn");
-        buttonEdit.forEach((item) => {
-            item.addEventListener("click", (event) => {
-                item.parentNode.parentNode.querySelector(".edit").classList.remove("invisible");
-            });
-        });
+    const buttonEdit = postsContainer.querySelectorAll(".edit-btn");
+    buttonEdit.forEach((item) => {
+      item.addEventListener("click", (event) => {
+        item.parentNode.parentNode.querySelector(".edit").classList.remove("invisible");
+      });
+    });
 
-        const cancelEdit = postsContainer.querySelectorAll(".cancelEdit");
-        cancelEdit.forEach((item) => {
-            item.addEventListener("click", (event) => {
-                item.parentNode.parentNode.querySelector(".edit").classList.add("invisible");
-            });
-        });
+    const cancelEdit = postsContainer.querySelectorAll(".cancelEdit");
+    cancelEdit.forEach((item) => {
+      item.addEventListener("click", (event) => {
+        item.parentNode.parentNode.querySelector(".edit").classList.add("invisible");
+      });
+    });
 
-        const saveButtonChange = postsContainer.querySelectorAll(".save-button-change");
-        saveButtonChange.forEach((item) => {
+    const saveButtonChange = postsContainer.querySelectorAll(".save-button-change");
+    saveButtonChange.forEach((item) => {
 
-<<<<<<< HEAD
+      item.addEventListener("click", (event) => {
+        const textoPost = item.parentNode.parentNode.querySelector(".public");
+        const privacyPost = item.parentNode.parentNode.querySelector(".privacy-edit")
+        editPost(event, user.uid, textoPost.value, privacyPost.value);
+        readPosts(postTemplate, user.uid);
+      })
+    });
+
+
     const deleteBtn = postsContainer.querySelectorAll(".btn-delete");
     deleteBtn.forEach((item) => {
-      item.addEventListener("click", async (event) => {
+      item.addEventListener("click", (event) => {
         deletePost(event, user.uid)
         readPosts(postTemplate, user.uid);
       });
     });
 
 
-    let likes = postsContainer.querySelectorAll(".bnt-like").forEach((item) => {
+    let likes = postsContainer.querySelectorAll(".botao-like").forEach((item) => {
       item.addEventListener("click", (event) => {
         likePost(event).then(() => {
           readPosts(postTemplate, user.uid);
         });
       });
     });
+
     let comments = postsContainer.querySelectorAll('.btn-comment').forEach((item) => {
       item.addEventListener('click', (event) => {
         readComments(loadComments, event);
       });
     });
+
     const loadComments = (array, id) => {
       const commentsContainer = postsContainer.querySelector(`#comments${id}`);
       commentsContainer.innerHTML = `
-      <div>
-      <i class="fas fa-times close-comment" ></i>
-      </div>
-      `
+          <div>
+          <i class="fas fa-times close-comment" ></i>
+          </div>
+          `
       const comments = document.createElement('div');
       comments.innerHTML = array
         .map(
           (comment) => `
-=======
-            item.addEventListener("click", (event) => {
-                const textoPost = item.parentNode.parentNode.querySelector(".public");
-                const privacyPost = item.parentNode.parentNode.querySelector(".privacy-edit")
-                editPost(event, user.uid, textoPost.value, privacyPost.value);
-                readPosts(postTemplate, user.uid);
-            })
-        });
-
-
-        const deleteBtn = postsContainer.querySelectorAll(".botao-apagar");
-        deleteBtn.forEach((item) => {
-            item.addEventListener("click", (event) => {
-                deletePost(event, user.uid)
-                readPosts(postTemplate, user.uid);
-            });
-        });
-
-
-        let likes = postsContainer.querySelectorAll(".botao-like").forEach((item) => {
-            item.addEventListener("click", (event) => {
-                likePost(event).then(() => {
-                    readPosts(postTemplate, user.uid);
-                });
-            });
-        });
-        let comments = postsContainer.querySelectorAll('.btn-comment').forEach((item) => {
-            item.addEventListener('click', (event) => {
-                readComments(loadComments, event);
-            });
-        });
-        const loadComments = (array, id) => {
-            const commentsContainer = postsContainer.querySelector(`#comments${id}`);
-            commentsContainer.innerHTML = array
-                .map(
-                    (comment) => `
->>>>>>> 867cd87ff0acd5953cf87d7e763f3ee5abb7b4c4
                 <main>
                 <div>
                 <span>${comment.userName} em ${comment.created} | ${comment.comment}</span>
@@ -219,7 +180,6 @@ export default async() => {
                 </main>
                 
                 `
-<<<<<<< HEAD
         ).join("");
 
       commentsContainer.appendChild(comments);
@@ -227,7 +187,7 @@ export default async() => {
       newComment.innerHTML = `
                 <textarea type="text" rows="3" cols="30" id = "new-comment${id}" > </textarea>
                     <button type="button" id= "${id}" class="btn-newComment"> Comentar </button>
-                `
+                `;
       commentsContainer.appendChild(newComment);
       const text = commentsContainer.querySelector(`#new-comment${id}`)
       commentsContainer.querySelector(".btn-newComment")
@@ -237,68 +197,52 @@ export default async() => {
           readPosts(postTemplate, user.uid);
         });
 
-        commentsContainer.querySelector(".close-comment").addEventListener("click", (event) =>{
-          readPosts(postTemplate, user.uid);
-        });
+      commentsContainer.querySelector(".close-comment").addEventListener("click", (event) => {
+        readPosts(postTemplate, user.uid);
+      });
 
-        commentsContainer.querySelectorAll(".btn-newEdit").forEach((item) => {
-          item.addEventListener("click",(event)=> {
-            let info = event.srcElement.id.split('|');
-            if(info[2] == user.uid){
-              deleteComment(...info, id);
-              commentsContainer.querySelector(`#new-comment${id}`).value = info[0];
-            }
-            else{
-              alert("Voce não criou este comentário");
-            }
-          })
+      commentsContainer.querySelectorAll(".btn-newEdit").forEach((item) => {
+        item.addEventListener("click", (event) => {
+          let info = event.srcElement.id.split('|');
+          if (info[2] == user.uid) {
+            deleteComment(...info, id);
+            commentsContainer.querySelector(`#new-comment${id}`).value = info[0];
+          }
+          else {
+            alert("Voce não criou este comentário");
+          }
         })
-        commentsContainer.querySelectorAll(".btn-newDelete").forEach((item) => {
-          item.addEventListener("click",(event)=> {
-            let info = event.srcElement.id.split('&');
-            if(info[2] == user.uid){
-              deleteComment(...info, id);
-              readPosts(postTemplate, user.uid);
-            }
-            else{
-              alert("Voce não criou este comentário");
-            }
-          })
-        })
-=======
-                );
+      })
 
-            const newComment = document.createElement("div");
-            newComment.innerHTML = `
-                <textarea type="text" rows="3" cols="30" id = "new-comment" > </textarea>
-                    <button type="button" id= "${id}" class="btn-newComment"> Comentar </button>
-                `
-            commentsContainer.appendChild(newComment);
-            const text = commentsContainer.querySelector("#new-comment")
-            commentsContainer.querySelector(".btn-newComment")
-                .addEventListener("click", (event) => {
-
-                    comment(text.value, user.uid, event, user.displayName);
-                    readPosts(postTemplate, user.uid);
-                });
-        };
->>>>>>> 867cd87ff0acd5953cf87d7e763f3ee5abb7b4c4
-    };
-
-    const filterPosts = container.querySelector("#filter-posts");
-    filterPosts.addEventListener("change", async(event) => {
-        if (event.target.value == "myPosts") {
-            const posts = await filterMyPosts(user.uid);
-            postTemplate(posts);
-        } else {
+      commentsContainer.querySelectorAll(".btn-newDelete").forEach((item) => {
+        item.addEventListener("click", (event) => {
+          let info = event.srcElement.id.split('&');
+          if (info[2] == user.uid) {
+            deleteComment(...info, id);
             readPosts(postTemplate, user.uid);
+          }
+          else {
+            alert("Voce não criou este comentário");
+          }
+        })
+      })
+    };
+  };
 
-        }
+  const filterPosts = container.querySelector("#filter-posts");
+  filterPosts.addEventListener("change", async (event) => {
+    if (event.target.value == "myPosts") {
+      const posts = await filterMyPosts(user.uid);
+      postTemplate(posts);
+    } else {
+      readPosts(postTemplate, user.uid);
 
-    });
+    }
+
+  });
 
 
-    readPosts(postTemplate, user.uid);
+  readPosts(postTemplate, user.uid);
 
-    return container;
+  return container;
 };
