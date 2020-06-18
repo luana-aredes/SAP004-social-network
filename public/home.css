@@ -98,16 +98,6 @@ body {
 }
 
 
-.headerMobile {
-    background-color: #7D07F2;
-    display: flex;
-    flex-direction: row;
-}
-
-.invisible {
-    display: none;
-}
-
 @media(Min-width:600px) {
     .photos-profile {
         display: flex;

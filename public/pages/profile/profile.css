@@ -1,4 +1,4 @@
-.profile-body{
+.profile-body {
     margin: 0;
 }
 
@@ -6,8 +6,8 @@
     background-color: #7D07F2;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
-    padding: 30px 10px;
+    padding: 25px 10px 10px 10px;
+    height: 70px;
 }
 
 .headerWeb {
@@ -22,12 +22,17 @@ main {
 
 .header-title {
     font-size: 30px;
-    
+    flex-grow: 2;
 }
 
-.menuMobile {
-    width: 60px;
-    height: 60px;
+.menu-mobile {
+    display: block;
+    background-color: #7D07F2;
+
+}
+
+.menu-mobile ul {
+    padding: 3px;
 }
 
 .photo {
@@ -50,22 +55,49 @@ main {
     padding: 0px;
 }
 
+#toggle-1 {
+    display: none;
+}
+
+label {
+    -webkit-appearance: push-button;
+    -moz-appearance: button;
+    cursor: pointer;
+    padding: 5px;
+}
+
+#mostra {
+    display: none;
+}
+
+#toggle-1:checked~#mostra {
+    display: block;
+}
+
+.invisible {
+    display: none;
+}
+
+
 @media(Min-width:600px) {
     .headerMobile {
         display: none;
     }
+
     .headerWeb {
         display: flex;
         background-color: #7D07F2;
         justify-content: space-between;
         width: 100vw;
     }
+
     .logout {
         width: 30px;
         height: 30px;
         margin: 20px;
         margin-right: 30px;
     }
+
     .menuWeb {
         display: flex;
         font-size: 20px;
@@ -73,7 +105,8 @@ main {
         height: 30px;
         margin: 20px;
     }
-    .title-web{
+
+    .title-web {
         display: flex;
         justify-content: center;
         font-size: 30px;
@@ -81,7 +114,8 @@ main {
         margin: 20px;
         width: 30px;
     }
-    .menu-profile{
+
+    .menu-profile {
         margin-right: 15px;
         margin-left: 15px;
     }

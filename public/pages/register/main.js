@@ -3,7 +3,9 @@ import {
     createLogin,
     createUser
 } from "./data.js";
-import { signOut } from "../login/data.js";
+import {
+    signOut
+} from "../login/data.js";
 
 export default () => {
     const container = document.createElement('div');
@@ -39,7 +41,7 @@ export default () => {
 </div>`
     container.innerHTML = template;
     const formRegister = container.querySelector("#formRegister")
-    formRegister.addEventListener("submit", async() => {
+    formRegister.addEventListener("submit", async () => {
         const formData = new FormData(formRegister);
         const email = formData.get("email");
         const name = formData.get("name");

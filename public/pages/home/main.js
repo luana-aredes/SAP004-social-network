@@ -27,7 +27,7 @@ export default () => {
   <section class= "post">
     <textarea type="text" id="post-text" rows="10" cols="50" maxlength="500" wrap="hard" spellcheck="true" placeholder="Escreva algo para compartilhar com seus amigos!" ></textarea> 
     <div class = "post-items">
-    <i class="far fa-image"></i>
+    <i class="far fa-image" id="botao-arquivo"></i>
     <select name="" id="privacy-type">
     <option value="publico">Publico</option>
     <option value="privado">Privado</option>
@@ -51,6 +51,33 @@ export default () => {
 
   const publishBtn = container.querySelector("#publish-button");
   const postsContainer = container.querySelector("#posts");
+
+  const arquivo = container.querySelector("#botao-arquivo");
+  arquivo.addEventListener("click", (event) => {
+
+  })
+
+  /*
+
+  var storage = firebase.storage();
+  var storageRef = storage.ref()
+  var imagesRef = storageRef.child('images');
+  var storageRef = firebase.storage().ref();
+  var fileName = 'space.jpg';
+  var spaceRef = imagesRef.child(fileName);
+  var path = spaceRef.fullPath
+  var name = spaceRef.name
+  var imagesRef = spaceRef.parent;
+
+
+
+  var storageRef = firebase.storage().ref();
+  var mountainsRef = storageRef.child('mountains.jpg');
+  var mountainImagesRef = storageRef.child('images/mountains.jpg');
+  mountainsRef.name === mountainImagesRef.name            // true
+  mountainsRef.fullPath === mountainImagesRef.fullPath    // false
+
+  */
 
 
   publishBtn.addEventListener("click", (event) => {
@@ -82,7 +109,7 @@ export default () => {
                   <div id="contador"> ${post.likes} </div>
                 </div>
                 <i  id="${post.postId}" class="far fa-comment-dots btn-comment"></i>
-                <i class="fas fa-edit edit-btn"></i>
+                <i class="fas fa-edit edit-btn" id="edit${post.postId}"></i>
                 <div id= "comments${post.postId}"></div>
               </div>
               <div class="edit">
@@ -101,10 +128,11 @@ export default () => {
       .join("");
 
 
-
-    postsContainer.querySelectorAll(".edit").forEach((item) => {
-      item.classList.add("invisible")
+    const edit = postsContainer.querySelectorAll(".edit");
+    edit.forEach((item) => {
+      item.classList.add("invisible");
     })
+
 
     const buttonEdit = postsContainer.querySelectorAll(".edit-btn");
     buttonEdit.forEach((item) => {
@@ -122,7 +150,6 @@ export default () => {
 
     const saveButtonChange = postsContainer.querySelectorAll(".save-button-change");
     saveButtonChange.forEach((item) => {
-
       item.addEventListener("click", (event) => {
         const textoPost = item.parentNode.parentNode.querySelector(".public");
         const privacyPost = item.parentNode.parentNode.querySelector(".privacy-edit")
