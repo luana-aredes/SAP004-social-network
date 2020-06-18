@@ -57,12 +57,13 @@ export default () => {
         const password = formData.get("password");
 
         if (validator(email, password, name)) {
-            window.location.hash = "#login";
+            window.location.hash = "";
 
             const user = await createLogin(email, password, name);
             console.log(user);
             createUser(name, profession, place, email, user.uid);
-            signOut();
+            // signOut();
+            //location.reload();
         };
 
 

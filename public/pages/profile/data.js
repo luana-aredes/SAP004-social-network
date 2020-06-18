@@ -12,9 +12,11 @@ export const uploadPhoto = async(file, userId) => {
 
 
 export const editProfile = (userId, data) => {
+    //const user = firebase.auth().currentUser;
 
     // user.updateProfile({
-    //     displayName: "novo nome",
+    //     displayName: name
+
     // }).then(function() {
     //     // Update successful.
     // }).catch(function(error) {
