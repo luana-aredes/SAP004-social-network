@@ -1,51 +1,71 @@
 import {
     uploadPhoto,
-    editProfile
+    editProfile,
+    getUser
 } from "./data.js"
 
-export default () => {
+const load = async () => {
 
     const user = firebase.auth().currentUser;
+    const userData = await getUser(user.uid)
+
     const container = document.createElement('div');
     const template = ` 
   
+    <form action="" id="formProfile">
             <div class="photodiv">
-            <img src="images/Perfil.png" alt="" class="photo">
+            <img src="${userData.photo || "images/Perfil.png"}" alt="" class="photo">
             
         </div>
-        <input type="file" class="photoEdit"></div>
+        <input type="file" class="photoEdit">
+        </div>
         <div class="name">
-            <h2>${user.displayName}</h2>
+        <input id="regName" class="regName" required="required" type="text" name="name" value="${userData.name}">
         </div>
         <div class="Profession">
-            <h3>Profissão</h3>
+        <input id="regProfession" class="regProfession" required="required" type="text" name="profession" value="${userData.profession}">
         </div>
         <div class="place"></div>
-        <h4>Local</h4>
+        <input id="regPlace" class="regPlace" required="required" type="text" name="place" value="${userData.place}"/>
         <div>
-            <textarea cols="30" rows="10" placeholder="Add a bio" class="bio"></textarea>
+            <textarea cols="30" rows="10" placeholder="Add a bio" class="bio" name="bio">${userData.bio}</textarea>
         </div>
         <section class="buttons">
-            <button class="edit">Editar Perfil</button>
-            <button class="save">Salvar</button>
+            <button type="submit" class="save">Salvar Alterações</button>
         </section>
+        </form>
         `;
+    console.log(userData)
     container.innerHTML = template;
     document.querySelector("body").classList.add("profile-body")
 
     const photoEdit = container.querySelector(".photoEdit");
-    photoEdit.addEventListener("change", async(event) => {
+    photoEdit.addEventListener("change", async (event) => {
         const file = event.target.files[0]
         const url = await uploadPhoto(file, user.uid);
-        console.log(url)
+        const data = {
+            photo: url,
+        }
+        editProfile(user.uid, data)
+        // location.reload()
     });
 
-    const edit = container.querySelector(".edit");
-    edit.addEventListener("click", (event) => {
+    const formProfile = container.querySelector("#formProfile");
+    formProfile.addEventListener("submit", (event) => {
+        event.preventDefault()
+        const formData = new FormData(formProfile);
+        const data = {
+            name: formData.get('name'),
+            profession: formData.get('profession'),
+            place: formData.get('place'),
+            bio: formData.get('bio')
+        }
+        console.log(data)
+        editProfile(user.uid, data)
+    })
 
-        editProfile(user.displayName);
-        console.log(user.displayName);
-    });
+
     return container;
 
 }
+export default load

@@ -31,11 +31,14 @@ export const createLogin = async(email, password, name) => {
     return user;
 };
 
-export const createUser = async(name, email, id) => {
+export const createUser = async(name, profession, place, email, id) => {
 
     db.collection("users").doc(id).set({
             name: name,
+            profession: profession,
+            place: place,
             email: email,
+
 
         })
         .then(function() {

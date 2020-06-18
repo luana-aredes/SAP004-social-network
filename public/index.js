@@ -11,7 +11,7 @@ const main = document.querySelector('#root');
 
 
 const init = () => {
-  firebase.auth().onAuthStateChanged((user) => {
+  firebase.auth().onAuthStateChanged(async (user) => {
     if (user) {
       console.log(user.displayName);
       if (window.location.hash != "#login") {
@@ -37,24 +37,21 @@ const init = () => {
             </section>
           </header>`
 
-
-
         main.querySelector("#btn-men").addEventListener("click", () => {
           main.querySelector(".menu-mobile").classList.remove("invisible");
           main.querySelector(".menu-mobile").classList.add("nav");
-
         })
+
         main.querySelector("#btn-signOut").addEventListener("click", () => signOut());
         main.querySelector("#btn-signOut-web").addEventListener("click", () => signOut());
-
-
       }
+
       switch (window.location.hash) {
         case "#home":
           main.appendChild(home());
           break;
         case "#profile":
-          main.appendChild(profile());
+          main.appendChild(await profile());
           break;
         case "#login":
           main.appendChild(login());

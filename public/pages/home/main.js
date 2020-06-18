@@ -28,7 +28,7 @@ export default () => {
     <textarea type="text" id="post-text" rows="10" cols="50" maxlength="500" wrap="hard" spellcheck="true" placeholder="Escreva algo para compartilhar com seus amigos!" ></textarea> 
     <div class = "post-items">
     <i class="far fa-image" id="botao-arquivo"></i>
-    <select name="" id="privacy-type">
+    <select name="" id="privacy-type" class="blue-button">
     <option value="publico">Publico</option>
     <option value="privado">Privado</option>
     
@@ -113,12 +113,12 @@ export default () => {
                 <div id= "comments${post.postId}"></div>
               </div>
               <div class="edit">
-                <select name="" id= "${post.postId}"  class="privacy-edit" >
+                <select name="" id= "${post.postId}"  class="privacy-edit blue-button" >
                   <option value="publico">Publico</option>
                   <option value="privado">Privado</option>
                 </select>    
-                <button type="button" value="alterar"  id="${post.postId}" class="save-button-change"> Salvar alterações </button>
-                <button type="button" value="cancel" class="cancelEdit"> Cancelar edição </button>
+                <button type="button" value="alterar"  id="${post.postId}" class="save-button-change  blue-button"> Salvar </button>
+                <button type="button" value="cancel" class="cancelEdit  blue-button"> Cancelar </button>
               </div>
             </main>
           </div>
@@ -128,8 +128,7 @@ export default () => {
       .join("");
 
 
-    const edit = postsContainer.querySelectorAll(".edit");
-    edit.forEach((item) => {
+    const edit = postsContainer.querySelectorAll(".edit").forEach((item) => {
       item.classList.add("invisible");
     })
 
