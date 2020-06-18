@@ -24,7 +24,7 @@ const init = () => {
                 <nav class="menu-mobile invisible" id="mostra" > 
                  <ul> <a class= "menu-profile" href= "./#profile">Profile</a> </ul>
                  <ul> <a href= "./#home">Feed</a> </ul>
-                 <ul> <i id= "btn-signOut" class="fas fa-sign-out-alt logout"> Sair </i> </ul>
+                 <ul> <a id= "btn-signOut" class="logout"> Sair</a></ul>
                 </nav>
                 <section class="headerWeb">
                   <div class="menuWeb"> 

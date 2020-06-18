@@ -28,6 +28,7 @@ main {
 .menu-mobile {
     display: block;
     background-color: #7D07F2;
+    width: 80px;
 
 }
 
