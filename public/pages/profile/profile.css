@@ -6,8 +6,8 @@
     background-color: #7D07F2;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
-    padding: 30px 10px;
+    padding: 25px 10px 10px 10px;
+    height: 70px;
 }
 
 .headerWeb {
@@ -22,11 +22,17 @@ main {
 
 .header-title {
     font-size: 30px;
+    flex-grow: 2;
 }
 
-.menuMobile {
-    width: 60px;
-    height: 60px;
+.menu-mobile {
+    display: block;
+    background-color: #7D07F2;
+    width: 80px;
+}
+
+.menu-mobile ul {
+    padding: 3px;
 }
 
 .photo {
@@ -49,17 +55,27 @@ main {
     padding: 0px;
 }
 
-input {
-    text-align: center;
-    background: transparent;
-    border: 0;
-    color: #E2F205;
-    font-size: 14px;
-    outline: none;
+#toggle-1 {
+    display: none;
 }
 
-.photoEdit {
-    font-size: 13px;
+label {
+    -webkit-appearance: push-button;
+    -moz-appearance: button;
+    cursor: pointer;
+    padding: 5px;
+}
+
+#mostra {
+    display: none;
+}
+
+#toggle-1:checked~#mostra {
+    display: block;
+}
+
+.invisible {
+    display: none;
 }
 
 @media(Min-width:600px) {

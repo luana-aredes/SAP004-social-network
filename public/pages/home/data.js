@@ -62,11 +62,21 @@ export const likePost = (event) => {
     });
 };
 export const comment = (text, userId, event, userName) => {
-
-  firebase.firestore().collection('posts').doc(event.srcElement.id).update({
+   firebase.firestore().collection('posts').doc(event.srcElement.id).update({
     comments: firebase.firestore.FieldValue.arrayUnion({
       comment: text,
       created: firebase.firestore.Timestamp.fromDate(new Date()).toDate().toLocaleString('pt-BR'),
+      userId: userId,
+      userName: userName
+    })
+  });
+};
+
+export const deleteComment = (text, created, userId, userName, postId) => {
+  firebase.firestore().collection('posts').doc(postId).update({
+    comments: firebase.firestore.FieldValue.arrayRemove({
+      comment: text,
+      created: created,
       userId: userId,
       userName: userName
     })
@@ -134,3 +144,9 @@ export const editPost = (event, userId, texto, privacy) => {
     };
   });
 };
+
+export const editComment = (event, text, userId) => {
+  firebase.firestore().collection("post").doc(event.srcElement.id).get().then((doc) => {
+    const comment = doc.data(); 
+  })
+}

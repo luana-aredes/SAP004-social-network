@@ -7,7 +7,7 @@ export const loginGoogle = () => {
             var token = result.credential.accessToken;
             var user = result.user;
             alert("você esta logado agora!");
-        
+
         })
         .catch(function (error) {
             var errorCode = error.code;
@@ -26,12 +26,11 @@ export const loginWithExistingEmail = (email, password) => {
             var errorCode = error.code;
             var errorMessage = error.message;
             alert("Senha e/ou usuário invalidos");
-        
+
         });
 };
 export const signOut = () => {
     firebase.auth().signOut().then(function () {
         history.pushState("", document.title, window.location.pathname);
-    }).catch(function (error) {
-    });
+    }).catch(function (error) {});
 }
