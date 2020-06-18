@@ -22,7 +22,6 @@ main {
 
 .header-title {
     font-size: 30px;
-    flex-grow: 2;
 }
 
 .menu-mobile {
@@ -42,7 +41,7 @@ main {
 }
 
 .photodiv {
-    border: 1px solid black;
+    /* border: 1px solid black; */
     margin: 20px auto 2px;
 }
 
@@ -53,6 +52,22 @@ main {
 
 .buttons {
     padding: 0px;
+}
+
+.profName,
+.profProfession,
+.profPlace {
+    text-align: center;
+    background: transparent;
+    border: 0;
+    color: #E2F205;
+    font-size: 14px;
+    outline: none;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+.photoEdit {
+    font-size: 13px;
 }
 
 #toggle-1 {
@@ -76,6 +91,12 @@ label {
 
 .invisible {
     display: none;
+}
+
+.profName:placeholder-shown,
+.profProfession:placeholder-shown,
+.profPlace:placeholder-shown {
+    background-color: white;
 }
 
 @media(Min-width:600px) {
@@ -112,13 +133,5 @@ label {
     .menu-profile {
         margin-right: 15px;
         margin-left: 15px;
-    }
-    input {
-        text-align: center;
-        background: transparent;
-        border: 0;
-        color: #E2F205;
-        font-size: 30px;
-        outline: none;
     }
 }
