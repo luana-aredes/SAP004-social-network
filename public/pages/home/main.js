@@ -6,8 +6,8 @@ import {
   filterMyPosts,
   editPost,
   readComments,
-  comment
-
+  comment,
+  deleteComment
 } from "./data.js";
 
 export default () => {
@@ -70,20 +70,19 @@ export default () => {
         `
         <section id='publicacao'>
           <div class = "template-public">
+          <i id="${post.postId}" class="fas fa-times btn-delete" ></i>
             <div class ="post-privacy">
               publicado por:${post.name} em ${post.created}|  ${post.privacy}
-              <i id="${post.postId}" class="fas fa-times botao-apagar" ></i>
             </div>
             <main>
               <textarea type="text" rows="10" cols="40" class ="public" > ${post.text} </textarea>
               <div id="botoes" class = "btn-public">
                 <div class = "btn-likes">
-                  <i  id="${post.postId}"  class="fas fa-thumbs-up botao-like"></i>
+                  <i  id="${post.postId}"  class="fas fa-thumbs-up btn-like"></i>
                   <div id="contador"> ${post.likes} </div>
                 </div>
                 <i  id="${post.postId}" class="far fa-comment-dots btn-comment"></i>
-                <i class="fas fa-edit edit-btn"></i>
-                <div id= "comments${post.postId}"></div>
+                <i class="fas fa-edit edit-btn"></i>  
               </div>
               <div class="edit">
                 <i class="far fa-image"></i>
@@ -93,9 +92,11 @@ export default () => {
                 </select>    
                 <button type="button" value="alterar"  id="${post.postId}" class="save-button-change"> Salvar alterações </button>
               </div>
+              
             </main>
           </div>
-        </section>    
+        </section> 
+          <div id= "comments${post.postId}"></div>
           `
       )
       .join("");
@@ -123,7 +124,7 @@ export default () => {
     });
 
 
-    const deleteBtn = postsContainer.querySelectorAll(".botao-apagar");
+    const deleteBtn = postsContainer.querySelectorAll(".btn-delete");
     deleteBtn.forEach((item) => {
       item.addEventListener("click", async (event) => {
         deletePost(event, user.uid)
@@ -132,7 +133,7 @@ export default () => {
     });
 
 
-    let likes = postsContainer.querySelectorAll(".botao-like").forEach((item) => {
+    let likes = postsContainer.querySelectorAll(".bnt-like").forEach((item) => {
       item.addEventListener("click", (event) => {
         likePost(event).then(() => {
           readPosts(postTemplate, user.uid);
@@ -146,31 +147,69 @@ export default () => {
     });
     const loadComments = (array, id) => {
       const commentsContainer = postsContainer.querySelector(`#comments${id}`);
-      commentsContainer.innerHTML = array
+      commentsContainer.innerHTML = `
+      <div>
+      <i class="fas fa-times close-comment" ></i>
+      </div>
+      `
+      const comments = document.createElement('div');
+      comments.innerHTML = array
         .map(
           (comment) => `
                 <main>
                 <div>
                 <span>${comment.userName} em ${comment.created} | ${comment.comment}</span>
+                <button type="button" id= "${comment.comment}|${comment.created}|${comment.userId}|${comment.userName}" class="btn-newEdit"> Editar </button>
+                <button type="button" id= "${comment.comment}&${comment.created}&${comment.userId}&${comment.userName}" class = "btn-newDelete" > Deletar </button>
                 </div>
                 </main>
                 
                 `
-        );
+        ).join("");
 
+      commentsContainer.appendChild(comments);
       const newComment = document.createElement("div");
       newComment.innerHTML = `
-                <textarea type="text" rows="3" cols="30" id = "new-comment" > </textarea>
+                <textarea type="text" rows="3" cols="30" id = "new-comment${id}" > </textarea>
                     <button type="button" id= "${id}" class="btn-newComment"> Comentar </button>
                 `
       commentsContainer.appendChild(newComment);
-      const text = commentsContainer.querySelector("#new-comment")
+      const text = commentsContainer.querySelector(`#new-comment${id}`)
       commentsContainer.querySelector(".btn-newComment")
         .addEventListener("click", (event) => {
 
           comment(text.value, user.uid, event, user.displayName);
           readPosts(postTemplate, user.uid);
         });
+
+        commentsContainer.querySelector(".close-comment").addEventListener("click", (event) =>{
+          readPosts(postTemplate, user.uid);
+        });
+
+        commentsContainer.querySelectorAll(".btn-newEdit").forEach((item) => {
+          item.addEventListener("click",(event)=> {
+            let info = event.srcElement.id.split('|');
+            if(info[2] == user.uid){
+              deleteComment(...info, id);
+              commentsContainer.querySelector(`#new-comment${id}`).value = info[0];
+            }
+            else{
+              alert("Voce não criou este comentário");
+            }
+          })
+        })
+        commentsContainer.querySelectorAll(".btn-newDelete").forEach((item) => {
+          item.addEventListener("click",(event)=> {
+            let info = event.srcElement.id.split('&');
+            if(info[2] == user.uid){
+              deleteComment(...info, id);
+              readPosts(postTemplate, user.uid);
+            }
+            else{
+              alert("Voce não criou este comentário");
+            }
+          })
+        })
     };
   };
 
