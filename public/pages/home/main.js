@@ -169,13 +169,13 @@ export default async () => {
       comments.innerHTML = array
         .map(
           (comment) => `
-                <main>
+                <section>
                 <div>
                 <span>${comment.userName} em ${comment.created} | ${comment.comment}</span>
                 <i class="fas fa-pencil-alt btn-newEdit" id= "${comment.comment}|${comment.created}|${comment.userId}|${comment.userName}"></i>
                 <i class="far fa-trash-alt btn-newDelete" id= "${comment.comment}&${comment.created}&${comment.userId}&${comment.userName}"></i>
                 </div>
-                </main>
+                </section>
                 
                 `
         ).join("");
