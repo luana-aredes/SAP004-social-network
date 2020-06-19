@@ -8,19 +8,19 @@ const load = async() => {
 
     const user = firebase.auth().currentUser;
     const userData = await getUser(user.uid)
-
+    console.log(user)
     const container = document.createElement('div');
     const template = ` 
   
     <form action="" id="formProfile">
             <div class="photodiv">
-            <img src="${userData?.photo || "images/Perfil.png"}" alt="" class="photo">
+            <img src="${userData?.photo ||user?.photoURL || "images/Perfil.png"}" alt="" class="photo">
             
         </div>
         <input type="file" class="photoEdit">
         </div>
         <div class="name">
-        <input id="regName" class="profName" required="required" type="text" name="name" placeholder="Digite seu nome" value="${userData?.name || ""}">
+        <input id="regName" class="profName" required="required" type="text" name="name" placeholder="Digite seu nome" value="${userData?.name || user?.displayName || ""}">
         </div>
         <div class="Profession">
         <input id="regProfession" class="profProfession" required="required" type="text" name="profession" placeholder="Digite sua profissão" value="${userData?.profession  || ""}">
