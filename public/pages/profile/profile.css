@@ -103,18 +103,21 @@ label {
     .headerMobile {
         display: none;
     }
+
     .headerWeb {
         display: flex;
         background-color: #7D07F2;
         justify-content: space-between;
         width: 100vw;
     }
+
     .logout {
         width: 30px;
         height: 30px;
         margin: 20px;
         margin-right: 30px;
     }
+
     .menuWeb {
         display: flex;
         font-size: 20px;
@@ -122,6 +125,7 @@ label {
         height: 30px;
         margin: 20px;
     }
+
     .title-web {
         display: flex;
         justify-content: center;
@@ -130,6 +134,7 @@ label {
         margin: 20px;
         width: 30px;
     }
+
     .menu-profile {
         margin-right: 15px;
         margin-left: 15px;

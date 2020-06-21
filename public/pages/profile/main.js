@@ -4,7 +4,7 @@ import {
     getUser
 } from "./data.js"
 
-const load = async() => {
+const load = async () => {
 
     const user = firebase.auth().currentUser;
     const userData = await getUser(user.uid)
@@ -40,14 +40,14 @@ const load = async() => {
     document.querySelector("body").classList.add("profile-body")
 
     const photoEdit = container.querySelector(".photoEdit");
-    photoEdit.addEventListener("change", async(event) => {
+    photoEdit.addEventListener("change", async (event) => {
         const file = event.target.files[0]
         const url = await uploadPhoto(file, user.uid);
         const data = {
             photo: url,
         }
         editProfile(user.uid, data)
-            // location.reload()
+        // location.reload()
     });
 
     const formProfile = container.querySelector("#formProfile");
