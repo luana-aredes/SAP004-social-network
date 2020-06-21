@@ -83,12 +83,12 @@ export const deleteComment = (text, created, userId, userName, postId) => {
   });
 };
 
-export const readComments = (loadComments, event) => {
-  firebase.firestore().collection("posts").doc(event.srcElement.id)
+export const readComments = (loadComments, id) => {
+  firebase.firestore().collection("posts").doc(id)
     .get().then(function (snap) {
       const post = snap.data()
       const comments = post.comments;
-      loadComments(comments, event.srcElement.id);
+      loadComments(comments, id);
     });
 };
 

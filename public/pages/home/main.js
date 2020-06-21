@@ -73,18 +73,24 @@ export default async () => {
         `
       <section id='publicacao'>
         <div class = "template-public">
-          <div class ="post-privacy">
-            publicado por:${post.name} em ${post.created}|  ${post.privacy}
-            <div id="${post.postId}" class="btn-delete"> <i id="${post.postId}" class="fas fa-times btn-delete" ></i> </div>
+        <div class = "post-name">
+        <div>${post.name}</div>
+        <div id="${post.postId}" class="btn-delete"> <i id="${post.postId}" class="far fa-trash-alt btn-delete" ></i> </div>
+        </div>
+        <div class ="post-privacy">
+          <div>em ${post.created}|  ${post.privacy}</div>
           </div>
           <main>
         <textarea type="text" rows="10" cols="40" class ="public" readonly> ${post.text} </textarea>
           <div id="botoes" class = "btn-public">
           <div class = "btn-likes">
           <i  id="${post.postId}"  class="fas fa-thumbs-up botao-like"></i>
-          <div id="contador"> ${post.likes} </div>
+          <div id="counter-like"> ${post.likes} </div>
           </div>
-          <i  id="${post.postId}" class="far fa-comment-dots btn-comment">${post.comments.length}</i>
+          <div class = "btn-comment">
+          <i  id="${post.postId}" class="far fa-comment-dots btn-comment"></i>
+          <div>${post.comments.length - 1}</div>
+          </div>
             <div id="${post.postId}" class="edit-btn">  
             <i class="fas fa-edit edit-btn" id="${post.postId}" ></i>
             </div>
@@ -101,7 +107,7 @@ export default async () => {
               </main>
               </div>
               </section>    
-              <div id= "comments${post.postId}"></div>
+              <div id= "comments${post.postId}" class = "container-comments"></div>
         `
       )
       .join("");
@@ -170,31 +176,49 @@ export default async () => {
     let comments = postsContainer.querySelectorAll('.btn-comment').forEach((item) => {
       item.addEventListener('click', (event) => {
 
-        readComments(loadComments, event);
+        readComments(loadComments, event.srcElement.id);
       });
     });
 
     const loadComments = (array, id) => {
       const commentsContainer = postsContainer.querySelector(`#comments${id}`);
       commentsContainer.innerHTML = `
-          <div>
+          <div class = "align-close">
           <i class="fas fa-times close-comment" ></i>
           </div>
           `;
       const comments = document.createElement('div');
       comments.innerHTML = array
         .map(
-          (comment) => `
-                <section>
-                <div>
-                <span>${comment.userName} em ${comment.created} | ${comment.comment}</span>
-                <i class="fas fa-pencil-alt btn-newEdit" id= "${comment.comment}|${comment.created}|${comment.userId}|${comment.userName}"></i>
-                <i class="far fa-trash-alt btn-newDelete" id= "${comment.comment}&${comment.created}&${comment.userId}&${comment.userName}"></i>
-                </div>
-                </section>
-                
-                `
-        ).join("");
+          (comment, index) => {
+            if(index == 0){
+                return ``;
+            }
+            else{
+                if (user.uid==comment.userId){
+                    return `
+                        <section class = "container-comments">
+                        <div>${comment.userName}</div>
+                         <div class = "created-comment">em ${comment.created}</div>
+                         <div class = "comment-comment">${comment.comment}</div>
+                        <div class = "comment-btn">
+                          <i class="fas fa-pencil-alt btn-newEdit" id= "${comment.comment}|${comment.created}|${comment.userId}|${comment.userName}"></i>
+                          <i class="far fa-trash-alt btn-newDelete" id= "${comment.comment}&${comment.created}&${comment.userId}&${comment.userName}"></i>
+                        </div>
+                        </section>                    
+                        `
+                } 
+                else{
+                    return `
+                    <section class = "container-comments">
+                    <div>${comment.userName}</div>
+                     <div>em ${comment.created}</div>
+                     <div>${comment.comment}</div>
+                   </section>                    
+                    ` 
+                }
+            }
+         }).join("");
       commentsContainer.appendChild(comments);
       const newComment = document.createElement("div");
       newComment.innerHTML = `
@@ -207,7 +231,7 @@ export default async () => {
         .addEventListener("click", (event) => {
 
           comment(text.value, user.uid, event, user.displayName);
-          readPosts(postTemplate, user.uid);
+          readComments(loadComments, id);
         });
 
       commentsContainer.querySelector(".close-comment").addEventListener("click", (event) => {
@@ -217,24 +241,16 @@ export default async () => {
       commentsContainer.querySelectorAll(".btn-newEdit").forEach((item) => {
         item.addEventListener("click", (event) => {
           let info = event.srcElement.id.split('|');
-          if (info[2] == user.uid) {
             deleteComment(...info, id);
             commentsContainer.querySelector(`#new-comment${id}`).value = info[0];
-          } else {
-            alert("Voce não criou este comentário");
-          }
         })
       })
 
       commentsContainer.querySelectorAll(".btn-newDelete").forEach((item) => {
         item.addEventListener("click", (event) => {
           let info = event.srcElement.id.split('&');
-          if (info[2] == user.uid) {
             deleteComment(...info, id);
-            readPosts(postTemplate, user.uid);
-          } else {
-            alert("Voce não criou este comentário");
-          }
+            readComments(loadComments, id);
         })
       })
     };
