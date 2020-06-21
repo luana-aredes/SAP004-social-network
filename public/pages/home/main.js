@@ -31,13 +31,13 @@ export default async() => {
   <section class= "post">
     <textarea type="text" id="post-text" rows="10" cols="50" maxlength="500" wrap="hard" spellcheck="true" reandoly placeholder="Escreva algo para compartilhar com seus amigos!" ></textarea> 
     <div class = "post-items">
-    <i class="far fa-image"></i>
+    <i class="buttons far fa-image"></i>
     <select name="" id="privacy-type" class="blue-button">
     <option value="publico">Publico</option>
     <option value="privado">Privado</option>
     
 </select>      
-        <i class="fas fa-share-alt" value="publish" id="publish-button" ></i>
+        <i class="buttons fas fa-share-alt" value="publish" id="publish-button" ></i>
         </div>
         </div>
       </section>
@@ -75,7 +75,7 @@ export default async() => {
         <div class = "template-public">
         <div class = "post-name">
         <div>${post.name}</div>
-        <div id="${post.postId}" class="btn-delete"> <i id="${post.postId}" class="far fa-trash-alt btn-delete" ></i> </div>
+        <div id="${post.postId}" class="btn-delete"> <i id="${post.postId}" class="buttons far fa-trash-alt btn-delete" ></i> </div>
         </div>
         <div class ="post-privacy">
           <div>em ${post.created}|  ${post.privacy}</div>
@@ -83,16 +83,16 @@ export default async() => {
           <main>
         <textarea type="text" rows="10" cols="40" class ="public" readonly> ${post.text} </textarea>
           <div id="botoes" class = "btn-public">
-          <div class = "btn-likes">
-          <i  id="${post.postId}"  class="fas fa-thumbs-up botao-like"></i>
+          <div class = "btn-likes"> 
+          <i  id="${post.postId}"  class="buttons fas fa-thumbs-up botao-like ${(post.likes.indexOf(user.uid) == -1)? "btn-dislike":""}" ></i>
           <div id="counter-like"> ${post.likes.length} </div>
           </div>
           <div class = "btn-comment">
-          <i  id="${post.postId}" class="far fa-comment-dots btn-comment"></i>
+          <i  id="${post.postId}" class="buttons far fa-comment-dots btn-comment"></i>
           <div>${post.comments.length - 1}</div>
           </div>
             <div id="${post.postId}" class="edit-btn">  
-            <i class="fas fa-edit edit-btn" id="${post.postId}" ></i>
+            <i class="buttons fas fa-edit edit-btn" id="${post.postId}" ></i>
             </div>
 
               </div>
@@ -183,7 +183,7 @@ export default async() => {
             const commentsContainer = postsContainer.querySelector(`#comments${id}`);
             commentsContainer.innerHTML = `
           <div class = "align-close">
-          <i class="fas fa-times close-comment" ></i>
+          <i class="buttons fas fa-times close-comment" ></i>
           </div>
           `;
             const comments = document.createElement('div');
@@ -200,8 +200,8 @@ export default async() => {
                          <div class = "created-comment">em ${comment.created}</div>
                          <div class = "comment-comment">${comment.comment}</div>
                         <div class = "comment-btn">
-                          <i class="fas fa-pencil-alt btn-newEdit" id= "${comment.comment}|${comment.created}|${comment.userId}|${comment.userName}"></i>
-                          <i class="far fa-trash-alt btn-newDelete" id= "${comment.comment}&${comment.created}&${comment.userId}&${comment.userName}"></i>
+                          <i class="buttons fas fa-pencil-alt btn-newEdit" id= "${comment.comment}|${comment.created}|${comment.userId}|${comment.userName}"></i>
+                          <i class="buttons far fa-trash-alt btn-newDelete" id= "${comment.comment}&${comment.created}&${comment.userId}&${comment.userName}"></i>
                         </div>
                         </section>                    
                         `
