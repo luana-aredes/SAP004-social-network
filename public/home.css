@@ -11,6 +11,10 @@ body {
     font-weight: bold;
 }
 
+.buttons {
+    cursor: pointer;
+}
+
 .register-body {
     margin: 0;
 }
@@ -62,6 +66,15 @@ body {
     padding: 4px;
 }
 
+#filter-posts {
+    border-radius: 5px;
+    background-color: #23D9B7;
+    font-weight: bold;
+    color: #5207F2;
+    margin-top: 10px;
+    height: 30px;
+}
+
 .template-public {
     text-align: center;
     padding: 15px;
@@ -97,6 +110,9 @@ body {
     justify-content: space-between;
     width: 40px;
 }
+
+.btn-dislike {
+    color: #e7e8dd !important;
 
 .btn-comment{
     display: flex;
