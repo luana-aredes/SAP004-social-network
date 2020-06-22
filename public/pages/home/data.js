@@ -1,8 +1,10 @@
 export const createPost = (userId, texto, privacy) => {
+
   firebase.firestore().collection("posts").add({
       userId: userId,
       name: firebase.auth().currentUser.displayName,
       text: texto,
+
       likes: 0,
       created: firebase.firestore.Timestamp.fromDate(new Date()).toDate().toLocaleString('pt-BR'),
       privacy: privacy,
@@ -16,13 +18,31 @@ export const createPost = (userId, texto, privacy) => {
     .then(function (docRef) {
       console.log("Document written with ID:", docRef.id);
       firebase.firestore().collection('posts').doc(docRef.id).update({
-        postId: docRef.id
+        postId: docRef.id,
       });
     })
     .catch(function (error) {
       // console.log("Error adding document:", error);
     });
 }
+
+
+
+export const uploadFoto = (photoFile, img) => {
+  const fileRef = photoFile.files[0];
+  const ref = firebase.storage().ref('arquivosPosts');
+  const uid = firebase.database().ref().push().key;
+  const luana = ref.child(uid).put(fileRef).then(snapshot => {
+    console.log('snapshot', snapshot);
+    ref.child(uid).getDownloadURL().then(url => {
+      console.log('string para download', url);
+      img.src = url;
+
+    });
+  })
+}
+
+
 
 
 export const readPosts = (callback, userId) => {
@@ -50,6 +70,7 @@ export const readPosts = (callback, userId) => {
         })
     })
 }
+
 export const likePost = (event) => {
   return firebase.firestore().collection("posts")
     .doc(event.srcElement.id).get().then((doc) => {
@@ -62,7 +83,7 @@ export const likePost = (event) => {
     });
 };
 export const comment = (text, userId, event, userName) => {
-   firebase.firestore().collection('posts').doc(event.srcElement.id).update({
+  firebase.firestore().collection('posts').doc(event.srcElement.id).update({
     comments: firebase.firestore.FieldValue.arrayUnion({
       comment: text,
       created: firebase.firestore.Timestamp.fromDate(new Date()).toDate().toLocaleString('pt-BR'),
@@ -147,6 +168,6 @@ export const editPost = (event, userId, texto, privacy) => {
 
 export const editComment = (event, text, userId) => {
   firebase.firestore().collection("post").doc(event.srcElement.id).get().then((doc) => {
-    const comment = doc.data(); 
+    const comment = doc.data();
   })
 }

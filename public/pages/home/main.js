@@ -7,7 +7,9 @@ import {
   editPost,
   readComments,
   comment,
-  deleteComment
+  deleteComment,
+  uploadFoto
+
 } from "./data.js";
 import {
   getUser
@@ -17,6 +19,8 @@ export default async () => {
   const user = firebase.auth().currentUser;
   const userData = await getUser(user.uid)
   let container = document.createElement("div");
+
+
   container.innerHTML = `
   
 <form action="submit" id="post">
@@ -29,16 +33,27 @@ export default async () => {
   </div>
   </div>
   <section class= "post">
+  
     <textarea type="text" id="post-text" rows="10" cols="50" maxlength="500" wrap="hard" spellcheck="true" reandoly placeholder="Escreva algo para compartilhar com seus amigos!" ></textarea> 
+
+
+  <div id="image-preview-container" >
+  <img id="image-preview" src=""  width="150"  height="100"  >
+  </div>
+
+
     <div class = "post-items">
-    <i class="far fa-image"></i>
+    <label for="arquivo-foto"> <i class="far fa-image"></i></label>
+    <input type="file" id="arquivo-foto" class="invisible">
+
+  
     <select name="" id="privacy-type" class="blue-button">
     <option value="publico">Publico</option>
-    <option value="privado">Privado</option>
-    
-</select>      
+    <option value="privado">Privado</option>  
+  </select>      
         <i class="fas fa-share-alt" value="publish" id="publish-button" ></i>
         </div>
+
         </div>
       </section>
         <select name="" id="filter-posts" class="blue-button" >
@@ -56,14 +71,21 @@ export default async () => {
   const postsContainer = container.querySelector("#posts");
 
 
+
+
+
   publishBtn.addEventListener("click", (event) => {
     event.preventDefault();
     let texto = container.querySelector("#post-text");
+    const photoFile = container.querySelector("#arquivo-foto");
     const privacy = container.querySelector("#privacy-type");
+    let img = document.getElementById("image-preview")
+    uploadFoto(photoFile, img);
     createPost(user.uid, texto.value, privacy.value);
     texto.value = "";
     readPosts(postTemplate, user.uid);
   });
+
 
 
   const postTemplate = (array) => {
@@ -74,11 +96,15 @@ export default async () => {
       <section id='publicacao'>
         <div class = "template-public">
           <div class ="post-privacy">
-            publicado por:${post.name} em ${post.created}|  ${post.privacy}
+            publicado por:${post.name} em ${post.created} | ${post.privacy}
             <div id="${post.postId}" class="btn-delete"> <i id="${post.postId}" class="fas fa-times btn-delete" ></i> </div>
           </div>
           <main>
+          <div >
+          <img src="${post.photoURL}" alt="" id="photo"> 
+          </div>
         <textarea type="text" rows="10" cols="40" class ="public" readonly> ${post.text} </textarea>
+       
           <div id="botoes" class = "btn-public">
           <div class = "btn-likes">
           <i  id="${post.postId}"  class="fas fa-thumbs-up botao-like"></i>
@@ -150,7 +176,7 @@ export default async () => {
           item.classList.add("invisible")
         } else {
           item.addEventListener("click", (event) => {
-            deletePost(event, user.uid)
+            deletePost(event, user.uid);
             readPosts(postTemplate, user.uid);
           })
         };
