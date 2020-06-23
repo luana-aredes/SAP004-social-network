@@ -149,16 +149,16 @@ export const filterMyPosts = async (userId) => {
 
 }
 
-export const deletePost = async (postId, userId, photoUid) => {
+export const deletePost = (postId, userId, photoUid) => {
   firebase.firestore().collection("posts").doc(postId).get().then((doc) => {
     const post = doc.data();
     if (userId == post.userId) {
       try {
         const deleteResult = firebase.firestore().collection("posts").doc(postId).delete();
-        // if (deleteResult) {
-        // console.log(`arquivosPosts/${photoUid}`)
-        // const deleteImageResult = firebase.storage().ref(`arquivosPosts/${photoUid}`).delete();
-        //}
+        if (deleteResult) {
+          console.log(`arquivosPosts/${photoUid}`)
+          const deleteImageResult = firebase.storage().ref('arquivosPosts').child(photoUid).delete();
+        }
       } catch (error) {
         console.error("Error removing document: ", error);
       }
@@ -167,6 +167,8 @@ export const deletePost = async (postId, userId, photoUid) => {
     };
   });
 };
+
+
 
 
 export const editPost = (event, userId, texto, privacy) => {

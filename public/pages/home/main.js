@@ -85,7 +85,6 @@ export default async () => {
       console.log(photo)
       createPost(user.uid, texto.value, privacy.value, photo.url, photo.uid);
       texto.value = "";
-      img.src = "";
       readPosts(postTemplate, user.uid);
     } catch (error) {
       console.log(error);
