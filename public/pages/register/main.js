@@ -38,7 +38,7 @@ export default async() => {
         <label for="regSenha">Senha</label>
         <input id="regSenha" class="regSenha" required="required" type="password" name="password" />
     </p>
-
+    <div id="error"></div>
     <p>
         <input type="submit" value="Cadastrar" class="btn" id= "create-user"/>
     </p>
@@ -51,7 +51,7 @@ export default async() => {
 </div>`
     container.innerHTML = template;
     const formRegister = container.querySelector("#formRegister")
-    formRegister.addEventListener("submit", async () => {
+    formRegister.addEventListener("submit", async() => {
         const formData = new FormData(formRegister);
         const email = formData.get("email");
         const name = formData.get("name");
