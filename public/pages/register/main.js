@@ -16,27 +16,27 @@ export default async() => {
     <div class = "register">
     <div class = "register-input">
         <label for="regName">Nome</label>
-        <input id="regName" class="regInput" required="required" type="text" name="name" placeholder=" Nome completo"/>
+        <input id="regName" class="regInfo" required="required" type="text" name="name" placeholder=" Nome completo"/>
     </div>
 
     <div class = "register-input">
     <label for="regProfession">Profissão</label>
-    <input id="regProfession" class="regInput" required="required" type="text" name="profession"/>
+    <input id="regProfession" class="regInfo" required="required" type="text" name="profession"/>
     </div>
 
     <div class = "register-input">
     <label for="regPlace">Cidade</label>
-    <input id="regPlace" class="regInput" required="required" type="text" name="place"/>
+    <input id="regPlace" class="regInfo" required="required" type="text" name="place"/>
     </div>
 
     <div class = "register-input">
         <label for="regEmail" >E-mail</label>
-        <input id="regEmail" class="regInput"  required="required" type="email" name="email" />
+        <input id="regEmail" class="regInfo"  required="required" type="email" name="email" />
     </div>
 
     <div class = "register-input">
         <label for="regSenha">Senha</label>
-        <input id="regSenha" class="regInput" required="required" type="password" name="password" placeholder=" Senha de 6 dígitos" />
+        <input id="regSenha" class="regInfo" required="required" type="password" name="password" placeholder=" Senha de 6 dígitos" />
     </div>
     </div>
 

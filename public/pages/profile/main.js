@@ -36,7 +36,6 @@ export default async() => {
         </section>
         </form>
         `;
-    console.log(userData)
     container.innerHTML = template;
     document.querySelector("body").classList.add("profile-body")
 

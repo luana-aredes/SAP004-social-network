@@ -67,15 +67,18 @@ main {
 }
 
 .regInput{
-    text-align: center;
     background: transparent;
     border: 0;
+    border-radius: 10px;
     color: #E2F205;
-    font-size: 15px;
-    padding-top: 10px;
-    outline: none;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-size: 15px;
+    height: 25px;
     margin: 10px;
+    outline: none;
+    padding-top: 10px;
+    text-align: center;
+    width: 200px;
 }
 
 
