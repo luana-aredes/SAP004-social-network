@@ -1,32 +1,11 @@
-* {
-    box-sizing: border-box;
-}
-
-body {
-    background: #AB05F2;
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    height: 80vh;
-    color: #E2F205;
-    font-size: 20px;
-    font-weight: bold;
-}
-
-.buttons {
-    cursor: pointer;
-}
-
 .register-body {
     margin: 0;
-}
-
-.header-title{
-    padding-left: 50px;
 }
 
 .photos {
     width: 100px;
     margin: 20px;
-    border-radius: 50px;
+    border-radius: 20px;
 }
 
 .post {
@@ -100,9 +79,9 @@ body {
 .btn-public {
     display: flex;
     justify-content: space-between;
-    padding-left: 70px;
+    padding-left: 160px;
+    padding-right: 30px;
     padding-top: 10px;
-    padding-bottom: 12px;
 }
 
 .btn-likes {
@@ -124,11 +103,13 @@ body {
 .align-close{
     display: flex;
     justify-content: flex-end;
+    margin: 15px;
     color: tomato;
 }
 .container-comments{
     width: 280px;
     margin: 0 auto;
+   box-shadow: inset 0 0 1em #9d3efa, 0 0 1em #52069e;
 }
 
 .created-comment{
@@ -144,11 +125,14 @@ body {
     max-width: 250px; 
 }
 .comment-btn{
-    color: rgb(65, 23, 143);
+    color: #23D9B7;
     font-size: 15px;
     padding-left: 15p;
+    margin-bottom: 10px;
 }
-
+.commentNew{
+    border-radius: 10px;
+}
 .btn-newComment{
     border-radius: 5px;
     background-color: #23D9B7;
@@ -157,9 +141,17 @@ body {
     height: 25px;
     margin: 3px;
     padding: 4px;
+    border: 0px;
+}
+.edit-profile{
+    font-size: 16px;
+    margin:10px;
 }
 
 @media(Min-width:600px) {
+    .photos{
+        width: 150px;
+    }
     .photos-profile {
         display: flex;
         justify-content: flex-start;
@@ -172,6 +164,9 @@ body {
     
     .profile {
         padding: 40px 0;
+    }
+    .edit-profile{
+        font-size: 16px;
     }
     
     .post {
@@ -196,15 +191,23 @@ body {
     .template-public {
         width: 500px;
         margin: 10px auto;
+        padding: 5px 15px;
     }
     
     .btn-public {
-         padding-left: 180px;
+         padding-left: 220px;
+         padding-bottom: 0;
     }
 
     .container-comments{
         margin-bottom: 30px;
 
+    }
+    .btn-newComment{     
+    transition: 0.3s ease-in;
+    }
+    .btn-newComment:hover{
+        font-size: 15px;
     }
 }
 
