@@ -28,7 +28,7 @@ export default async () => {
   <img src="${userData?.photo || user?.photoURL || "images/Perfil.png"}"alt="" class="photos">
   <div class = "profile">
   <p>${userData?.name || user?.displayName}</p>
-  <p>${userData?.profession || ""}</p>
+  <p class = "edit-profile">${userData?.profession || ""}</p>
   </div>
   </div>
   <section class= "post">
@@ -139,9 +139,9 @@ export default async () => {
               <button type="button" value="cancel" class="cancelEdit blue-button"> Cancelar </button>
               </div>
               </main>
+              <div id= "comments${post.postId}" class = "container-comments"></div>
               </div>
               </section>    
-              <div id= "comments${post.postId}" class = "container-comments"></div>
         `
       )
       .join("");
@@ -253,7 +253,7 @@ export default async () => {
       commentsContainer.appendChild(comments);
       const newComment = document.createElement("div");
       newComment.innerHTML = `
-                <textarea type="text" rows="3" cols="30" id = "new-comment${id}" > </textarea>
+                <textarea type="text" rows="3" cols="30" id = "new-comment${id}" class = "commentNew"> </textarea>
                     <button type="button" id= "${id}" class="btn-newComment"> Comentar </button>
                 `;
       commentsContainer.appendChild(newComment);

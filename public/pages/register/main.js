@@ -3,41 +3,40 @@ import {
     createLogin,
     createUser
 } from "./data.js";
-import {
-    signOut
-} from "../login/data.js";
 
 export default async() => {
     const container = document.createElement('div');
     const template = ` 
-<div id="register" class="register">
+<div id="register" class="container-register">
 <form method="post" action="javascript:;" id="formRegister">
     <h1 class="title">Cadastro</h1>
-
-    <p>
+    <div class = "register">
+    <div class = "register-input">
         <label for="regName">Nome</label>
-        <input id="regName" class="regName" required="required" type="text" name="name" placeholder="Digite aqui seu nome completo"/>
-    </p>
+        <input id="regName" class="regInput" required="required" type="text" name="name" placeholder=" Nome completo"/>
+    </div>
 
-    <p>
+    <div class = "register-input">
     <label for="regProfession">Profissão</label>
-    <input id="regProfession" class="regProfession" required="required" type="text" name="profession"/>
-    </p>
+    <input id="regProfession" class="regInput" required="required" type="text" name="profession"/>
+    </div>
 
-    <p>
+    <div class = "register-input">
     <label for="regPlace">Cidade</label>
-    <input id="regPlace" class="regPlace" required="required" type="text" name="place"/>
-    </p>
+    <input id="regPlace" class="regInput" required="required" type="text" name="place"/>
+    </div>
 
-    <p>
+    <div class = "register-input">
         <label for="regEmail" >E-mail</label>
-        <input id="regEmail" class="regEmail"  required="required" type="email" name="email" />
-    </p>
+        <input id="regEmail" class="regInput"  required="required" type="email" name="email" />
+    </div>
 
-    <p>
+    <div class = "register-input">
         <label for="regSenha">Senha</label>
-        <input id="regSenha" class="regSenha" required="required" type="password" name="password" />
-    </p>
+        <input id="regSenha" class="regInput"  required="required" type="password" name="password" placeholder=" Senha de 6 dígitos" />
+    </div>
+
+    <div id="error"></div>
 
     <p>
         <input type="submit" value="Cadastrar" class="btn" id= "create-user"/>
@@ -51,7 +50,7 @@ export default async() => {
 </div>`
     container.innerHTML = template;
     const formRegister = container.querySelector("#formRegister")
-    formRegister.addEventListener("submit", async () => {
+    formRegister.addEventListener("submit", async() => {
         const formData = new FormData(formRegister);
         const email = formData.get("email");
         const name = formData.get("name");
@@ -65,8 +64,7 @@ export default async() => {
             const user = await createLogin(email, password, name);
             console.log(user);
             createUser(name, profession, place, email, user.uid);
-            // signOut();
-            //location.reload();
+
         };
 
 

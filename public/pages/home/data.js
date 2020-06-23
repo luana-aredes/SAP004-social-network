@@ -83,7 +83,6 @@ export const likePost = (postId, userId) => {
   return firebase.firestore().collection("posts")
     .doc(postId).get().then((doc) => {
       const post = doc.data();
-      console.log(post)
       let likes = post.likes || [];
 
       if (likes.indexOf(userId) != -1) {

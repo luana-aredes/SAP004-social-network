@@ -18,6 +18,7 @@ export default async() => {
     <input type="email" id="email" placeholder="  Digite seu e-mail:" class="input-login">
     <input type="password" id="senha" placeholder="  Digite sua senha:" class="input-login">
     </div>
+    <div id="error"></div>
     <div class="items">
     <button class="btn-login" id="botao-login-cadastrado">Entrar</button>
     </div>

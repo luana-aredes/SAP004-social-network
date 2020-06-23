@@ -4,8 +4,8 @@ import {
     getUser
 } from "./data.js"
 
-const load = async() => {
-
+export default async() => {
+    
     const user = firebase.auth().currentUser;
     const userData = await getUser(user.uid)
 
@@ -17,18 +17,19 @@ const load = async() => {
             <img src="${userData?.photo || user?.photoURL || "images/Perfil.png"}" alt="" class="photo">
             
         </div>
-        <input type="file" class="photoEdit">
+        <label for='selecao-arquivo' class = "change-photo">Alterar foto</label>
+        <input type="file" id = 'selecao-arquivo'class="photoEdit">
         </div>
         <div class="name">
-        <input id="regName" class="profName" required="required" type="text" name="name" placeholder="Digite seu nome" value="${userData?.name || user?.displayName || ""}">
+        <input id="regName" class="regInput" required="required" type="text" name="name" placeholder="Digite seu nome" value="${userData?.name || user?.displayName || ""}">
         </div>
         <div class="Profession">
-        <input id="regProfession" class="profProfession" required="required" type="text" name="profession" placeholder="Digite sua profissão" value="${userData?.profession  || ""}">
+        <input id="regProfession" class="regInput" required="required" type="text" name="profession" placeholder="Digite sua profissão" value="${userData?.profession  || ""}">
         </div>
         <div class="place"></div>
-        <input id="regPlace" class="profPlace" required="required" type="text" name="place" placeholder="Digite sua cidade" value="${userData?.place  || ""}"/>
-        <div>
-            <textarea cols="30" rows="10" placeholder="Add a bio" class="bio" name="bio">${userData?.bio  || ""}</textarea>
+        <input id="regPlace" class="regInput" required="required" type="text" name="place" placeholder="Digite sua cidade" value="${userData?.place  || ""}"/>
+        <div class = "container-bio">
+            <textarea cols="30" rows="10" placeholder=" Add a bio" class="bio" name="bio">${userData?.bio  || ""}</textarea>
         </div>
         <section class="buttons">
             <button type="submit" class="save">Salvar Alterações</button>
@@ -47,7 +48,7 @@ const load = async() => {
             photo: url,
         }
         editProfile(user.uid, data)
-            // location.reload()
+            window.location.reload()
     });
 
     const formProfile = container.querySelector("#formProfile");
@@ -68,4 +69,3 @@ const load = async() => {
     return container;
 
 }
-export default load
