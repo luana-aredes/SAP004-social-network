@@ -28,8 +28,8 @@ const init = () => {
                 </nav>
                 <section class="headerWeb">
                   <div class="menuWeb"> 
-                    <a class= "menu-profile" href= "./#profile">Profile</a>
-                    <a href= "./#home">Feed</a>
+                  <a href= "./#home"><i class="fas fa-home"></i></a>
+                    <a class= "menu-profile" href= "./#profile"><i class="fas fa-user-circle"></i></a>
                   </div>
                   <h1 class= "title-web">SpaceJobs</h1>
                   <i id= "btn-signOut-web" class="fas fa-sign-out-alt logout"></i>        

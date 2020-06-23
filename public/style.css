@@ -1,0 +1,21 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background: #AB05F2;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    height: 80vh;
+    color: #E2F205;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.buttons {
+    cursor: pointer;
+}
+
+.header-title {
+    font-size: 30px;
+    padding-left: 100px;
+}

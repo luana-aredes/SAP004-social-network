@@ -20,10 +20,6 @@ main {
     text-align: center;
 }
 
-.header-title {
-    font-size: 30px;
-}
-
 .menu-mobile {
     display: block;
     background-color: #7D07F2;
@@ -40,48 +36,54 @@ main {
     margin: auto;
 }
 
-.photodiv {
-    /* border: 1px solid black; */
-    margin: 20px auto 2px;
+.photodiv { 
+    margin: 20px auto;
+    padding: 10px;
+    width: 165px;
+    border-radius: 10px;
+    background-color: #7D07F2;
 }
 
 .photoEdit {
-    width: 115px;
+    display: none;
+}
+
+.change-photo{
+    display: block;
+    width: 100px;
+    padding: 3px;
     margin: auto;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    background-color: #23D9B7;
+    font-weight: bold;
+    color: #5207F2;
+    font-size: 16px;
+    cursor: pointer;
 }
 
 .buttons {
     padding: 0px;
 }
 
-.profName,
-.profProfession,
-.profPlace {
+.regInput{
     text-align: center;
     background: transparent;
     border: 0;
     color: #E2F205;
-    font-size: 14px;
+    font-size: 15px;
+    padding-top: 10px;
     outline: none;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    margin: 10px;
 }
 
-.photoEdit {
-    font-size: 13px;
-}
 
-#toggle-1 {
+#mostra {
     display: none;
 }
 
-label {
-    -webkit-appearance: push-button;
-    -moz-appearance: button;
-    cursor: pointer;
-    padding: 5px;
-}
-
-#mostra {
+#toggle-1{
     display: none;
 }
 
@@ -93,10 +95,29 @@ label {
     display: none;
 }
 
-.profName:placeholder-shown,
-.profProfession:placeholder-shown,
-.profPlace:placeholder-shown {
+.regInput:placeholder-shown{
     background-color: white;
+}
+
+.container-bio{
+    background-color: #7D07F2 ;
+    border-radius: 20px;
+    margin: 20px auto;
+    padding: 15px;
+    width: 280px;
+}
+.bio{
+    border-radius: 10px;  
+}
+
+.save{
+    background-color: #23D9B7;
+    font-weight: bold;
+    color: #5207F2;
+    font-size: 16px;
+    cursor: pointer;
+    border: 0px;
+    border-radius: 5px;
 }
 
 @media(Min-width:600px) {
@@ -120,7 +141,7 @@ label {
 
     .menuWeb {
         display: flex;
-        font-size: 20px;
+        font-size: 25px;
         width: 30px;
         height: 30px;
         margin: 20px;
@@ -134,9 +155,55 @@ label {
         margin: 20px;
         width: 30px;
     }
+    .logout{
+        font-size: 25px;
+    }
 
     .menu-profile {
         margin-right: 15px;
         margin-left: 15px;
+    }
+
+    .photo {
+        width: 220px;
+    }
+    
+    .photodiv { 
+        padding: 10px;
+        width: 250px;
+    }
+    .photodiv { 
+        margin: 20px auto;
+        padding: 10px;
+        border-radius: 10px;
+        background-color: #7D07F2;
+        padding: 10px;
+    }
+    
+    .photoEdit {
+        display: none;
+    }
+    
+    .change-photo{
+        width: 150px;
+        margin: auto;
+        border-radius: 5px;
+        background-color: #23D9B7;
+        font-weight: bold;
+        color: #5207F2;
+        font-size: 16px;
+        transition: 0.3s ease-in;
+        cursor: pointer;
+    }
+    
+    .change-photo:hover {
+        font-size: 18px;
+    }
+
+    .save{
+        transition: 0.3s ease-in;
+    }
+    .save:hover{
+        font-size: 18px;
     }
 }

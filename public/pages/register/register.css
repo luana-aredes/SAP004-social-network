@@ -1,28 +1,28 @@
-.register {
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-}
-
 body {
     margin: 20px;
 }
-
 .title {
     color: #E2F205;
     font-weight: bold;
     font-size: 30px;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
     margin-top: 40px;
 }
-
-p {
-    margin-bottom: 15px;
+.register-input{
+  display: flex;
+  justify-content: space-between;
+  width: 300px;
+  margin: 10px auto;
 }
 
+.regInput{
+  width: 200px;
+  border-radius: 10px;
+  border: 0px;
+  height: 25px;
+}
 label {
     color: #E2F205;
-    position: relative;
 }
 
 .btn {
@@ -34,20 +34,23 @@ label {
     color: white;
     font-size: 15px;
     padding: 5px;
+    margin: 20px
 }
+@media(Min-width:600px) {
+  .title{
+    font-size: 50px;
+    margin-bottom: 50px;
+  }
 
-.btn:hover {
-    background: #4ab3c6;
-}
+  .register-input{
+    width: 500px;
+    margin: 15px auto;
+  }
 
-a:hover {
-    color: #4ab3c6;
-}
-
-.regName,
-.regProfession,
-.regPlace,
-.regEmail,
-.regSenha {
-    width: 60%;
+  .btn{
+    transition: 0.3s ease-in;
+  }
+  .btn:hover{
+    font-size: 17px;
+  }
 }
