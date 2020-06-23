@@ -156,7 +156,6 @@ export const deletePost = (postId, userId, photoUid) => {
       try {
         const deleteResult = firebase.firestore().collection("posts").doc(postId).delete();
         if (deleteResult) {
-          console.log(`arquivosPosts/${photoUid}`)
           const deleteImageResult = firebase.storage().ref('arquivosPosts').child(photoUid).delete();
         }
       } catch (error) {

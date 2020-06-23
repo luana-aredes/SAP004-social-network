@@ -11,7 +11,7 @@ const main = document.querySelector('#root');
 
 
 const init = () => {
-    firebase.auth().onAuthStateChanged(async(user) => {
+    firebase.auth().onAuthStateChanged(async (user) => {
         if (user) {
             if (window.location.hash != "#login") {
                 main.innerHTML =
@@ -69,7 +69,7 @@ const init = () => {
         }
     });
 }
-window.addEventListener("load", async() => {
+window.addEventListener("load", async () => {
     main.appendChild(await login());
     init();
 });
