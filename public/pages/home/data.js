@@ -1,11 +1,11 @@
-export const createPost = (userId, texto, privacy) => {
-
+export const createPost = (userId, texto, privacy, url, photoUid) => {
   firebase.firestore().collection("posts").add({
       userId: userId,
       name: firebase.auth().currentUser.displayName,
       text: texto,
-
-      likes: 0,
+      photoUrl: url,
+      photoUid: photoUid,
+      likes: [],
       created: firebase.firestore.Timestamp.fromDate(new Date()).toDate().toLocaleString('pt-BR'),
       privacy: privacy,
       comments: [{
@@ -18,7 +18,7 @@ export const createPost = (userId, texto, privacy) => {
     .then(function (docRef) {
       console.log("Document written with ID:", docRef.id);
       firebase.firestore().collection('posts').doc(docRef.id).update({
-        postId: docRef.id,
+        postId: docRef.id
       });
     })
     .catch(function (error) {
@@ -26,20 +26,27 @@ export const createPost = (userId, texto, privacy) => {
     });
 }
 
-
-
-export const uploadFoto = (photoFile, img) => {
+export const uploadFoto = async (photoFile, img) => {
   const fileRef = photoFile.files[0];
   const ref = firebase.storage().ref('arquivosPosts');
   const uid = firebase.database().ref().push().key;
-  const luana = ref.child(uid).put(fileRef).then(snapshot => {
+  try {
+    const snapshot = await ref.child(uid).put(fileRef);
     console.log('snapshot', snapshot);
-    ref.child(uid).getDownloadURL().then(url => {
+    try {
+      const url = await ref.child(uid).getDownloadURL();
       console.log('string para download', url);
       img.src = url;
-
-    });
-  })
+      return {
+        url: url,
+        uid: uid
+      };
+    } catch (error) {
+      throw new Error("Error downloading:" + error);
+    }
+  } catch (error) {
+    throw new Error("Error adding document:" + error);
+  }
 }
 
 
@@ -67,21 +74,31 @@ export const readPosts = (callback, userId) => {
 
           })
           callback(posts);
-        })
-    })
-}
-
-export const likePost = (event) => {
-  return firebase.firestore().collection("posts")
-    .doc(event.srcElement.id).get().then((doc) => {
-      const post = doc.data();
-      const qtdAtualLikes = post.likes + 1;
-      firebase.firestore().collection('posts').doc(event.srcElement.id)
-        .update({
-          likes: qtdAtualLikes
         });
     });
 };
+
+
+export const likePost = (postId, userId) => {
+  return firebase.firestore().collection("posts")
+    .doc(postId).get().then((doc) => {
+      const post = doc.data();
+      console.log(post)
+      let likes = post.likes || [];
+
+      if (likes.indexOf(userId) != -1) {
+        likes.splice(likes.indexOf(userId), 1);
+
+      } else {
+        likes.push(userId)
+      }
+      firebase.firestore().collection('posts').doc(postId)
+        .update({
+          likes: likes
+        });
+    });
+};
+
 export const comment = (text, userId, event, userName) => {
   firebase.firestore().collection('posts').doc(event.srcElement.id).update({
     comments: firebase.firestore.FieldValue.arrayUnion({
@@ -104,12 +121,12 @@ export const deleteComment = (text, created, userId, userName, postId) => {
   });
 };
 
-export const readComments = (loadComments, event) => {
-  firebase.firestore().collection("posts").doc(event.srcElement.id)
+export const readComments = (loadComments, id) => {
+  firebase.firestore().collection("posts").doc(id)
     .get().then(function (snap) {
       const post = snap.data()
       const comments = post.comments;
-      loadComments(comments, event.srcElement.id);
+      loadComments(comments, id);
     });
 };
 
@@ -133,20 +150,25 @@ export const filterMyPosts = async (userId) => {
 
 }
 
-export const deletePost = (event, userId) => {
-  firebase.firestore().collection("posts").doc(event.srcElement.id).get().then((doc) => {
+export const deletePost = async (postId, userId, photoUid) => {
+  firebase.firestore().collection("posts").doc(postId).get().then((doc) => {
     const post = doc.data();
     if (userId == post.userId) {
-      firebase.firestore().collection("posts").doc(event.srcElement.id).delete().then(function () {
-        console.log("Document successfully deleted!");
-      }).catch(function (error) {
+      try {
+        const deleteResult = firebase.firestore().collection("posts").doc(postId).delete();
+        // if (deleteResult) {
+        // console.log(`arquivosPosts/${photoUid}`)
+        // const deleteImageResult = firebase.storage().ref(`arquivosPosts/${photoUid}`).delete();
+        //}
+      } catch (error) {
         console.error("Error removing document: ", error);
-      });
+      }
     } else {
       // console.log("Essa publicação não foi feita por voce, portanto vocẽ não pode apaga-la")
     };
   });
 };
+
 
 export const editPost = (event, userId, texto, privacy) => {
   firebase.firestore().collection("posts").doc(event.srcElement.id).get().then((doc) => {

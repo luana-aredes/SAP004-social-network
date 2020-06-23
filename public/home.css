@@ -11,8 +11,16 @@ body {
     font-weight: bold;
 }
 
+.buttons {
+    cursor: pointer;
+}
+
 .register-body {
     margin: 0;
+}
+
+.header-title{
+    padding-left: 50px;
 }
 
 .photos {
@@ -58,6 +66,15 @@ body {
     padding: 4px;
 }
 
+#filter-posts {
+    border-radius: 5px;
+    background-color: #23D9B7;
+    font-weight: bold;
+    color: #5207F2;
+    margin-top: 10px;
+    height: 30px;
+}
+
 .template-public {
     text-align: center;
     padding: 15px;
@@ -66,9 +83,14 @@ body {
     border-radius: 20px;
 }
 
-.post-privacy {
-    width: 350px;
+.post-name{
+    display: flex;
+    justify-content: space-between;
+    padding: 0 10px;
+}
 
+.post-privacy {
+    font-size: 14px;
 }
 
 .public {
@@ -78,7 +100,7 @@ body {
 .btn-public {
     display: flex;
     justify-content: space-between;
-    padding-left: 180px;
+    padding-left: 70px;
     padding-top: 10px;
     padding-bottom: 12px;
 }
@@ -89,6 +111,53 @@ body {
     width: 40px;
 }
 
+.btn-dislike {
+    color: #e7e8dd !important;
+}
+
+.btn-comment{
+    display: flex;
+    justify-content: space-between;
+    width: 40px;
+}
+
+.align-close{
+    display: flex;
+    justify-content: flex-end;
+    color: tomato;
+}
+.container-comments{
+    width: 280px;
+    margin: 0 auto;
+}
+
+.created-comment{
+    font-size: 14px;
+}
+
+.comment-comment{
+    color: white;
+    font-size: 20px;
+    font-weight: 0px;
+    margin: 15px;
+    text-align: center;
+    max-width: 250px; 
+}
+.comment-btn{
+    color: rgb(65, 23, 143);
+    font-size: 15px;
+    padding-left: 15p;
+}
+
+.btn-newComment{
+    border-radius: 5px;
+    background-color: #23D9B7;
+    font-weight: bold;
+    color: #5207F2;
+    height: 25px;
+    margin: 3px;
+    padding: 4px;
+}
 
 @media(Min-width:600px) {
     .photos-profile {
@@ -100,23 +169,42 @@ body {
         margin: 50px;
         background-color: #9d3efa;
     }
-
+    
     .profile {
         padding: 40px 0;
     }
-
+    
     .post {
         width: 500px;
     }
 
+    .post-name{
+        width: 470px;
+    }
+
+    .post-privacy{
+        width: 470px;
+    }
+    
     .form-profile {
         display: flex;
         justify-content: center;
         padding: 50px 0;
+        flex-wrap: wrap;
     }
-
+    
     .template-public {
         width: 500px;
         margin: 10px auto;
     }
+    
+    .btn-public {
+         padding-left: 180px;
+    }
+
+    .container-comments{
+        margin-bottom: 30px;
+
+    }
 }
+

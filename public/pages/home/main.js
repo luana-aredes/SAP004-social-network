@@ -20,15 +20,14 @@ export default async () => {
   const userData = await getUser(user.uid)
   let container = document.createElement("div");
 
-
   container.innerHTML = `
-  
+      
 <form action="submit" id="post">
   <div class = "form-profile">
   <div class = "photos-profile">
-  <img src="${userData?.photo || user.photoURL || "images/Perfil.png"}"alt="" class="photos">
+  <img src="${userData?.photo || user?.photoURL || "images/Perfil.png"}"alt="" class="photos">
   <div class = "profile">
-  <p>${userData?.name || user.displayName}</p>
+  <p>${userData?.name || user?.displayName}</p>
   <p>${userData?.profession || ""}</p>
   </div>
   </div>
@@ -36,7 +35,8 @@ export default async () => {
   
     <textarea type="text" id="post-text" rows="10" cols="50" maxlength="500" wrap="hard" spellcheck="true" reandoly placeholder="Escreva algo para compartilhar com seus amigos!" ></textarea> 
 
-
+    <h1> Carregando... </h1>
+    <progress value="0" max="100" id="uploader"> </progress>
   <div id="image-preview-container" >
   <img id="image-preview" src=""  width="150"  height="100"  >
   </div>
@@ -72,20 +72,26 @@ export default async () => {
 
 
 
-
-
-  publishBtn.addEventListener("click", (event) => {
+  publishBtn.addEventListener("click", async (event) => {
     event.preventDefault();
     let texto = container.querySelector("#post-text");
     const photoFile = container.querySelector("#arquivo-foto");
     const privacy = container.querySelector("#privacy-type");
-    let img = document.getElementById("image-preview")
-    uploadFoto(photoFile, img);
-    createPost(user.uid, texto.value, privacy.value);
-    texto.value = "";
-    readPosts(postTemplate, user.uid);
-  });
+    let img = document.getElementById("image-preview");
+    const uploader = container.querySelector("#uploader");
 
+    try {
+      const photo = await uploadFoto(photoFile, img);
+      console.log(photo)
+      createPost(user.uid, texto.value, privacy.value, photo.url, photo.uid);
+      texto.value = "";
+      img.src = "";
+      readPosts(postTemplate, user.uid);
+    } catch (error) {
+      console.log(error);
+    }
+
+  });
 
 
   const postTemplate = (array) => {
@@ -95,24 +101,32 @@ export default async () => {
         `
       <section id='publicacao'>
         <div class = "template-public">
-          <div class ="post-privacy">
-            publicado por:${post.name} em ${post.created} | ${post.privacy}
-            <div id="${post.postId}" class="btn-delete"> <i id="${post.postId}" class="fas fa-times btn-delete" ></i> </div>
+        <div class = "post-name">
+        <div>${post.name}</div>
+        <div id="${post.postId}" class="btn-delete"> <i id="${post.postId}" class="buttons far fa-trash-alt btn-delete" ></i> </div>
+        </div>
+        <div class ="post-privacy">
+          <div>em ${post.created}|  ${post.privacy}</div>
           </div>
           <main>
           <div >
           <img src="${post.photoURL}" alt="" id="photo"> 
           </div>
-        <textarea type="text" rows="10" cols="40" class ="public" readonly> ${post.text} </textarea>
-       
-          <div id="botoes" class = "btn-public">
-          <div class = "btn-likes">
-          <i  id="${post.postId}"  class="fas fa-thumbs-up botao-like"></i>
-          <div id="contador"> ${post.likes} </div>
+          <div id="image" >
+        <img id="image-post" src="${post.photoUrl}"  width="460"  height="200"  >
+        </div>
+        <textarea type="text"   rows="10" cols="20" class ="public" readonly>  ${post.text} </textarea>  
+         <div id="botoes" class = "btn-public">
+          <div class = "btn-likes"> 
+          <i  id="${post.postId}"  class="buttons fas fa-thumbs-up botao-like ${(post.likes.indexOf(user.uid) == -1)? "btn-dislike":""}" ></i>
+          <div id="counter-like"> ${post.likes.length} </div>
           </div>
-              <i  id="${post.postId}" class="far fa-comment-dots btn-comment"></i>
+          <div class = "btn-comment">
+          <i  id="${post.postId}" class="buttons far fa-comment-dots btn-comment"></i>
+          <div>${post.comments.length - 1}</div>
+          </div>
             <div id="${post.postId}" class="edit-btn">  
-            <i class="fas fa-edit edit-btn" id="${post.postId}" ></i>
+            <i class="buttons fas fa-edit edit-btn" id="${post.postId}" ></i>
             </div>
 
               </div>
@@ -127,7 +141,7 @@ export default async () => {
               </main>
               </div>
               </section>    
-              <div id= "comments${post.postId}"></div>
+              <div id= "comments${post.postId}" class = "container-comments"></div>
         `
       )
       .join("");
@@ -176,7 +190,7 @@ export default async () => {
           item.classList.add("invisible")
         } else {
           item.addEventListener("click", (event) => {
-            deletePost(event, user.uid);
+            deletePost(event.srcElement.id, user.uid, post.photoUid)
             readPosts(postTemplate, user.uid);
           })
         };
@@ -186,41 +200,56 @@ export default async () => {
 
 
     let likes = postsContainer.querySelectorAll(".botao-like").forEach((item) => {
-      item.addEventListener("click", (event) => {
-        likePost(event).then(() => {
-          readPosts(postTemplate, user.uid);
-        });
+      item.addEventListener("click", async (event) => {
+        await likePost(event.srcElement.id, user.uid)
+        await readPosts(postTemplate, user.uid);
       });
     });
 
     let comments = postsContainer.querySelectorAll('.btn-comment').forEach((item) => {
       item.addEventListener('click', (event) => {
 
-        readComments(loadComments, event);
+        readComments(loadComments, event.srcElement.id);
       });
     });
 
     const loadComments = (array, id) => {
       const commentsContainer = postsContainer.querySelector(`#comments${id}`);
       commentsContainer.innerHTML = `
-          <div>
-          <i class="fas fa-times close-comment" ></i>
+          <div class = "align-close">
+          <i class="buttons fas fa-times close-comment" ></i>
           </div>
           `;
       const comments = document.createElement('div');
       comments.innerHTML = array
         .map(
-          (comment) => `
-                <main>
-                <div>
-                <span>${comment.userName} em ${comment.created} | ${comment.comment}</span>
-                <i class="fas fa-pencil-alt btn-newEdit" id= "${comment.comment}|${comment.created}|${comment.userId}|${comment.userName}"></i>
-                <i class="far fa-trash-alt btn-newDelete" id= "${comment.comment}&${comment.created}&${comment.userId}&${comment.userName}"></i>
-                </div>
-                </main>
-                
-                `
-        ).join("");
+          (comment, index) => {
+            if (index == 0) {
+              return ``;
+            } else {
+              if (user.uid == comment.userId) {
+                return `
+                        <section class = "container-comments">
+                        <div>${comment.userName}</div>
+                         <div class = "created-comment">em ${comment.created}</div>
+                         <div class = "comment-comment">${comment.comment}</div>
+                        <div class = "comment-btn">
+                          <i class="buttons fas fa-pencil-alt btn-newEdit" id= "${comment.comment}|${comment.created}|${comment.userId}|${comment.userName}"></i>
+                          <i class="buttons far fa-trash-alt btn-newDelete" id= "${comment.comment}&${comment.created}&${comment.userId}&${comment.userName}"></i>
+                        </div>
+                        </section>                    
+                        `
+              } else {
+                return `
+                    <section class = "container-comments">
+                    <div>${comment.userName}</div>
+                     <div>em ${comment.created}</div>
+                     <div>${comment.comment}</div>
+                   </section>                    
+                    `
+              }
+            }
+          }).join("");
       commentsContainer.appendChild(comments);
       const newComment = document.createElement("div");
       newComment.innerHTML = `
@@ -233,7 +262,7 @@ export default async () => {
         .addEventListener("click", (event) => {
 
           comment(text.value, user.uid, event, user.displayName);
-          readPosts(postTemplate, user.uid);
+          readComments(loadComments, id);
         });
 
       commentsContainer.querySelector(".close-comment").addEventListener("click", (event) => {
@@ -243,24 +272,16 @@ export default async () => {
       commentsContainer.querySelectorAll(".btn-newEdit").forEach((item) => {
         item.addEventListener("click", (event) => {
           let info = event.srcElement.id.split('|');
-          if (info[2] == user.uid) {
-            deleteComment(...info, id);
-            commentsContainer.querySelector(`#new-comment${id}`).value = info[0];
-          } else {
-            alert("Voce não criou este comentário");
-          }
+          deleteComment(...info, id);
+          commentsContainer.querySelector(`#new-comment${id}`).value = info[0];
         })
       })
 
       commentsContainer.querySelectorAll(".btn-newDelete").forEach((item) => {
         item.addEventListener("click", (event) => {
           let info = event.srcElement.id.split('&');
-          if (info[2] == user.uid) {
-            deleteComment(...info, id);
-            readPosts(postTemplate, user.uid);
-          } else {
-            alert("Voce não criou este comentário");
-          }
+          deleteComment(...info, id);
+          readComments(loadComments, id);
         })
       })
     };

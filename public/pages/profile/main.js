@@ -4,7 +4,7 @@ import {
     getUser
 } from "./data.js"
 
-const load = async () => {
+const load = async() => {
 
     const user = firebase.auth().currentUser;
     const userData = await getUser(user.uid)
@@ -14,13 +14,13 @@ const load = async () => {
   
     <form action="" id="formProfile">
             <div class="photodiv">
-            <img src="${userData?.photo || "images/Perfil.png"}" alt="" class="photo">
+            <img src="${userData?.photo || user?.photoURL || "images/Perfil.png"}" alt="" class="photo">
             
         </div>
         <input type="file" class="photoEdit">
         </div>
         <div class="name">
-        <input id="regName" class="profName" required="required" type="text" name="name" placeholder="Digite seu nome" value="${userData?.name || ""}">
+        <input id="regName" class="profName" required="required" type="text" name="name" placeholder="Digite seu nome" value="${userData?.name || user?.displayName || ""}">
         </div>
         <div class="Profession">
         <input id="regProfession" class="profProfession" required="required" type="text" name="profession" placeholder="Digite sua profissão" value="${userData?.profession  || ""}">
@@ -40,14 +40,14 @@ const load = async () => {
     document.querySelector("body").classList.add("profile-body")
 
     const photoEdit = container.querySelector(".photoEdit");
-    photoEdit.addEventListener("change", async (event) => {
+    photoEdit.addEventListener("change", async(event) => {
         const file = event.target.files[0]
         const url = await uploadPhoto(file, user.uid);
         const data = {
             photo: url,
         }
         editProfile(user.uid, data)
-        // location.reload()
+            // location.reload()
     });
 
     const formProfile = container.querySelector("#formProfile");
