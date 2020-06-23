@@ -1,23 +1,26 @@
 import {
-    createPost,
-    readPosts,
-    likePost,
-    deletePost,
-    filterMyPosts,
-    editPost,
-    readComments,
-    comment,
-    deleteComment
+  createPost,
+  readPosts,
+  likePost,
+  deletePost,
+  filterMyPosts,
+  editPost,
+  readComments,
+  comment,
+  deleteComment,
+  uploadFoto
+
 } from "./data.js";
 import {
-    getUser
+  getUser
 } from "./../profile/data.js";
 
-export default async() => {
-    const user = firebase.auth().currentUser;
-    const userData = await getUser(user.uid)
-    let container = document.createElement("div");
-    container.innerHTML = `
+export default async () => {
+  const user = firebase.auth().currentUser;
+  const userData = await getUser(user.uid)
+  let container = document.createElement("div");
+
+  container.innerHTML = `
       
 <form action="submit" id="post">
   <div class = "form-profile">
@@ -29,16 +32,28 @@ export default async() => {
   </div>
   </div>
   <section class= "post">
+  
     <textarea type="text" id="post-text" rows="10" cols="50" maxlength="500" wrap="hard" spellcheck="true" reandoly placeholder="Escreva algo para compartilhar com seus amigos!" ></textarea> 
+
+    <h1> Carregando... </h1>
+    <progress value="0" max="100" id="uploader"> </progress>
+  <div id="image-preview-container" >
+  <img id="image-preview" src=""  width="150"  height="100"  >
+  </div>
+
+
     <div class = "post-items">
-    <i class="buttons far fa-image"></i>
+    <label for="arquivo-foto"> <i class="far fa-image"></i></label>
+    <input type="file" id="arquivo-foto" class="invisible">
+
+  
     <select name="" id="privacy-type" class="blue-button">
     <option value="publico">Publico</option>
-    <option value="privado">Privado</option>
-    
-</select>      
-        <i class="buttons fas fa-share-alt" value="publish" id="publish-button" ></i>
+    <option value="privado">Privado</option>  
+  </select>      
+        <i class="fas fa-share-alt" value="publish" id="publish-button" ></i>
         </div>
+
         </div>
       </section>
         <select name="" id="filter-posts" class="blue-button" >
@@ -50,27 +65,39 @@ export default async() => {
   <section class="card-post" id="posts">
   </section>
   `;
-    document.querySelector("body").classList.add("register-body")
+  document.querySelector("body").classList.add("register-body")
 
-    const publishBtn = container.querySelector("#publish-button");
-    const postsContainer = container.querySelector("#posts");
-
-
-    publishBtn.addEventListener("click", (event) => {
-        event.preventDefault();
-        let texto = container.querySelector("#post-text");
-        const privacy = container.querySelector("#privacy-type");
-        createPost(user.uid, texto.value, privacy.value);
-        texto.value = "";
-        readPosts(postTemplate, user.uid);
-    });
+  const publishBtn = container.querySelector("#publish-button");
+  const postsContainer = container.querySelector("#posts");
 
 
-    const postTemplate = (array) => {
-        postsContainer.innerHTML = array
-            .map(
-                (post) =>
-                `
+
+  publishBtn.addEventListener("click", async (event) => {
+    event.preventDefault();
+    let texto = container.querySelector("#post-text");
+    const photoFile = container.querySelector("#arquivo-foto");
+    const privacy = container.querySelector("#privacy-type");
+    let img = document.getElementById("image-preview");
+    const uploader = container.querySelector("#uploader");
+
+    try {
+      const photo = await uploadFoto(photoFile, img);
+      console.log(photo)
+      createPost(user.uid, texto.value, privacy.value, photo.url, photo.uid);
+      texto.value = "";
+      readPosts(postTemplate, user.uid);
+    } catch (error) {
+      console.log(error);
+    }
+
+  });
+
+
+  const postTemplate = (array) => {
+    postsContainer.innerHTML = array
+      .map(
+        (post) =>
+        `
       <section id='publicacao'>
         <div class = "template-public">
         <div class = "post-name">
@@ -81,8 +108,14 @@ export default async() => {
           <div>em ${post.created}|  ${post.privacy}</div>
           </div>
           <main>
-        <textarea type="text" rows="10" cols="40" class ="public" readonly> ${post.text} </textarea>
-          <div id="botoes" class = "btn-public">
+          <div >
+          <img src="${post.photoURL}" alt="" id="photo"> 
+          </div>
+          <div id="image" >
+        <img id="image-post" src="${post.photoUrl}"  width="460"  height="200"  >
+        </div>
+        <textarea type="text"   rows="10" cols="20" class ="public" readonly>  ${post.text} </textarea>  
+         <div id="botoes" class = "btn-public">
           <div class = "btn-likes"> 
           <i  id="${post.postId}"  class="buttons fas fa-thumbs-up botao-like ${(post.likes.indexOf(user.uid) == -1)? "btn-dislike":""}" ></i>
           <div id="counter-like"> ${post.likes.length} </div>
@@ -109,92 +142,92 @@ export default async() => {
               </div>
               </section>    
         `
-            )
-            .join("");
+      )
+      .join("");
 
 
-        const editBtn = postsContainer.querySelectorAll(".edit-btn");
-        editBtn.forEach((item) => {
-            firebase.firestore().collection("posts").doc(item.id).get().then((doc) => {
-                const post = doc.data();
-                if (user.uid != post.userId) {
-                    item.classList.add("invisible")
-                } else {
-                    item.addEventListener("click", (event) => {
-                        item.parentNode.parentNode.querySelector(".edit").classList.remove("invisible");
-                        item.parentNode.parentNode.querySelector(".public").readOnly = false;
-                    });
-                };
-            });
-        });
+    const editBtn = postsContainer.querySelectorAll(".edit-btn");
+    editBtn.forEach((item) => {
+      firebase.firestore().collection("posts").doc(item.id).get().then((doc) => {
+        const post = doc.data();
+        if (user.uid != post.userId) {
+          item.classList.add("invisible")
+        } else {
+          item.addEventListener("click", (event) => {
+            item.parentNode.parentNode.querySelector(".edit").classList.remove("invisible");
+            item.parentNode.parentNode.querySelector(".public").readOnly = false;
+          });
+        };
+      });
+    });
 
 
-        const cancelEdit = postsContainer.querySelectorAll(".cancelEdit");
-        cancelEdit.forEach((item) => {
-            item.addEventListener("click", (event) => {
-                item.parentNode.parentNode.querySelector(".edit").classList.add("invisible");
-                item.parentNode.parentNode.querySelector(".public").readOnly = true;
-            });
-        });
+    const cancelEdit = postsContainer.querySelectorAll(".cancelEdit");
+    cancelEdit.forEach((item) => {
+      item.addEventListener("click", (event) => {
+        item.parentNode.parentNode.querySelector(".edit").classList.add("invisible");
+        item.parentNode.parentNode.querySelector(".public").readOnly = true;
+      });
+    });
 
-        const saveButtonChange = postsContainer.querySelectorAll(".save-button-change");
-        saveButtonChange.forEach((item) => {
-            item.addEventListener("click", (event) => {
-                const textoPost = item.parentNode.parentNode.querySelector(".public");
-                const privacyPost = item.parentNode.parentNode.querySelector(".privacy-edit")
-                editPost(event, user.uid, textoPost.value, privacyPost.value);
-                readPosts(postTemplate, user.uid);
-            })
-        });
-
-
-        const deleteBtn = postsContainer.querySelectorAll(".btn-delete");
-        deleteBtn.forEach((item) => {
-            firebase.firestore().collection("posts").doc(item.id).get().then((doc) => {
-                const post = doc.data();
-                if (user.uid != post.userId) {
-                    item.classList.add("invisible")
-                } else {
-                    item.addEventListener("click", (event) => {
-                        deletePost(event, user.uid)
-                        readPosts(postTemplate, user.uid);
-                    })
-                };
-            });
-        });
+    const saveButtonChange = postsContainer.querySelectorAll(".save-button-change");
+    saveButtonChange.forEach((item) => {
+      item.addEventListener("click", (event) => {
+        const textoPost = item.parentNode.parentNode.querySelector(".public");
+        const privacyPost = item.parentNode.parentNode.querySelector(".privacy-edit")
+        editPost(event, user.uid, textoPost.value, privacyPost.value);
+        readPosts(postTemplate, user.uid);
+      })
+    });
 
 
+    const deleteBtn = postsContainer.querySelectorAll(".btn-delete");
+    deleteBtn.forEach((item) => {
+      firebase.firestore().collection("posts").doc(item.id).get().then((doc) => {
+        const post = doc.data();
+        if (user.uid != post.userId) {
+          item.classList.add("invisible")
+        } else {
+          item.addEventListener("click", (event) => {
+            deletePost(event.srcElement.id, user.uid, post.photoUid)
+            readPosts(postTemplate, user.uid);
+          })
+        };
+      });
+    });
 
-        let likes = postsContainer.querySelectorAll(".botao-like").forEach((item) => {
-            item.addEventListener("click", async(event) => {
-                await likePost(event.srcElement.id, user.uid)
-                await readPosts(postTemplate, user.uid);
-            });
-        });
 
-        let comments = postsContainer.querySelectorAll('.btn-comment').forEach((item) => {
-            item.addEventListener('click', (event) => {
 
-                readComments(loadComments, event.srcElement.id);
-            });
-        });
+    let likes = postsContainer.querySelectorAll(".botao-like").forEach((item) => {
+      item.addEventListener("click", async (event) => {
+        await likePost(event.srcElement.id, user.uid)
+        await readPosts(postTemplate, user.uid);
+      });
+    });
 
-        const loadComments = (array, id) => {
-            const commentsContainer = postsContainer.querySelector(`#comments${id}`);
-            commentsContainer.innerHTML = `
+    let comments = postsContainer.querySelectorAll('.btn-comment').forEach((item) => {
+      item.addEventListener('click', (event) => {
+
+        readComments(loadComments, event.srcElement.id);
+      });
+    });
+
+    const loadComments = (array, id) => {
+      const commentsContainer = postsContainer.querySelector(`#comments${id}`);
+      commentsContainer.innerHTML = `
           <div class = "align-close">
           <i class="buttons fas fa-times close-comment" ></i>
           </div>
           `;
-            const comments = document.createElement('div');
-            comments.innerHTML = array
-                .map(
-                    (comment, index) => {
-                        if (index == 0) {
-                            return ``;
-                        } else {
-                            if (user.uid == comment.userId) {
-                                return `
+      const comments = document.createElement('div');
+      comments.innerHTML = array
+        .map(
+          (comment, index) => {
+            if (index == 0) {
+              return ``;
+            } else {
+              if (user.uid == comment.userId) {
+                return `
                         <section class = "container-comments">
                         <div>${comment.userName}</div>
                          <div class = "created-comment">em ${comment.created}</div>
@@ -205,68 +238,68 @@ export default async() => {
                         </div>
                         </section>                    
                         `
-                            } else {
-                                return `
+              } else {
+                return `
                     <section class = "container-comments">
                     <div>${comment.userName}</div>
                      <div>em ${comment.created}</div>
                      <div>${comment.comment}</div>
                    </section>                    
                     `
-                            }
-                        }
-                    }).join("");
-            commentsContainer.appendChild(comments);
-            const newComment = document.createElement("div");
-            newComment.innerHTML = `
+              }
+            }
+          }).join("");
+      commentsContainer.appendChild(comments);
+      const newComment = document.createElement("div");
+      newComment.innerHTML = `
                 <textarea type="text" rows="3" cols="30" id = "new-comment${id}" class = "commentNew"> </textarea>
                     <button type="button" id= "${id}" class="btn-newComment"> Comentar </button>
                 `;
-            commentsContainer.appendChild(newComment);
-            const text = commentsContainer.querySelector(`#new-comment${id}`)
-            commentsContainer.querySelector(".btn-newComment")
-                .addEventListener("click", (event) => {
+      commentsContainer.appendChild(newComment);
+      const text = commentsContainer.querySelector(`#new-comment${id}`)
+      commentsContainer.querySelector(".btn-newComment")
+        .addEventListener("click", (event) => {
 
-                    comment(text.value, user.uid, event, user.displayName);
-                    readComments(loadComments, id);
-                });
+          comment(text.value, user.uid, event, user.displayName);
+          readComments(loadComments, id);
+        });
 
-            commentsContainer.querySelector(".close-comment").addEventListener("click", (event) => {
-                readPosts(postTemplate, user.uid);
-            });
+      commentsContainer.querySelector(".close-comment").addEventListener("click", (event) => {
+        readPosts(postTemplate, user.uid);
+      });
 
-            commentsContainer.querySelectorAll(".btn-newEdit").forEach((item) => {
-                item.addEventListener("click", (event) => {
-                    let info = event.srcElement.id.split('|');
-                    deleteComment(...info, id);
-                    commentsContainer.querySelector(`#new-comment${id}`).value = info[0];
-                })
-            })
+      commentsContainer.querySelectorAll(".btn-newEdit").forEach((item) => {
+        item.addEventListener("click", (event) => {
+          let info = event.srcElement.id.split('|');
+          deleteComment(...info, id);
+          commentsContainer.querySelector(`#new-comment${id}`).value = info[0];
+        })
+      })
 
-            commentsContainer.querySelectorAll(".btn-newDelete").forEach((item) => {
-                item.addEventListener("click", (event) => {
-                    let info = event.srcElement.id.split('&');
-                    deleteComment(...info, id);
-                    readComments(loadComments, id);
-                })
-            })
-        };
+      commentsContainer.querySelectorAll(".btn-newDelete").forEach((item) => {
+        item.addEventListener("click", (event) => {
+          let info = event.srcElement.id.split('&');
+          deleteComment(...info, id);
+          readComments(loadComments, id);
+        })
+      })
     };
+  };
 
-    const filterPosts = container.querySelector("#filter-posts");
-    filterPosts.addEventListener("change", async(event) => {
-        if (event.target.value == "myPosts") {
-            const posts = await filterMyPosts(user.uid);
-            postTemplate(posts);
-        } else {
-            readPosts(postTemplate, user.uid);
+  const filterPosts = container.querySelector("#filter-posts");
+  filterPosts.addEventListener("change", async (event) => {
+    if (event.target.value == "myPosts") {
+      const posts = await filterMyPosts(user.uid);
+      postTemplate(posts);
+    } else {
+      readPosts(postTemplate, user.uid);
 
-        }
+    }
 
-    });
+  });
 
 
-    readPosts(postTemplate, user.uid);
+  readPosts(postTemplate, user.uid);
 
-    return container;
+  return container;
 };
