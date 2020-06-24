@@ -2,6 +2,17 @@
     margin: 0;
 }
 
+.photos-profile {
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    border-radius: 10px;
+    margin: 39px;
+    background-color: #9d3efa;
+    background-image: linear-gradient(to bottom, transparent, rgba(0, 0, 0, .3));
+    padding: 16px;
+}
+
 .photos {
     width: 100px;
     margin: 8px;
@@ -16,6 +27,7 @@
     padding: 15px;
     margin: 0 20px;
     background-color: #9d3efa;
+    background-image: linear-gradient(to bottom, transparent, rgba(0, 0, 0, .3));
 }
 
 #post-text {
@@ -60,6 +72,7 @@
     text-align: center;
     padding: 15px;
     background-color: #9d3efa;
+    background-image: linear-gradient(to bottom, transparent, rgba(0, 0, 0, .3));
     margin: 15px 20px;
     border-radius: 20px;
 }
