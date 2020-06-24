@@ -12,8 +12,11 @@ No feed de postagens é possível visualizar todas as postagens, tanto suas quan
 No profile o usuário pode editar as informações do seu perfil.
 
 3. Protótipo do projeto
+
 <div>
-  <img src="./img/Desktop - 1.png" alt="" width="200px">
-  <img src="./img/Desktop - 2.png" alt="" width="200px">
-  <img src="./img/Slide1.PNG" alt="" width="200px">
+  <img src="./public/img/Desktop - 1.png" alt="" width="200px">
+  <img src="./public/img/Desktop - 2.png" alt="" width="200px">
+  <img src="./public/img/Slide1.PNG" alt="" width="200px">
 </div>
+
+
