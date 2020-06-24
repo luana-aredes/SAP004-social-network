@@ -8,7 +8,7 @@ import {
     readComments,
     comment,
     deleteComment,
-    uploadFoto
+    uploadFoto,
 } from "./data.js";
 import {
     getUser
@@ -16,7 +16,7 @@ import {
 
 export default async() => {
     const user = firebase.auth().currentUser;
-    const userData = await getUser(user.uid)
+    const userData = await getUser(user.uid);
     let container = document.createElement("div");
 
     container.innerHTML = `
@@ -38,6 +38,7 @@ export default async() => {
 <div class="image-preview invisible">
     <h1> <progress value="0" max="100" id="uploader"> </progress> Carregando...  </h1>
     
+    <div  class="btn-delete"> <i id="delete-photo-preview-btn" class="far fa-trash-alt btn-delete" ></i> </div>
   <img id="image-preview"  src=""  width="150"  height="100"  >
 </div>
     <div class = "post-items">
@@ -63,15 +64,28 @@ export default async() => {
   <section class="card-post" id="posts">
   </section>
   `;
-    document.querySelector("body").classList.add("register-body")
+
+    document.querySelector("body").classList.add("register-body");
 
     const publishBtn = container.querySelector("#publish-button");
     const postsContainer = container.querySelector("#posts");
-    let image = container.querySelector(".image-preview");
     const photoFile = container.querySelector(".arquivo-foto");
+    const photo = container.querySelector("#arquivo-foto")
+    let image = container.querySelector(".image-preview");
+
     photoFile.addEventListener("click", () => {
         image.classList.remove("invisible");
     });
+
+
+    const deletePhotoPreview = container.querySelector("#delete-photo-preview-btn");
+    deletePhotoPreview.addEventListener("click", () => {
+        image.src = "";
+        console.log("removido");
+        image.classList.add("invisible");
+        photo.value = "";
+    })
+
 
     publishBtn.addEventListener("click", async(event) => {
         event.preventDefault();
@@ -110,24 +124,18 @@ export default async() => {
         <div class = "template-public">
         <div class = "post-name">
         <div>${post.name}</div>
-        <div id="${post.postId}" class="btn-delete"> <i id="${
-            post.postId
-          }" class="buttons far fa-trash-alt btn-delete" ></i> </div>
+        <div id="${post.postId}" class="btn-delete"> <i id="${post.postId}" class="buttons far fa-trash-alt btn-delete" ></i> </div>
         </div>
         <div class ="post-privacy">
           <div>em ${post.created}|  ${post.privacy}</div>
           </div>
           <main>
+        <div class="image-post-container"><img id="image-post" class="image-post" src="${post.photoUrl}"  width="460"  height="200" ></div>
+         <textarea type="text"  class ="public"  value="" rows="10" cols="20" readonly>  ${ post.text} </textarea>
 
-          <div id="image" class="image">
-        <img id="image-post" class="image-post"src="${post.photoUrl}"  width="460"  height="200" >
-        </div>
-        <textarea type="text"   rows="10" cols="20" class ="public" readonly>  ${ post.text} </textarea>  
          <div id="botoes" class = "btn-public">
           <div class = "btn-likes"> 
-          <i  id="${post.postId}"  class="buttons fas fa-thumbs-up botao-like ${
-            post.likes.indexOf(user.uid) == -1 ? "btn-dislike" : ""
-          }" ></i>
+          <i  id="${post.postId}"  class="buttons fas fa-thumbs-up botao-like ${post.likes.indexOf(user.uid) == -1 ? "btn-dislike" : ""}" ></i>
           <div id="counter-like"> ${post.likes.length} </div>
           </div>
           <div class = "btn-comment">
@@ -163,15 +171,31 @@ export default async() => {
             )
             .join("");
 
-        /*
-    const imageContainer = postsContainer.querySelectorAll(".image-post")
-    imageContainer.forEach((item) => {
-      if (imageContainer.src != "") {
-        postsContainer.querySelector("#image").classList.remove("invisible");
-      }
-    })
 
-*/
+
+
+        const hideEmptyImageField = postsContainer.querySelectorAll(".image-post");
+        hideEmptyImageField.forEach((item) => {
+            if (item.src.length < 30) {
+                item.classList.add("invisible")
+            }
+        });
+
+        /*
+            const hideEmptyTextField = postsContainer.querySelectorAll(".public");
+            hideEmptyTextField.forEach((item) => {
+              console.log(item.value.length)
+              if (item.value.length < 1) {
+                item.classList.add("invisible")
+              }
+            });
+            */
+
+
+
+
+
+
         const editBtn = postsContainer.querySelectorAll(".edit-btn");
         editBtn.forEach((item) => {
             firebase
@@ -220,6 +244,7 @@ export default async() => {
             });
         });
 
+
         const deleteBtn = postsContainer.querySelectorAll(".btn-delete");
         deleteBtn.forEach((item) => {
             firebase
@@ -239,7 +264,6 @@ export default async() => {
                     }
                 });
         });
-
         let likes = postsContainer
             .querySelectorAll(".botao-like")
             .forEach((item) => {
