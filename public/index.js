@@ -9,7 +9,7 @@ import {
 
 const main = document.querySelector('#root');
 
-const router = async (user) => {
+const router = async(user) => {
     if (user) {
         if (window.location.hash != "#login") {
             main.innerHTML =
@@ -21,12 +21,12 @@ const router = async (user) => {
     <input type="checkbox" id="toggle-1">
     <nav class="menu-mobile invisible" id="mostra" > 
      <ul> <a class= "menu-profile" href= "./#profile">Perfil</a> </ul>
-     <ul> <a href= "./#home">Feed</a> </ul>
+     <ul> <a href= "/">Feed</a> </ul>
      <ul> <a id= "btn-signOut" class="logout"> Sair</a></ul>
     </nav>
     <section class="headerWeb">
       <div class="menuWeb"> 
-      <a href= "./#home"><i class="fas fa-home"></i></a>
+      <a href= "/"><i class="fas fa-home"></i></a>
         <a class= "menu-profile" href= "./#profile"><i class="fas fa-user-circle"></i></a>
       </div>
       <h1 class= "title-web">SpaceJobs</h1>
@@ -68,16 +68,16 @@ const router = async (user) => {
 
 }
 
-const init = async () => {
-    firebase.auth().onAuthStateChanged(async (user) => {
+const init = async() => {
+    firebase.auth().onAuthStateChanged(async(user) => {
         await router(user);
     });
 }
-const pages = async () => {
+const pages = async() => {
     let user = firebase.auth().currentUser
     await router(user);
 }
-window.addEventListener("load", async () => {
+window.addEventListener("load", async() => {
     init();
 });
 

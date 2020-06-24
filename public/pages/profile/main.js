@@ -5,7 +5,7 @@ import {
 } from "./data.js"
 
 export default async() => {
-    
+
     const user = firebase.auth().currentUser;
     const userData = await getUser(user.uid)
 
@@ -32,7 +32,7 @@ export default async() => {
             <textarea cols="30" rows="10" placeholder=" Add a bio" class="bio" name="bio">${userData?.bio  || ""}</textarea>
         </div>
         <section class="buttons">
-            <button type="submit" class="save">Salvar Alterações</button>
+            <button type="submit" class="blue-button">Salvar Alterações</button>
         </section>
         </form>
         `;
@@ -47,7 +47,7 @@ export default async() => {
             photo: url,
         }
         editProfile(user.uid, data)
-            window.location.reload()
+        window.location.reload()
     });
 
     const formProfile = container.querySelector("#formProfile");

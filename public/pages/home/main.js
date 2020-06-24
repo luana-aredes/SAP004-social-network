@@ -67,10 +67,8 @@ export default async() => {
 
     const publishBtn = container.querySelector("#publish-button");
     const postsContainer = container.querySelector("#posts");
-
     let image = container.querySelector(".image-preview");
     const photoFile = container.querySelector(".arquivo-foto");
-
     photoFile.addEventListener("click", () => {
         image.classList.remove("invisible");
     });
@@ -83,7 +81,7 @@ export default async() => {
         const photoFile = container.querySelector("#arquivo-foto");
         const privacy = container.querySelector("#privacy-type");
         const uploader = container.querySelector("#uploader");
-        console.log(photoFile.files);
+
 
         if (photoFile.files.length == "0") {
             createPost(user.uid, texto.value, privacy.value, "", "");
@@ -343,9 +341,9 @@ export default async() => {
                 readPosts(postTemplate, user.uid);
             }
         });
+    }
 
-        readPosts(postTemplate, user.uid);
+    readPosts(postTemplate, user.uid);
 
-        return container;
-    };
-}
+    return container;
+};

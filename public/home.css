@@ -4,7 +4,7 @@
 
 .photos {
     width: 100px;
-    margin: 20px;
+    margin: 8px;
     border-radius: 20px;
 }
 
@@ -27,7 +27,6 @@
     justify-content: space-around;
     width: 400px;
     margin: 5px;
-
 }
 
 .fa-image {
@@ -37,12 +36,15 @@
 
 .blue-button {
     border-radius: 5px;
-    background-color: #23D9B7;
+    background-color: #23d9b7;
+    background-image: linear-gradient(to bottom, rgba(255, 255, 255, .1), rgba(255, 255, 255, .4), rgba(255, 255, 255, 0), rgba(255, 255, 255, .4));
     font-weight: bold;
     color: #5207F2;
-    height: 25px;
+    height: 30px;
     margin: 3px;
     padding: 4px;
+    transition: 0.3s ease-in;
+    border: 0;
 }
 
 #filter-posts {
@@ -62,7 +64,7 @@
     border-radius: 20px;
 }
 
-.post-name{
+.post-name {
     display: flex;
     justify-content: space-between;
     padding: 0 10px;
@@ -94,46 +96,50 @@
     color: #e7e8dd !important;
 }
 
-.btn-comment{
+.btn-comment {
     display: flex;
     justify-content: space-between;
     width: 40px;
 }
 
-.align-close{
+.align-close {
     display: flex;
     justify-content: flex-end;
     margin: 15px;
     color: tomato;
 }
-.container-comments{
+
+.container-comments {
     width: 280px;
     margin: 0 auto;
-   box-shadow: inset 0 0 1em #9d3efa, 0 0 1em #52069e;
+    box-shadow: inset 0 0 1em #9d3efa, 0 0 1em #52069e;
 }
 
-.created-comment{
+.created-comment {
     font-size: 14px;
 }
 
-.comment-comment{
+.comment-comment {
     color: white;
     font-size: 20px;
     font-weight: 0px;
     margin: 15px;
     text-align: center;
-    max-width: 250px; 
+    max-width: 250px;
 }
-.comment-btn{
+
+.comment-btn {
     color: #23D9B7;
     font-size: 15px;
     padding-left: 15p;
     margin-bottom: 10px;
 }
-.commentNew{
+
+.commentNew {
     border-radius: 10px;
 }
-.btn-newComment{
+
+.btn-newComment {
     border-radius: 5px;
     background-color: #23D9B7;
     font-weight: bold;
@@ -143,14 +149,21 @@
     padding: 4px;
     border: 0px;
 }
-.edit-profile{
+
+.edit-profile {
     font-size: 16px;
-    margin:10px;
+    margin: 10px;
+}
+
+.image-post {
+    width: 100%;
+    height: auto;
 }
 
 @media(Min-width:600px) {
-    .photos{
-        width: 150px;
+    .photos {
+        width: 120px;
+        height: 120px;
     }
     .photos-profile {
         display: flex;
@@ -160,54 +173,49 @@
         width: 300px;
         margin: 50px;
         background-color: #9d3efa;
+        background-image: linear-gradient(to bottom, transparent, rgba(0, 0, 0, .3));
     }
-    
     .profile {
         padding: 40px 0;
     }
-    .edit-profile{
+    .edit-profile {
         font-size: 16px;
     }
-    
     .post {
         width: 500px;
+        background-color: #9d3efa;
+        background-image: linear-gradient(to bottom, transparent, rgba(0, 0, 0, .3));
     }
-
-    .post-name{
+    .post-name {
         width: 470px;
     }
-
-    .post-privacy{
+    .post-privacy {
         width: 470px;
     }
-    
     .form-profile {
         display: flex;
         justify-content: center;
         padding: 50px 0;
         flex-wrap: wrap;
     }
-    
     .template-public {
+        background-color: #9d3efa;
+        background-image: linear-gradient(to bottom, transparent, rgba(0, 0, 0, .3));
         width: 500px;
         margin: 10px auto;
         padding: 5px 15px;
     }
-    
     .btn-public {
-         padding-left: 220px;
-         padding-bottom: 0;
+        padding-left: 220px;
+        padding-bottom: 0;
     }
-
-    .container-comments{
+    .container-comments {
         margin-bottom: 30px;
-
     }
-    .btn-newComment{     
-    transition: 0.3s ease-in;
+    .btn-newComment {
+        transition: 0.3s ease-in;
     }
-    .btn-newComment:hover{
+    .btn-newComment:hover {
         font-size: 15px;
     }
 }
-
