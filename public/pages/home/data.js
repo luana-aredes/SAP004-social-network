@@ -1,10 +1,9 @@
-export const createPost = (userId, texto, privacy, url, photoUid) => {
+export const createPost = (userId, texto, privacy, url) => {
   firebase.firestore().collection("posts").add({
       userId: userId,
       name: firebase.auth().currentUser.displayName,
       text: texto,
       photoUrl: url,
-      photoUid: photoUid,
       likes: [],
       created: firebase.firestore.Timestamp.fromDate(new Date()).toDate().toLocaleString('pt-BR'),
       privacy: privacy,
@@ -26,6 +25,8 @@ export const createPost = (userId, texto, privacy, url, photoUid) => {
     });
 }
 
+
+/*
 export const uploadFoto = async (photoFile, img) => {
   const fileRef = photoFile.files[0];
   const ref = firebase.storage().ref('arquivosPosts');
@@ -49,6 +50,7 @@ export const uploadFoto = async (photoFile, img) => {
   }
 }
 
+*/
 
 
 
@@ -149,15 +151,15 @@ export const filterMyPosts = async (userId) => {
 
 }
 
-export const deletePost = (postId, userId, photoUid) => {
+export const deletePost = (postId, userId /*, photoUid*/ ) => {
   firebase.firestore().collection("posts").doc(postId).get().then((doc) => {
     const post = doc.data();
     if (userId == post.userId) {
       try {
         const deleteResult = firebase.firestore().collection("posts").doc(postId).delete();
-        if (deleteResult) {
-          const deleteImageResult = firebase.storage().ref('arquivosPosts').child(photoUid).delete();
-        }
+        // if (deleteResult) {
+        //  const deleteImageResult = firebase.storage().ref('arquivosPosts').child(photoUid).delete();
+        // }
       } catch (error) {
         console.error("Error removing document: ", error);
       }
