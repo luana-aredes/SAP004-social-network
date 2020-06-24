@@ -25,7 +25,7 @@ export default async () => {
   <div class = "form-profile">
   <div class = "photos-profile">
   <img src="${
-    userData?.photo || user?.photoURL || "images/Perfil.png"
+    userData?.photo || user?.photoURL || "img/Perfil.png"
   }"alt="" class="photos">
   <div class = "profile">
   <p>${userData?.name || user?.displayName}</p>

@@ -14,7 +14,7 @@ export default async() => {
   
     <form action="" id="formProfile">
             <div class="photodiv">
-            <img src="${userData?.photo || user?.photoURL || "images/Perfil.png"}" alt="" class="photo">
+            <img src="${userData?.photo || user?.photoURL || "img/Perfil.png"}" alt="" class="photo">
             
         </div>
         <label for='selecao-arquivo' class = "change-photo">Alterar foto</label>
