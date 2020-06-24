@@ -18,46 +18,43 @@ export default async() => {
     const userData = await getUser(user.uid);
     let container = document.createElement("div");
 
-    container.innerHTML = `
-      
-<form action="submit" id="post">
-  <div class = "form-profile">
-  <div class = "photos-profile">
-  <img src="${
-    userData?.photo || user?.photoURL || "img/Perfil.png"
-  }"alt="" class="photos">
-  <div class = "profile">
-  <p>${userData?.name || user?.displayName}</p>
-  <p class = "edit-profile">${userData?.profession || ""}</p>
-  </div>
-  </div>
-  <section class= "post">
-  
-    <textarea type="text" id="post-text" rows="10" cols="50" maxlength="500" wrap="hard" spellcheck="true" reandoly placeholder="Escreva algo para compartilhar com seus amigos!" ></textarea> 
-<div class="image-preview invisible">
-    <h1> <progress value="0" max="100" id="uploader"> </progress> Carregando...  </h1>
-    <div  class="btn-delete"> <i id="delete-photo-preview-btn" class="far fa-trash-alt btn-delete" ></i> </div>
-  <img id="image-preview" src=""  width="150"  height="100"  >
-</div>
-    <div class = "post-items">
-    <label for="arquivo-foto"> <i class="far fa-image arquivo-foto"></i></label>
-    <input type="file" value="upload" id="arquivo-foto" class="invisible">
-    <select name="" id="privacy-type" class="blue-button">
-    <option value="publico">Publico</option>
-    <option value="privado">Privado</option>  
-  </select>      
-        <i class="fas fa-share-alt" value="publish" id="publish-button" ></i>
+    container.innerHTML = `    
+    <form action="submit" id="post">
+      <div class = "form-profile">
+        <div class = "photos-profile">
+          <img src="${userData?.photo || user?.photoURL || "img/Perfil.png"}"alt="" class="photos">
+          <div class = "profile">
+            <p>${userData?.name || user?.displayName}</p>
+            <p class = "edit-profile">${userData?.profession || ""}</p>
+          </div>
         </div>
-        </div>
-      </section>
-        <select name="" id="filter-posts" class="blue-button" >
+        <section class= "post">
+          <textarea type="text" id="post-text" rows="10" cols="50" maxlength="500" wrap="hard" spellcheck="true" reandoly placeholder="Escreva algo para compartilhar com seus amigos!" ></textarea> 
+          <div class="image-preview invisible">
+            <h1> <progress value="0" max="100" id="uploader"> </progress> Carregando...  </h1>
+            <div  class="btn-delete"> <i id="delete-photo-preview-btn" class="far fa-trash-alt btn-delete" ></i> </div>
+            <img id="image-preview" src=""  width="150"  height="100"  >
+          </div>
+          <div class = "post-items">
+            <label for="arquivo-foto"> <i class="far fa-image arquivo-foto"></i></label>
+            <input type="file" value="upload" id="arquivo-foto" class="invisible">
+            <select name="" id="privacy-type" class="blue-button">
+              <option value="publico">Publico</option>
+              <option value="privado">Privado</option>  
+            </select>      
+            <i class="fas fa-share-alt" value="publish" id="publish-button" ></i>
+          </div>
+        </section>
+        <div class="mirror"></div>
+      </div>
+      <select name="" id="filter-posts" class="blue-button" >
         <option value="allPosts">Todos os posts</option>
         <option value="myPosts">Meus Posts</option>
-  </select>
-  </form>
-  <section class="card-post" id="posts">
-  </section>
-  `;
+      </select>
+    </form>
+    <section class="card-post" id="posts">
+    </section>
+    `;
 
     document.querySelector("body").classList.add("register-body");
 
@@ -144,44 +141,44 @@ export default async() => {
             .map(
                 (post) =>
                 `
-      <section id='publicacao'>
-        <div class = "template-public">
-        <div class = "post-name">
-        <div>${post.name}</div>
-        <div id="${post.postId}" class="btn-delete"> <i id="${post.postId}" class="buttons far fa-trash-alt btn-delete" ></i> </div>
+    <section id='publicacao'>
+      <div class = "template-public">
+      <div class = "post-name">
+      <div>${post.name}</div>
+      <div id="${post.postId}" class="btn-delete"> <i id="${post.postId}" class="buttons far fa-trash-alt btn-delete" ></i> </div>
+      </div>
+      <div class ="post-privacy">
+        <div>em ${post.created}|  ${post.privacy}</div>
         </div>
-        <div class ="post-privacy">
-          <div>em ${post.created}|  ${post.privacy}</div>
+        <main>
+      <div class="image-post-container"><img id="image-post" class="image-post" src="${post.photoUrl}"  width="460"  height="200" ></div>
+       <textarea type="text" class ="public"  value="" rows="10" cols="20" readonly>  ${post.text} </textarea>
+       <div id="botoes" class = "btn-public">
+        <div class = "btn-likes"> 
+        <i  id="${post.postId}"  class="buttons fas fa-thumbs-up botao-like ${post.likes.indexOf(user.uid) == -1 ? "btn-dislike" : ""}" ></i>
+        <div id="counter-like"> ${post.likes.length} </div>
+        </div>
+        <div class = "btn-comment">
+        <i  id="${post.postId}" class="buttons far fa-comment-dots btn-comment"></i>
+        <div>${post.comments.length - 1}</div>
+        </div>
+          <div id="${post.postId}" class="edit-btn">  
+          <i class="buttons fas fa-edit edit-btn" id="${post.postId}" ></i>
           </div>
-          <main>
-        <div class="image-post-container"><img id="image-post" class="image-post" src="${post.photoUrl}"  width="460"  height="200" ></div>
-         <textarea type="text" class ="public"  value="" rows="10" cols="20" readonly>  ${post.text} </textarea>
-         <div id="botoes" class = "btn-public">
-          <div class = "btn-likes"> 
-          <i  id="${post.postId}"  class="buttons fas fa-thumbs-up botao-like ${post.likes.indexOf(user.uid) == -1 ? "btn-dislike" : ""}" ></i>
-          <div id="counter-like"> ${post.likes.length} </div>
-          </div>
-          <div class = "btn-comment">
-          <i  id="${post.postId}" class="buttons far fa-comment-dots btn-comment"></i>
-          <div>${post.comments.length - 1}</div>
-          </div>
-            <div id="${post.postId}" class="edit-btn">  
-            <i class="buttons fas fa-edit edit-btn" id="${post.postId}" ></i>
             </div>
-              </div>
-              <div class="edit invisible">
-              <select name="" id= "${post.postId}"  class="privacy-edit blue-button" >
-              <option value="publico">Publico</option>
-              <option value="privado">Privado</option>
-              </select>    
-              <button type="button" value="alterar"  id="${post.postId}" class="save-button-change blue-button"> Salvar alterações </button>
-              <button type="button" value="cancel" class="cancelEdit blue-button"> Cancelar </button>
-              </div>
-              </main>
-              <div id= "comments${ post.postId}" class = "container-comments"></div>
-              </div>
-              </section>    
-        `
+            <div class="edit invisible">
+            <select name="" id= "${post.postId}"  class="privacy-edit blue-button" >
+            <option value="publico">Publico</option>
+            <option value="privado">Privado</option>
+            </select>    
+            <button type="button" value="alterar"  id="${post.postId}" class="save-button-change blue-button"> Salvar alterações </button>
+            <button type="button" value="cancel" class="cancelEdit blue-button"> Cancelar </button>
+            </div>
+            </main>
+            <div id= "comments${ post.postId}" class = "container-comments"></div>
+            </div>
+            </section>    
+      `
             )
             .join("");
 
@@ -291,10 +288,10 @@ export default async() => {
         const loadComments = (array, id) => {
             const commentsContainer = postsContainer.querySelector(`#comments${id}`);
             commentsContainer.innerHTML = `
-          <div class = "align-close">
-          <i class="buttons fas fa-times close-comment" ></i>
-          </div>
-          `;
+        <div class = "align-close">
+        <i class="buttons fas fa-times close-comment" ></i>
+        </div>
+        `;
             const comments = document.createElement("div");
             comments.innerHTML = array
                 .map((comment, index) => {
@@ -303,24 +300,24 @@ export default async() => {
                     } else {
                         if (user.uid == comment.userId) {
                             return `
-                        <section class = "container-comments">
-                        <div>${comment.userName}</div>
-                         <div class = "created-comment">em ${comment.created}</div>
-                         <div class = "comment-comment">${comment.comment}</div>
-                        <div class = "comment-btn">
-                          <i class="buttons fas fa-pencil-alt btn-newEdit" id= "${comment.comment}|${comment.created}|${comment.userId}|${comment.userName}"></i>
-                          <i class="buttons far fa-trash-alt btn-newDelete" id= "${comment.comment}&${comment.created}&${comment.userId}&${comment.userName}"></i>
-                        </div>
-                        </section>                    
-                        `;
+                      <section class = "container-comments">
+                      <div>${comment.userName}</div>
+                       <div class = "created-comment">em ${comment.created}</div>
+                       <div class = "comment-comment">${comment.comment}</div>
+                      <div class = "comment-btn">
+                        <i class="buttons fas fa-pencil-alt btn-newEdit" id= "${comment.comment}|${comment.created}|${comment.userId}|${comment.userName}"></i>
+                        <i class="buttons far fa-trash-alt btn-newDelete" id= "${comment.comment}&${comment.created}&${comment.userId}&${comment.userName}"></i>
+                      </div>
+                      </section>                    
+                      `;
                         } else {
                             return `
-                    <section class = "container-comments">
-                    <div>${comment.userName}</div>
-                     <div>em ${comment.created}</div>
-                     <div>${comment.comment}</div>
-                   </section>                    
-                    `;
+                  <section class = "container-comments">
+                  <div>${comment.userName}</div>
+                   <div>em ${comment.created}</div>
+                   <div>${comment.comment}</div>
+                 </section>                    
+                  `;
                         }
                     }
                 })
@@ -328,9 +325,9 @@ export default async() => {
             commentsContainer.appendChild(comments);
             const newComment = document.createElement("div");
             newComment.innerHTML = `
-                <textarea type="text" rows="3" cols="30" id = "new-comment${id}" class = "commentNew"> </textarea>
-                    <button type="button" id= "${id}" class="btn-newComment"> Comentar </button>
-                `;
+              <textarea type="text" rows="3" cols="30" id = "new-comment${id}" class = "commentNew"> </textarea>
+                  <button type="button" id= "${id}" class="btn-newComment"> Comentar </button>
+              `;
             commentsContainer.appendChild(newComment);
             const text = commentsContainer.querySelector(`#new-comment${id}`);
             commentsContainer
