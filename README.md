@@ -14,9 +14,18 @@ No profile o usuário pode editar as informações do seu perfil.
 3. Protótipo do projeto
 
 <div>
-  <img src="./public/img/Desktop - 1.png" alt="" width="200px">
   <img src="./public/img/Desktop - 2.png" alt="" width="200px">
+  <img src="./public/img/Desktop - 1.png" alt="" width="200px">
   <img src="./public/img/Slide1.PNG" alt="" width="200px">
 </div>
+
+4. Considerações 
+
+A funcionalidade cumpre e satisfaz os critérios de aceitação.
+O layout está de acordo com o protótipo.
+O código desta funcionalidade recebeu code review.
+A funcionalidade está publicada para ser testada.
+A funcionalidade foi testada manualmente.
+
 
 
