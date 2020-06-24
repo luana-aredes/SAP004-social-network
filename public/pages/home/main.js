@@ -119,14 +119,14 @@ export default async() => {
         const privacy = container.querySelector("#privacy-type");
         const photoFile = container.querySelector("#arquivo-foto");
         if (photoFile.files.length == "0") {
-            createPost(user.uid, texto.value, privacy.value, "");
+            await createPost(user.uid, texto.value, privacy.value, "");
             texto.value = "";
-            readPosts(postTemplate, user.uid);
+            await readPosts(postTemplate, user.uid);
         } else {
             try {
-                createPost(user.uid, texto.value, privacy.value, img.src);
+                await createPost(user.uid, texto.value, privacy.value, img.src);
                 texto.value = "";
-                readPosts(postTemplate, user.uid);
+                await readPosts(postTemplate, user.uid);
                 photoFile.value = "";
                 img.src = "";
             } catch (error) {
@@ -238,13 +238,13 @@ export default async() => {
         );
 
         saveButtonChange.forEach((item) => {
-            item.addEventListener("click", (event) => {
+            item.addEventListener("click", async(event) => {
                 const textoPost = item.parentNode.parentNode.querySelector(".public");
                 const privacyPost = item.parentNode.parentNode.querySelector(
                     ".privacy-edit"
                 );
-                editPost(event, user.uid, textoPost.value, privacyPost.value);
-                readPosts(postTemplate, user.uid);
+                await editPost(event, user.uid, textoPost.value, privacyPost.value);
+                await readPosts(postTemplate, user.uid);
             });
         });
 
@@ -260,9 +260,9 @@ export default async() => {
                     if (user.uid != post.userId) {
                         item.classList.add("invisible");
                     } else {
-                        item.addEventListener("click", (event) => {
-                            deletePost(event.srcElement.id, user.uid);
-                            readPosts(postTemplate, user.uid);
+                        item.addEventListener("click", async(event) => {
+                            await deletePost(event.srcElement.id, user.uid);
+                            await readPosts(postTemplate, user.uid);
                         });
                     }
                 });
