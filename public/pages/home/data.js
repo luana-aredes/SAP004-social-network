@@ -1,10 +1,9 @@
-export const createPost = (userId, texto, privacy, url, photoUid) => {
+export const createPost = (userId, texto, privacy, url) => {
   firebase.firestore().collection("posts").add({
       userId: userId,
       name: firebase.auth().currentUser.displayName,
       text: texto,
       photoUrl: url,
-      photoUid: photoUid,
       likes: [],
       created: firebase.firestore.Timestamp.fromDate(new Date()).toDate().toLocaleString('pt-BR'),
       privacy: privacy,
@@ -22,33 +21,9 @@ export const createPost = (userId, texto, privacy, url, photoUid) => {
       });
     })
     .catch(function (error) {
-      // console.log("Error adding document:", error);
+      console.log("Error adding document:", error);
     });
 }
-
-export const uploadFoto = async (photoFile, img) => {
-  const fileRef = photoFile.files[0];
-  const ref = firebase.storage().ref('arquivosPosts');
-  const uid = firebase.database().ref().push().key;
-  try {
-    const snapshot = await ref.child(uid).put(fileRef);
-    console.log('snapshot', snapshot);
-    try {
-      const url = await ref.child(uid).getDownloadURL();
-      console.log('string para download', url);
-      img.src = url;
-      return {
-        url: url,
-        uid: uid
-      };
-    } catch (error) {
-      throw new Error("Error downloading:" + error);
-    }
-  } catch (error) {
-    throw new Error("Error adding document:" + error);
-  }
-}
-
 
 
 
@@ -149,21 +124,19 @@ export const filterMyPosts = async (userId) => {
 
 }
 
-export const deletePost = (postId, userId, photoUid) => {
+export const deletePost = (postId, userId /*, photoUid*/ ) => {
   firebase.firestore().collection("posts").doc(postId).get().then((doc) => {
     const post = doc.data();
     if (userId == post.userId) {
       try {
         const deleteResult = firebase.firestore().collection("posts").doc(postId).delete();
-        if (deleteResult) {
-          const deleteImageResult = firebase.storage().ref('arquivosPosts').child(photoUid).delete();
-        }
+        // if (deleteResult) {
+        //  const deleteImageResult = firebase.storage().ref('arquivosPosts').child(photoUid).delete();
+        // }
       } catch (error) {
         console.error("Error removing document: ", error);
       }
-    } else {
-      // console.log("Essa publicação não foi feita por voce, portanto vocẽ não pode apaga-la")
-    };
+    }
   });
 };
 
