@@ -69,28 +69,27 @@
     font-size: 18px;
 }
 
+.show-error {
+    color: #23d9b7;
+    font-size: 14px;
+}
 
 @media(Min-width:600px) {
     .container-flex {
         display: flex;
         justify-content: space-around;
         align-items: center;
-
     }
-
     .container-web {
         width: 400px;
     }
-
     .logo {
         width: 50vw;
     }
-
     .sub-title {
         font-size: 30px;
         font-weight: bold;
     }
-
     .input-login {
         width: 200px;
         height: 30px;

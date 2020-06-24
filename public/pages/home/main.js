@@ -87,8 +87,6 @@ export default async () => {
     })
 
 
-
-
     publishBtn.addEventListener("click", async (event) => {
         event.preventDefault();
         image.classList.add("invisible");
@@ -116,7 +114,6 @@ export default async () => {
             }
         }
     });
-
 
     const postTemplate = (array) => {
         postsContainer.innerHTML = array
@@ -247,6 +244,7 @@ export default async () => {
             });
         });
 
+
         const deleteBtn = postsContainer.querySelectorAll(".btn-delete");
         deleteBtn.forEach((item) => {
             firebase
@@ -266,7 +264,6 @@ export default async () => {
                     }
                 });
         });
-
         let likes = postsContainer
             .querySelectorAll(".botao-like")
             .forEach((item) => {
@@ -358,19 +355,19 @@ export default async () => {
                 });
             });
         };
+
+        const filterPosts = container.querySelector("#filter-posts");
+        filterPosts.addEventListener("change", async (event) => {
+            if (event.target.value == "myPosts") {
+                const posts = await filterMyPosts(user.uid);
+                postTemplate(posts);
+            } else {
+                readPosts(postTemplate, user.uid);
+            }
+        });
+
+        readPosts(postTemplate, user.uid);
+
+        return container;
     };
-
-    const filterPosts = container.querySelector("#filter-posts");
-    filterPosts.addEventListener("change", async (event) => {
-        if (event.target.value == "myPosts") {
-            const posts = await filterMyPosts(user.uid);
-            postTemplate(posts);
-        } else {
-            readPosts(postTemplate, user.uid);
-        }
-    });
-
-    readPosts(postTemplate, user.uid);
-
-    return container;
-};
+}

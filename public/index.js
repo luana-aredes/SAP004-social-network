@@ -20,7 +20,7 @@ const router = async (user) => {
     </section>
     <input type="checkbox" id="toggle-1">
     <nav class="menu-mobile invisible" id="mostra" > 
-     <ul> <a class= "menu-profile" href= "./#profile">Profile</a> </ul>
+     <ul> <a class= "menu-profile" href= "./#profile">Perfil</a> </ul>
      <ul> <a href= "./#home">Feed</a> </ul>
      <ul> <a id= "btn-signOut" class="logout"> Sair</a></ul>
     </nav>
