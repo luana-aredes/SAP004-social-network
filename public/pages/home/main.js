@@ -3,6 +3,7 @@ import {
     readPosts,
     likePost,
     deletePost,
+    deletePhoto,
     filterMyPosts,
     editPost,
     readComments,
@@ -76,11 +77,14 @@ export default async () => {
 
 
     deletePhotoPreview.addEventListener("click", () => {
+        img.dataset.uid
+        deletePhoto(img.dataset.uid);
         image.src = "";
         console.log("removido");
         img.src = "";
         image.classList.add("invisible");
         photo.value = "";
+        document.location.reload(true);
     });
 
     const storePhoto = () => {
@@ -105,9 +109,11 @@ export default async () => {
                 async function complete() {
                     const url = await ref.child(uid).getDownloadURL();
                     img.src = url;
+                    img.dataset.uid = uid;
                 }
             );
         });
+
     };
 
     photoFile.addEventListener("click", () => {
@@ -122,12 +128,12 @@ export default async () => {
         const privacy = container.querySelector("#privacy-type");
         const photoFile = container.querySelector("#arquivo-foto");
         if (photoFile.files.length == "0") {
-            createPost(user.uid, texto.value, privacy.value, "");
+            createPost(user.uid, texto.value, privacy.value, "", "");
             texto.value = "";
             readPosts(postTemplate, user.uid);
         } else {
             try {
-                createPost(user.uid, texto.value, privacy.value, img.src);
+                createPost(user.uid, texto.value, privacy.value, img.src, img.dataset.uid);
                 texto.value = "";
                 readPosts(postTemplate, user.uid);
                 photoFile.value = "";
@@ -136,6 +142,7 @@ export default async () => {
                 console.log(error);
             }
         }
+
     });
 
 
@@ -147,7 +154,7 @@ export default async () => {
       <section id='publicacao'>
         <div class = "template-public">
         <div class = "post-name">
-        <div>${post.name}</div>
+        <div>${post.name} </div>
         <div id="${post.postId}" class="btn-delete"> <i id="${post.postId}" class="buttons far fa-trash-alt btn-delete" ></i> </div>
         </div>
         <div class ="post-privacy">
@@ -157,9 +164,9 @@ export default async () => {
         <div class="image-post-container"><img id="image-post" class="image-post" src="${post.photoUrl}"  width="460"  height="200" ></div>
          <textarea type="text" class ="public"  value="" rows="10" cols="20" readonly>  ${post.text} </textarea>
          <div id="botoes" class = "btn-public">
-          <div class = "btn-likes"> 
-          <i  id="${post.postId}"  class="buttons fas fa-thumbs-up botao-like ${post.likes.indexOf(user.uid) == -1 ? "btn-dislike" : ""}" ></i>
-          <div id="counter-like"> ${post.likes.length} </div>
+         <div class = "btn-likes"> 
+         <i  id="${post.postId}"  class="buttons fas fa-thumbs-up botao-like ${post.likes.indexOf(user.uid) == -1 ? "btn-dislike" : ""}" ></i>
+         <div id="counter-like"> ${post.likes.length} </div>
           </div>
           <div class = "btn-comment">
           <i  id="${post.postId}" class="buttons far fa-comment-dots btn-comment"></i>
@@ -264,9 +271,11 @@ export default async () => {
                         item.classList.add("invisible");
                     } else {
                         item.addEventListener("click", (event) => {
+                            deletePhoto(post.photoUid);
                             deletePost(event.srcElement.id, user.uid);
                             readPosts(postTemplate, user.uid);
                         });
+
                     }
                 });
         });
