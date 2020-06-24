@@ -13,7 +13,7 @@ import {
     getUser
 } from "./../profile/data.js";
 
-export default async () => {
+export default async() => {
     const user = firebase.auth().currentUser;
     const userData = await getUser(user.uid);
     let container = document.createElement("div");
@@ -114,7 +114,7 @@ export default async () => {
         storePhoto();
     });
 
-    publishBtn.addEventListener("click", async (event) => {
+    publishBtn.addEventListener("click", async(event) => {
         event.preventDefault();
 
         image.classList.add("invisible");
@@ -274,7 +274,7 @@ export default async () => {
         let likes = postsContainer
             .querySelectorAll(".botao-like")
             .forEach((item) => {
-                item.addEventListener("click", async (event) => {
+                item.addEventListener("click", async(event) => {
                     await likePost(event.srcElement.id, user.uid);
                     await readPosts(postTemplate, user.uid);
                 });
@@ -364,7 +364,7 @@ export default async () => {
         };
 
         const filterPosts = container.querySelector("#filter-posts");
-        filterPosts.addEventListener("change", async (event) => {
+        filterPosts.addEventListener("change", async(event) => {
             if (event.target.value == "myPosts") {
                 const posts = await filterMyPosts(user.uid);
                 postTemplate(posts);
