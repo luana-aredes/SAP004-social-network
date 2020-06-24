@@ -9,7 +9,7 @@ import {
 
 const main = document.querySelector('#root');
 
-const router = async(user) => {
+const router = async (user) => {
     if (user) {
         if (window.location.hash != "#login") {
             main.innerHTML =
@@ -68,16 +68,16 @@ const router = async(user) => {
 
 }
 
-const init = async() => {
-    firebase.auth().onAuthStateChanged(async(user) => {
+const init = async () => {
+    firebase.auth().onAuthStateChanged(async (user) => {
         await router(user);
     });
 }
-const pages = async() => {
+const pages = async () => {
     let user = firebase.auth().currentUser
     await router(user);
 }
-window.addEventListener("load", async() => {
+window.addEventListener("load", async () => {
     init();
 });
 
