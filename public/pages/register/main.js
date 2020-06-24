@@ -37,7 +37,7 @@ export default async() => {
     </div>
     </div>
 
-    <div id="error"></div>
+    <div id="error" class="show-error"></div>
 
     <p>
         <input type="submit" value="Cadastrar" class="btn" id= "create-user"/>
@@ -45,7 +45,7 @@ export default async() => {
 
     <p class="link">
         Já tem conta?
-        <a href="#login"> Ir para Login </a>
+        <a href="/"> Ir para Login </a>
     </p>
 </form>
 </div>`
