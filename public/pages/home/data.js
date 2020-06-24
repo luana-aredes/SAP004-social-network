@@ -21,36 +21,9 @@ export const createPost = (userId, texto, privacy, url) => {
       });
     })
     .catch(function (error) {
-      // console.log("Error adding document:", error);
+      console.log("Error adding document:", error);
     });
 }
-
-
-/*
-export const uploadFoto = async (photoFile, img) => {
-  const fileRef = photoFile.files[0];
-  const ref = firebase.storage().ref('arquivosPosts');
-  const uid = firebase.database().ref().push().key;
-  try {
-    const snapshot = await ref.child(uid).put(fileRef);
-    console.log('snapshot', snapshot);
-    try {
-      const url = await ref.child(uid).getDownloadURL();
-      console.log('string para download', url);
-      img.src = url;
-      return {
-        url: url,
-        uid: uid
-      };
-    } catch (error) {
-      throw new Error("Error downloading:" + error);
-    }
-  } catch (error) {
-    throw new Error("Error adding document:" + error);
-  }
-}
-
-*/
 
 
 
@@ -163,9 +136,7 @@ export const deletePost = (postId, userId /*, photoUid*/ ) => {
       } catch (error) {
         console.error("Error removing document: ", error);
       }
-    } else {
-      // console.log("Essa publicação não foi feita por voce, portanto vocẽ não pode apaga-la")
-    };
+    }
   });
 };
 

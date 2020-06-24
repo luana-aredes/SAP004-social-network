@@ -8,7 +8,6 @@ import {
     readComments,
     comment,
     deleteComment,
-    //uploadFoto,
 } from "./data.js";
 import {
     getUser
@@ -36,32 +35,25 @@ export default async () => {
   
     <textarea type="text" id="post-text" rows="10" cols="50" maxlength="500" wrap="hard" spellcheck="true" reandoly placeholder="Escreva algo para compartilhar com seus amigos!" ></textarea> 
 <div class="image-preview invisible">
-
     <h1> <progress value="0" max="100" id="uploader"> </progress> Carregando...  </h1>
-    
     <div  class="btn-delete"> <i id="delete-photo-preview-btn" class="far fa-trash-alt btn-delete" ></i> </div>
-  <img id="image-preview"  src=""  width="150"  height="100"  >
+  <img id="image-preview" src=""  width="150"  height="100"  >
 </div>
     <div class = "post-items">
-
     <label for="arquivo-foto"> <i class="far fa-image arquivo-foto"></i></label>
     <input type="file" value="upload" id="arquivo-foto" class="invisible">
-
-  
     <select name="" id="privacy-type" class="blue-button">
     <option value="publico">Publico</option>
     <option value="privado">Privado</option>  
   </select>      
         <i class="fas fa-share-alt" value="publish" id="publish-button" ></i>
         </div>
-
         </div>
       </section>
         <select name="" id="filter-posts" class="blue-button" >
         <option value="allPosts">Todos os posts</option>
         <option value="myPosts">Meus Posts</option>
   </select>
-  
   </form>
   <section class="card-post" id="posts">
   </section>
@@ -72,59 +64,55 @@ export default async () => {
     const publishBtn = container.querySelector("#publish-button");
     const postsContainer = container.querySelector("#posts");
     const photoFile = container.querySelector(".arquivo-foto");
-    const photo = container.querySelector("#arquivo-foto")
+    const photo = container.querySelector("#arquivo-foto");
     let image = container.querySelector(".image-preview");
     let img = container.querySelector("#image-preview");
     const uploader = container.querySelector("#uploader");
+    const deletePhotoPreview = container.querySelector("#delete-photo-preview-btn");
 
     photoFile.addEventListener("click", () => {
         image.classList.remove("invisible");
     });
 
 
-    const deletePhotoPreview = container.querySelector("#delete-photo-preview-btn");
     deletePhotoPreview.addEventListener("click", () => {
         image.src = "";
         console.log("removido");
         img.src = "";
         image.classList.add("invisible");
         photo.value = "";
-    })
-
-
+    });
 
     const storePhoto = () => {
-        photo.addEventListener('change', (event) => {
+        photo.addEventListener("change", (event) => {
             const fileRef = event.target.files[0];
-            const ref = firebase.storage().ref('arquivosPosts');
+            const ref = firebase.storage().ref("arquivosPosts");
             const uid = firebase.database().ref().push().key;
             const task = ref.child(uid).put(fileRef);
 
-            task.on('state_changed',
+            task.on(
+                "state_changed",
                 function progress(snapShot) {
-                    const progress = Math.round((snapShot.bytesTransferred / snapShot.totalBytes) * 100);
+                    const progress = Math.round(
+                        (snapShot.bytesTransferred / snapShot.totalBytes) * 100
+                    );
                     console.log(`${progress}%`);
                     uploader.value = progress;
                 },
                 function error(error) {
-                    console.log("Ocorreu um erro", error)
+                    console.log("Ocorreu um erro", error);
                 },
                 async function complete() {
-                    console.log("Completou a tarefa")
                     const url = await ref.child(uid).getDownloadURL();
-                    console.log('string para download', url);
-
                     img.src = url;
-                    console.log(img.src);
-                });
+                }
+            );
+        });
+    };
 
-        })
-
-    }
-
-    photoFile.addEventListener('click', () => {
+    photoFile.addEventListener("click", () => {
         storePhoto();
-    })
+    });
 
     publishBtn.addEventListener("click", async (event) => {
         event.preventDefault();
@@ -137,7 +125,6 @@ export default async () => {
             createPost(user.uid, texto.value, privacy.value, "");
             texto.value = "";
             readPosts(postTemplate, user.uid);
-
         } else {
             try {
                 createPost(user.uid, texto.value, privacy.value, img.src);
@@ -150,38 +137,6 @@ export default async () => {
             }
         }
     });
-
-
-
-    /*
-    publishBtn.addEventListener("click", async (event) => {
-        event.preventDefault();
-        image.classList.add("invisible");
-        let texto = container.querySelector("#post-text");
-        let img = document.querySelector("#image-preview");
-        const photoFile = container.querySelector("#arquivo-foto");
-        const privacy = container.querySelector("#privacy-type");
-        const uploader = container.querySelector("#uploader");
-
-
-        if (photoFile.files.length == "0") {
-            createPost(user.uid, texto.value, privacy.value, "", "");
-            texto.value = "";
-            readPosts(postTemplate, user.uid);
-        } else {
-            try {
-                const photo = await uploadFoto(photoFile, img);
-                createPost(user.uid, texto.value, privacy.value, photo.url, photo.uid);
-                texto.value = "";
-                readPosts(postTemplate, user.uid);
-                photoFile.value = "";
-                img.src = "";
-            } catch (error) {
-                console.log(error);
-            }
-        }
-    });
-*/
 
 
     const postTemplate = (array) => {
@@ -200,79 +155,75 @@ export default async () => {
           </div>
           <main>
         <div class="image-post-container"><img id="image-post" class="image-post" src="${post.photoUrl}"  width="460"  height="200" ></div>
-         <textarea type="text" class ="public"  value="" rows="10" cols="20" readonly>  ${ post.text} </textarea>
-
+         <textarea type="text" class ="public"  value="" rows="10" cols="20" readonly>  ${post.text} </textarea>
          <div id="botoes" class = "btn-public">
           <div class = "btn-likes"> 
           <i  id="${post.postId}"  class="buttons fas fa-thumbs-up botao-like ${post.likes.indexOf(user.uid) == -1 ? "btn-dislike" : ""}" ></i>
           <div id="counter-like"> ${post.likes.length} </div>
           </div>
           <div class = "btn-comment">
-          <i  id="${
-            post.postId
-          }" class="buttons far fa-comment-dots btn-comment"></i>
+          <i  id="${post.postId}" class="buttons far fa-comment-dots btn-comment"></i>
           <div>${post.comments.length - 1}</div>
           </div>
             <div id="${post.postId}" class="edit-btn">  
             <i class="buttons fas fa-edit edit-btn" id="${post.postId}" ></i>
             </div>
-
               </div>
               <div class="edit invisible">
-              <select name="" id= "${
-                post.postId
-              }"  class="privacy-edit blue-button" >
+              <select name="" id= "${post.postId}"  class="privacy-edit blue-button" >
               <option value="publico">Publico</option>
               <option value="privado">Privado</option>
               </select>    
-              <button type="button" value="alterar"  id="${
-                post.postId
-              }" class="save-button-change blue-button"> Salvar alterações </button>
+              <button type="button" value="alterar"  id="${post.postId}" class="save-button-change blue-button"> Salvar alterações </button>
               <button type="button" value="cancel" class="cancelEdit blue-button"> Cancelar </button>
               </div>
               </main>
-              <div id= "comments${
-                post.postId
-              }" class = "container-comments"></div>
+              <div id= "comments${ post.postId}" class = "container-comments"></div>
               </div>
               </section>    
         `
             )
             .join("");
 
-
-
-
         const hideEmptyImageField = postsContainer.querySelectorAll(".image-post");
         hideEmptyImageField.forEach((item) => {
             if (item.src.length < 30) {
-                item.classList.add("invisible")
+                item.classList.add("invisible");
             }
         });
 
         /*
-            const hideEmptyTextField = postsContainer.querySelectorAll(".public");
-            hideEmptyTextField.forEach((item) => {
-              console.log(item.value.length)
-              if (item.value.length < 1) {
-                item.classList.add("invisible")
-              }
-            });
-            */
+                const hideEmptyTextField = postsContainer.querySelectorAll(".public");
+                hideEmptyTextField.forEach((item) => {
+                  console.log(item.value.length)
+                  if (item.value.length < 1) {
+                    item.classList.add("invisible")
+                  }
+                });
+                */
 
         const editBtn = postsContainer.querySelectorAll(".edit-btn");
         editBtn.forEach((item) => {
-            firebase.firestore().collection("posts").doc(item.id).get().then((doc) => {
-                const post = doc.data();
-                if (user.uid != post.userId) {
-                    item.classList.add("invisible");
-                } else {
-                    item.addEventListener("click", (event) => {
-                        item.parentNode.parentNode.querySelector(".edit").classList.remove("invisible");
-                        item.parentNode.parentNode.querySelector(".public").readOnly = false;
-                    });
-                }
-            });
+            firebase
+                .firestore()
+                .collection("posts")
+                .doc(item.id)
+                .get()
+                .then((doc) => {
+                    const post = doc.data();
+                    if (user.uid != post.userId) {
+                        item.classList.add("invisible");
+                    } else {
+                        item.addEventListener("click", (event) => {
+                            item.parentNode.parentNode
+                                .querySelector(".edit")
+                                .classList.remove("invisible");
+                            item.parentNode.parentNode.querySelector(
+                                ".public"
+                            ).readOnly = false;
+                        });
+                    }
+                });
         });
 
         const cancelEdit = postsContainer.querySelectorAll(".cancelEdit");
@@ -300,20 +251,24 @@ export default async () => {
             });
         });
 
-
         const deleteBtn = postsContainer.querySelectorAll(".btn-delete");
         deleteBtn.forEach((item) => {
-            firebase.firestore().collection("posts").doc(item.id).get().then((doc) => {
-                const post = doc.data();
-                if (user.uid != post.userId) {
-                    item.classList.add("invisible");
-                } else {
-                    item.addEventListener("click", (event) => {
-                        deletePost(event.srcElement.id, user.uid);
-                        readPosts(postTemplate, user.uid);
-                    });
-                }
-            });
+            firebase
+                .firestore()
+                .collection("posts")
+                .doc(item.id)
+                .get()
+                .then((doc) => {
+                    const post = doc.data();
+                    if (user.uid != post.userId) {
+                        item.classList.add("invisible");
+                    } else {
+                        item.addEventListener("click", (event) => {
+                            deletePost(event.srcElement.id, user.uid);
+                            readPosts(postTemplate, user.uid);
+                        });
+                    }
+                });
         });
 
         let likes = postsContainer
@@ -417,7 +372,7 @@ export default async () => {
                 readPosts(postTemplate, user.uid);
             }
         });
-    }
+    };
 
     readPosts(postTemplate, user.uid);
 
