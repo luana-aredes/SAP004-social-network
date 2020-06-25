@@ -74,7 +74,7 @@ export default async () => {
             const posts = await filterMyPosts(user.uid);
             return await postTemplate(posts);
         } else {
-            return await readPosts(postTemplate, user.uid);
+            return await readPosts(await postTemplate, user.uid);
         }
     }
 
@@ -154,49 +154,55 @@ export default async () => {
     });
 
 
-    const postTemplate = (array) => {
+    const postTemplate = async (array) => {
+
         postsContainer.innerHTML = array
             .map(
                 (post) =>
                 `
-    <section id='publicacao'>
-      <div class = "template-public">
-      <div class = "post-name">
-      <div>${post.name}</div>
-      <div id="${post.postId}" class="btn-delete"> <i id="${post.postId}" class="buttons far fa-trash-alt btn-delete" ></i> </div>
-      </div>
-      <div class ="post-privacy">
-        <div>em ${post.created}|  ${post.privacy}</div>
-        </div>
-        <main>
-      <div class="image-post-container"><img id="image-post" class="image-post" src="${post.photoUrl}"  width="460"  height="200" ></div>
-       <textarea type="text" class ="public"  value="" rows="10" cols="20" readonly>${post.text}</textarea>
-       <div id="botoes" class = "btn-public">
-        <div class = "btn-likes"> 
-        <i  id="${post.postId}"  class="buttons fas fa-thumbs-up botao-like ${post.likes.indexOf(user.uid) == -1 ? "btn-dislike" : ""}" ></i>
-        <div id="counter-like"> ${post.likes.length} </div>
-        </div>
-        <div class = "btn-comment">
-        <i  id="${post.postId}" class="buttons far fa-comment-dots btn-comment"></i>
-        <div>${post.comments.length - 1}</div>
-        </div>
-          <div id="${post.postId}" class="edit-btn">  
-          <i class="buttons fas fa-edit edit-btn" id="${post.postId}" ></i>
-          </div>
-            </div>
-            <div class="edit invisible">
-            <select name="" id= "${post.postId}"  class="privacy-edit blue-button" >
-            <option value="publico">Publico</option>
-            <option value="privado">Privado</option>
-            </select>    
-            <button type="button" value="alterar"  id="${post.postId}" class="save-button-change blue-button"> Salvar alterações </button>
-            <button type="button" value="cancel" class="cancelEdit blue-button"> Cancelar </button>
-            </div>
-            </main>
-            <div id= "comments${ post.postId}" class = "container-comments"></div>
-            </div>
-            </section>    
-      `
+                    <section id='publicacao' class="invisible">
+                        <div class="template-public">
+                            <div class="post-name">
+                                <div>${post.name}</div>
+                                ${post.userId == user.uid ? `
+                                <div id="${post.postId}" class="btn-delete"> <i id="${post.postId}" class="buttons far fa-trash-alt btn-delete"></i> </div>
+                                ` : "" }
+                            </div>
+                            <div class="post-privacy">
+                                <div>em ${post.created}| ${post.privacy}</div>
+                            </div>
+                            <main>
+                                <div class="image-post-container"><img id="image-post" class="image-post" src="${post.photoUrl}" width="460" height="200"></div>
+                                <textarea type="text" class="public" value="" rows="10" cols="20" readonly>${post.text}</textarea>
+                                <div id="botoes" class="btn-public">
+                                    <div class="btn-likes">
+                                        <i id="${post.postId}" class="buttons fas fa-thumbs-up botao-like ${post.likes.indexOf(user.uid) == -1 ? " btn-dislike " : " "}"></i>
+                                        <div id="counter-like"> ${post.likes.length} </div>
+                                    </div>
+                                    <div class="btn-comment">
+                                        <i id="${post.postId}" class="buttons far fa-comment-dots btn-comment"></i>
+                                        <div>${post.comments.length - 1}</div>
+                                    </div>
+                                    ${post.userId == user.uid ? `
+                                    <div id="${post.postId}" class="edit-btn">
+                                        <i class="buttons fas fa-edit edit-btn" id="${post.postId}"></i>
+                                    </div>` : "" }
+                                </div>
+                                ${post.userId == user.uid ? `
+                                <div class="edit invisible">
+                                    <select name="" id="${post.postId}" class="privacy-edit blue-button">
+                                <option value="publico">Publico</option>
+                                <option value="privado">Privado</option>
+                                </select>
+                                    <button type="button" value="alterar" id="${post.postId}" class="save-button-change blue-button"> Salvar alterações </button>
+                                    <button type="button" value="cancel" class="cancelEdit blue-button"> Cancelar </button>
+                                </div>
+                                ` : "" }
+                            </main>
+                            <div id="comments${ post.postId}" class="container-comments"></div>
+                        </div>
+                    </section>
+                    `
             )
             .join("");
 
@@ -209,27 +215,11 @@ export default async () => {
 
         const editBtn = postsContainer.querySelectorAll(".edit-btn");
         editBtn.forEach((item) => {
-            firebase
-                .firestore()
-                .collection("posts")
-                .doc(item.id)
-                .get()
-                .then((doc) => {
-                    const post = doc.data();
-                    if (user.uid != post.userId) {
-                        item.classList.add("invisible");
-                    } else {
-                        item.addEventListener("click", (event) => {
-                            item.parentNode.parentNode
-                                .querySelector(".edit")
-                                .classList.remove("invisible");
-                            item.parentNode.parentNode.querySelector(
-                                ".public"
-                            ).readOnly = false;
-                        });
-                    }
-                });
-        });
+            item.addEventListener("click", (event) => {
+                item.parentNode.parentNode.querySelector(".edit").classList.remove("invisible");
+                item.parentNode.parentNode.querySelector(".public").readOnly = false;
+            });
+        })
 
         const cancelEdit = postsContainer.querySelectorAll(".cancelEdit");
         cancelEdit.forEach((item) => {
@@ -258,24 +248,17 @@ export default async () => {
 
         const deleteBtn = postsContainer.querySelectorAll(".btn-delete");
         deleteBtn.forEach((item) => {
-            firebase
-                .firestore()
-                .collection("posts")
-                .doc(item.id)
-                .get()
-                .then((doc) => {
-                    const post = doc.data();
-                    if (user.uid != post.userId) {
-                        item.classList.add("invisible");
-                    } else {
-                        item.addEventListener("click", async (event) => {
-                            await deletePhoto(post.photoUid);
-                            await deletePost(event.srcElement.id, user.uid);
-                            await printPosts();
-                        });
-
+            item.addEventListener("click", async (event) => {
+                const post = await firebase.firestore().collection("posts").doc(item.id).get().then(doc => doc.data())
+                console.log(post)
+                if (post) {
+                    if (post.photoUid) {
+                        await deletePhoto(post.photoUid);
                     }
-                });
+                    await deletePost(post.postId, user.uid);
+                }
+                await printPosts();
+            });
         });
 
         let likes = postsContainer
@@ -369,17 +352,18 @@ export default async () => {
                 });
             });
         };
-
-        const filterPosts = container.querySelector("#filter-posts");
-        filterPosts.addEventListener("change", async (event) => {
-            if (event.target.value == "myPosts") {
-                const posts = await filterMyPosts(user.uid);
-                postTemplate(posts);
-            } else {
-                printPosts();
-            }
-        });
+        postsContainer.querySelector("#publicacao").classList.remove("invisible")
+        postsContainer
+            .querySelectorAll("#publicacao")
+            .forEach((item) => {
+                item.classList.remove("invisible")
+            });
     };
+
+    const filterPosts = container.querySelector("#filter-posts");
+    filterPosts.addEventListener("change", async (event) => {
+        printPosts();
+    });
 
     printPosts();
 
