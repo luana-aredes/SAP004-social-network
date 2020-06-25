@@ -33,7 +33,7 @@ export const createLogin = async(email, password, name) => {
 
 export const createUser = async(name, profession, place, email, id) => {
 
-    db.collection("users").doc(id).set({
+    return db.collection("users").doc(id).set({
         name: name,
         profession: profession,
         place: place,

@@ -176,6 +176,7 @@
         width: 160px;
         height: 120px;
     }
+
     .photos-profile {
         border-radius: 10px;
         width: 240px;
@@ -184,33 +185,41 @@
         background-color: #9d3efa;
         background-image: linear-gradient(to bottom, transparent, rgba(0, 0, 0, .3));
     }
-    .mirror{
-        width:240px;
+
+    .mirror {
+        width: 240px;
     }
+
     .profile {
         padding: 40px 0;
     }
+
     .edit-profile {
         font-size: 16px;
     }
+
     .post {
         width: 500px;
         background-color: #9d3efa;
         background-image: linear-gradient(to bottom, transparent, rgba(0, 0, 0, .3));
         margin-top: 20px;
     }
+
     .post-name {
         width: 470px;
     }
+
     .post-privacy {
         width: 470px;
     }
+
     .form-profile {
         display: flex;
         justify-content: space-around;
         padding: 50px 0;
         flex-wrap: wrap;
     }
+
     .template-public {
         background-color: #9d3efa;
         background-image: linear-gradient(to bottom, transparent, rgba(0, 0, 0, .3));
@@ -218,16 +227,20 @@
         margin: 10px auto;
         padding: 5px 15px;
     }
+
     .btn-public {
         padding-left: 220px;
         padding-bottom: 0;
     }
+
     .container-comments {
         margin-bottom: 30px;
     }
+
     .btn-newComment {
         transition: 0.3s ease-in;
     }
+
     .btn-newComment:hover {
         font-size: 15px;
     }

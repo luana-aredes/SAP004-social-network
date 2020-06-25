@@ -9,7 +9,7 @@ export default async () => {
   const template = `
     <div class= "container-flex">
       <figure class="container-title">
-        <img class="logo"src="./img/slide2.PNG" alt="">
+        <img class="logo"src="./img/slide2.png" alt="">
       </figure>
       <div class="container-web">
         <div class="container-title" >
