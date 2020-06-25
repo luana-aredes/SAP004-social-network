@@ -67,6 +67,16 @@ export default async() => {
     const uploader = container.querySelector("#uploader");
     const deletePhotoPreview = container.querySelector("#delete-photo-preview-btn");
 
+    const printPosts = async() => {
+        const print = document.getElementById("filter-posts")
+        if (print && print.value == "myPosts") {
+            const posts = await filterMyPosts(user.uid);
+            return await postTemplate(posts);
+        } else {
+            return await readPosts(postTemplate, user.uid);
+        }
+    }
+
     photoFile.addEventListener("click", () => {
         image.classList.remove("invisible");
     });
@@ -121,12 +131,12 @@ export default async() => {
         if (photoFile.files.length == "0") {
             await createPost(user.uid, texto.value, privacy.value, "");
             texto.value = "";
-            await readPosts(postTemplate, user.uid);
+            await printPosts()
         } else {
             try {
                 await createPost(user.uid, texto.value, privacy.value, img.src);
                 texto.value = "";
-                await readPosts(postTemplate, user.uid);
+                await printPosts()
                 photoFile.value = "";
                 img.src = "";
             } catch (error) {
@@ -152,7 +162,7 @@ export default async() => {
         </div>
         <main>
       <div class="image-post-container"><img id="image-post" class="image-post" src="${post.photoUrl}"  width="460"  height="200" ></div>
-       <textarea type="text" class ="public"  value="" rows="10" cols="20" readonly>  ${post.text} </textarea>
+       <textarea type="text" class ="public"  value="" rows="10" cols="20" readonly>${post.text}</textarea>
        <div id="botoes" class = "btn-public">
         <div class = "btn-likes"> 
         <i  id="${post.postId}"  class="buttons fas fa-thumbs-up botao-like ${post.likes.indexOf(user.uid) == -1 ? "btn-dislike" : ""}" ></i>
@@ -244,7 +254,7 @@ export default async() => {
                     ".privacy-edit"
                 );
                 await editPost(event, user.uid, textoPost.value, privacyPost.value);
-                await readPosts(postTemplate, user.uid);
+                await printPosts()
             });
         });
 
@@ -262,7 +272,7 @@ export default async() => {
                     } else {
                         item.addEventListener("click", async(event) => {
                             await deletePost(event.srcElement.id, user.uid);
-                            await readPosts(postTemplate, user.uid);
+                            await printPosts()
                         });
                     }
                 });
@@ -273,7 +283,7 @@ export default async() => {
             .forEach((item) => {
                 item.addEventListener("click", async(event) => {
                     await likePost(event.srcElement.id, user.uid);
-                    await readPosts(postTemplate, user.uid);
+                    await printPosts()
                 });
             });
 
@@ -340,7 +350,7 @@ export default async() => {
             commentsContainer
                 .querySelector(".close-comment")
                 .addEventListener("click", (event) => {
-                    readPosts(postTemplate, user.uid);
+                    printPosts()
                 });
 
             commentsContainer.querySelectorAll(".btn-newEdit").forEach((item) => {
@@ -366,12 +376,12 @@ export default async() => {
                 const posts = await filterMyPosts(user.uid);
                 postTemplate(posts);
             } else {
-                readPosts(postTemplate, user.uid);
+                printPosts()
             }
         });
     };
 
-    readPosts(postTemplate, user.uid);
+    printPosts()
 
     return container;
 };
