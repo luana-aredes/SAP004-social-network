@@ -15,13 +15,13 @@ export const createPost = (userId, texto, privacy, url, uidPhoto) => {
                 userName: ""
             }],
         })
-        .then(function (docRef) {
+        .then(function(docRef) {
             console.log("Document written with ID:", docRef.id);
             firebase.firestore().collection('posts').doc(docRef.id).update({
                 postId: docRef.id
             });
         })
-        .catch(function (error) {
+        .catch(function(error) {
             console.log("Error adding document:", error);
         });
 }
@@ -31,16 +31,16 @@ export const createPost = (userId, texto, privacy, url, uidPhoto) => {
 export const readPosts = (callback, userId) => {
     let posts = [];
     firebase.firestore().collection("posts").where("privacy", "==", "publico")
-        .get().then(function (querySnapshot) {
-            querySnapshot.forEach(function (doc) {
+        .get().then(function(querySnapshot) {
+            querySnapshot.forEach(function(doc) {
                 posts.push(doc.data());
             });
             firebase.firestore().collection("posts").where("privacy", "==", "privado").where("userId", "==", userId)
-                .get().then(function (querySnapshot) {
-                    querySnapshot.forEach(function (doc) {
+                .get().then(function(querySnapshot) {
+                    querySnapshot.forEach(function(doc) {
                         posts.push(doc.data());
                     });
-                    posts = posts.sort(function (a, b) {
+                    posts = posts.sort(function(a, b) {
                         if (a.created < b.created) {
                             return 1;
                         }
@@ -67,7 +67,7 @@ export const likePost = (postId, userId) => {
             } else {
                 likes.push(userId)
             }
-            firebase.firestore().collection('posts').doc(postId)
+            return firebase.firestore().collection('posts').doc(postId)
                 .update({
                     likes: likes
                 });
@@ -98,22 +98,22 @@ export const deleteComment = (text, created, userId, userName, postId) => {
 
 export const readComments = (loadComments, id) => {
     firebase.firestore().collection("posts").doc(id)
-        .get().then(function (snap) {
+        .get().then(function(snap) {
             const post = snap.data()
             const comments = post.comments;
             loadComments(comments, id);
         });
 };
 
-export const filterMyPosts = async (userId) => {
+export const filterMyPosts = async(userId) => {
     let posts = [];
     const querySnapshot = await firebase.firestore().collection("posts").where("userId", "==", userId).get()
 
-    querySnapshot.forEach(function (doc) {
+    querySnapshot.forEach(function(doc) {
         posts.push(doc.data());
 
     });
-    posts = posts.sort(function (a, b) {
+    posts = posts.sort(function(a, b) {
         if (a.created < b.created) {
             return 1;
         }
@@ -151,10 +151,10 @@ export const editPost = (event, userId, texto, privacy) => {
             docRef.update({
                     text: texto,
                     privacy: privacy,
-                }).then(function () {
+                }).then(function() {
                     console.log("Document successfully updated!");
                 })
-                .catch(function (error) {
+                .catch(function(error) {
                     console.error("Error updating document: ", error);
                 });
         };
