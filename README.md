@@ -4,7 +4,7 @@
 ## 1. Definição do produto
 SpaceJobs é uma plataforma para profissionais divulgarem os seus trabalhos, podendo ser contatados caso outra pessoa tenha interesse no seu serviço . No SpaceJobs, o usuario tambem poderá encontrar os profissionais que deseja e ver seus trabalhos antes de contratá-los, tendo assim uma maior confiança em seu serviço, podendo tambem compartilhar e indicar os profissionais que conhece para outras pessoas da rede. Pensando na acessibilidade desenvolvemos um site responsivo, no conceito mobile first, o qual é possível ser acessado por vários tipos de dispositivos, como computador, celular, tablet, etc.
 
- [Clique aqui para acessar o SpaceJobs.](link/)
+ [Clique aqui para acessar o SpaceJobs.](https://rede-social-sap004.web.app/)
 
 ## 2. Usuário
 
@@ -35,7 +35,7 @@ Com base no layout fornecido, criamos um protótipo no Figma de como ficaria nos
 
 * Telas Mobile
 
-  <img src="./public/img/Slide1.PNG" alt="" width="200px">
+  <img src="./public/img/slide1.png" alt="" width="200px">
 
 * Telas Web
 
