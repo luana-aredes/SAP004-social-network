@@ -88,7 +88,6 @@ export default async() => {
         img.dataset.uid
         deletePhoto(img.dataset.uid);
         image.src = "";
-        console.log("removido");
         img.src = "";
         image.classList.add("invisible");
         photo.value = "";
@@ -108,7 +107,6 @@ export default async() => {
                     const progress = Math.round(
                         (snapShot.bytesTransferred / snapShot.totalBytes) * 100
                     );
-                    console.log(`${progress}%`);
                     uploader.value = progress;
                 },
                 function error(error) {
@@ -254,7 +252,6 @@ export default async() => {
         deleteBtn.forEach((item) => {
             item.addEventListener("click", async(event) => {
                 const post = await firebase.firestore().collection("posts").doc(item.id).get().then(doc => doc.data())
-                console.log(post)
                 if(post){
                     if(post.photoUid){
                         await deletePhoto(post.photoUid);
