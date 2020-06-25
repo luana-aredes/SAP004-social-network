@@ -3,7 +3,6 @@ import {
     readPosts,
     likePost,
     deletePost,
-    deletePhoto,
     filterMyPosts,
     editPost,
     readComments,
@@ -68,31 +67,17 @@ export default async() => {
     const uploader = container.querySelector("#uploader");
     const deletePhotoPreview = container.querySelector("#delete-photo-preview-btn");
 
-    const printPosts = async() => {
-        const print = document.getElementById("filter-posts")
-        if (print && print.value == "myPosts") {
-            const posts = await filterMyPosts(user.uid);
-            return await postTemplate(posts);
-        } else {
-            return await readPosts(postTemplate, user.uid);
-        }
-    }
-
-
     photoFile.addEventListener("click", () => {
         image.classList.remove("invisible");
     });
 
 
     deletePhotoPreview.addEventListener("click", () => {
-        img.dataset.uid
-        deletePhoto(img.dataset.uid);
         image.src = "";
         console.log("removido");
         img.src = "";
         image.classList.add("invisible");
         photo.value = "";
-        document.location.reload(true);
     });
 
     const storePhoto = () => {
@@ -117,11 +102,9 @@ export default async() => {
                 async function complete() {
                     const url = await ref.child(uid).getDownloadURL();
                     img.src = url;
-                    img.dataset.uid = uid;
                 }
             );
         });
-
     };
 
     photoFile.addEventListener("click", () => {
@@ -136,21 +119,20 @@ export default async() => {
         const privacy = container.querySelector("#privacy-type");
         const photoFile = container.querySelector("#arquivo-foto");
         if (photoFile.files.length == "0") {
-            await createPost(user.uid, texto.value, privacy.value, "", "");
+            await createPost(user.uid, texto.value, privacy.value, "");
             texto.value = "";
-            await printPosts();
+            await readPosts(postTemplate, user.uid);
         } else {
             try {
-                await createPost(user.uid, texto.value, privacy.value, img.src, img.dataset.uid);
+                await createPost(user.uid, texto.value, privacy.value, img.src);
                 texto.value = "";
-                await printPosts();
+                await readPosts(postTemplate, user.uid);
                 photoFile.value = "";
                 img.src = "";
             } catch (error) {
                 console.log(error);
             }
         }
-
     });
 
 
@@ -170,7 +152,7 @@ export default async() => {
         </div>
         <main>
       <div class="image-post-container"><img id="image-post" class="image-post" src="${post.photoUrl}"  width="460"  height="200" ></div>
-       <textarea type="text" class ="public"  value="" rows="10" cols="20" readonly>${post.text}</textarea>
+       <textarea type="text" class ="public"  value="" rows="10" cols="20" readonly>  ${post.text} </textarea>
        <div id="botoes" class = "btn-public">
         <div class = "btn-likes"> 
         <i  id="${post.postId}"  class="buttons fas fa-thumbs-up botao-like ${post.likes.indexOf(user.uid) == -1 ? "btn-dislike" : ""}" ></i>
@@ -206,6 +188,16 @@ export default async() => {
                 item.classList.add("invisible");
             }
         });
+
+        /*
+                const hideEmptyTextField = postsContainer.querySelectorAll(".public");
+                hideEmptyTextField.forEach((item) => {
+                  console.log(item.value.length)
+                  if (item.value.length < 1) {
+                    item.classList.add("invisible")
+                  }
+                });
+                */
 
         const editBtn = postsContainer.querySelectorAll(".edit-btn");
         editBtn.forEach((item) => {
@@ -252,7 +244,7 @@ export default async() => {
                     ".privacy-edit"
                 );
                 await editPost(event, user.uid, textoPost.value, privacyPost.value);
-                await printPosts();
+                await readPosts(postTemplate, user.uid);
             });
         });
 
@@ -269,11 +261,9 @@ export default async() => {
                         item.classList.add("invisible");
                     } else {
                         item.addEventListener("click", async(event) => {
-                            await deletePhoto(post.photoUid);
                             await deletePost(event.srcElement.id, user.uid);
-                            await printPosts();
+                            await readPosts(postTemplate, user.uid);
                         });
-
                     }
                 });
         });
@@ -283,7 +273,7 @@ export default async() => {
             .forEach((item) => {
                 item.addEventListener("click", async(event) => {
                     await likePost(event.srcElement.id, user.uid);
-                    await printPosts();
+                    await readPosts(postTemplate, user.uid);
                 });
             });
 
@@ -350,7 +340,7 @@ export default async() => {
             commentsContainer
                 .querySelector(".close-comment")
                 .addEventListener("click", (event) => {
-                    printPosts();
+                    readPosts(postTemplate, user.uid);
                 });
 
             commentsContainer.querySelectorAll(".btn-newEdit").forEach((item) => {
@@ -376,12 +366,12 @@ export default async() => {
                 const posts = await filterMyPosts(user.uid);
                 postTemplate(posts);
             } else {
-                printPosts();
+                readPosts(postTemplate, user.uid);
             }
         });
     };
 
-    printPosts();
+    readPosts(postTemplate, user.uid);
 
     return container;
 };
