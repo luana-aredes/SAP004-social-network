@@ -1,12 +1,12 @@
 import {
-  validator,
-  createLogin,
-  createUser
+    validator,
+    createLogin,
+    createUser
 } from "./data.js";
 
-export default async () => {
-  const container = document.createElement('div');
-  const template = ` 
+export default async() => {
+    const container = document.createElement('div');
+    const template = ` 
     <div id="register" class="container-register">
       <form method="post" action="javascript:;" id="formRegister">
         <h1 class="title">Cadastro</h1>
@@ -38,26 +38,25 @@ export default async () => {
       </form>
     </div>
     `;
-  container.innerHTML = template;
-  const formRegister = container.querySelector("#formRegister")
-  formRegister.addEventListener("submit", async () => {
-    const formData = new FormData(formRegister);
-    const email = formData.get("email");
-    const name = formData.get("name");
-    const profession = formData.get("profession");
-    const place = formData.get("place");
-    const password = formData.get("password");
+    container.innerHTML = template;
+    const formRegister = container.querySelector("#formRegister")
+    formRegister.addEventListener("submit", async() => {
+        const formData = new FormData(formRegister);
+        const email = formData.get("email");
+        const name = formData.get("name");
+        const profession = formData.get("profession");
+        const place = formData.get("place");
+        const password = formData.get("password");
 
-    if (validator(email, password, name)) {
-      window.location.hash = "";
+        if (validator(email, password, name)) {
 
-      const user = await createLogin(email, password, name);
-      console.log(user);
-      createUser(name, profession, place, email, user.uid);
+            const user = await createLogin(email, password, name);
+            await createUser(name, profession, place, email, user.uid);
+            window.location.hash = "";
 
-    };
-    
-  });
-  return container;
+        };
+
+    });
+    return container;
 
 }
