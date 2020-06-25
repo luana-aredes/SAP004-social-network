@@ -68,79 +68,79 @@ export default async () => {
   const deletePhotoPreview = container.querySelector("#delete-photo-preview-btn");
 
   photoFile.addEventListener("click", () => {
-      image.classList.remove("invisible");
+    image.classList.remove("invisible");
   });
 
 
   deletePhotoPreview.addEventListener("click", () => {
-      image.src = "";
-      console.log("removido");
-      img.src = "";
-      image.classList.add("invisible");
-      photo.value = "";
+    image.src = "";
+    console.log("removido");
+    img.src = "";
+    image.classList.add("invisible");
+    photo.value = "";
   });
 
   const storePhoto = () => {
-      photo.addEventListener("change", (event) => {
-          const fileRef = event.target.files[0];
-          const ref = firebase.storage().ref("arquivosPosts");
-          const uid = firebase.database().ref().push().key;
-          const task = ref.child(uid).put(fileRef);
+    photo.addEventListener("change", (event) => {
+      const fileRef = event.target.files[0];
+      const ref = firebase.storage().ref("arquivosPosts");
+      const uid = firebase.database().ref().push().key;
+      const task = ref.child(uid).put(fileRef);
 
-          task.on(
-              "state_changed",
-              function progress(snapShot) {
-                  const progress = Math.round(
-                      (snapShot.bytesTransferred / snapShot.totalBytes) * 100
-                  );
-                  console.log(`${progress}%`);
-                  uploader.value = progress;
-              },
-              function error(error) {
-                  console.log("Ocorreu um erro", error);
-              },
-              async function complete() {
-                  const url = await ref.child(uid).getDownloadURL();
-                  img.src = url;
-              }
+      task.on(
+        "state_changed",
+        function progress(snapShot) {
+          const progress = Math.round(
+            (snapShot.bytesTransferred / snapShot.totalBytes) * 100
           );
-      });
+          console.log(`${progress}%`);
+          uploader.value = progress;
+        },
+        function error(error) {
+          console.log("Ocorreu um erro", error);
+        },
+        async function complete() {
+          const url = await ref.child(uid).getDownloadURL();
+          img.src = url;
+        }
+      );
+    });
   };
 
   photoFile.addEventListener("click", () => {
-      storePhoto();
+    storePhoto();
   });
 
   publishBtn.addEventListener("click", async (event) => {
-      event.preventDefault();
+    event.preventDefault();
 
-      image.classList.add("invisible");
-      let texto = container.querySelector("#post-text");
-      const privacy = container.querySelector("#privacy-type");
-      const photoFile = container.querySelector("#arquivo-foto");
-      if (photoFile.files.length == "0") {
-          createPost(user.uid, texto.value, privacy.value, "");
-          texto.value = "";
-          readPosts(postTemplate, user.uid);
-      } else {
-          try {
-              createPost(user.uid, texto.value, privacy.value, img.src);
-              texto.value = "";
-              readPosts(postTemplate, user.uid);
-              photoFile.value = "";
-              img.src = "";
-          } catch (error) {
-              console.log(error);
-          }
+    image.classList.add("invisible");
+    let texto = container.querySelector("#post-text");
+    const privacy = container.querySelector("#privacy-type");
+    const photoFile = container.querySelector("#arquivo-foto");
+    if (photoFile.files.length == "0") {
+      createPost(user.uid, texto.value, privacy.value, "");
+      texto.value = "";
+      readPosts(postTemplate, user.uid);
+    } else {
+      try {
+        createPost(user.uid, texto.value, privacy.value, img.src);
+        texto.value = "";
+        readPosts(postTemplate, user.uid);
+        photoFile.value = "";
+        img.src = "";
+      } catch (error) {
+        console.log(error);
       }
+    }
   });
 
 
   const postTemplate = (array) => {
-      postsContainer.innerHTML = array
-          .map(
-              (post) =>
-              `
+    postsContainer.innerHTML = array
+      .map(
+        (post) =>
+          `
     <section id='publicacao'>
       <div class = "template-public">
       <div class = "post-name">
@@ -179,127 +179,127 @@ export default async () => {
             </div>
             </section>    
       `
-          )
-          .join("");
+      )
+      .join("");
 
-      const hideEmptyImageField = postsContainer.querySelectorAll(".image-post");
-      hideEmptyImageField.forEach((item) => {
-          if (item.src.length < 30) {
-              item.classList.add("invisible");
-          }
-      });
+    const hideEmptyImageField = postsContainer.querySelectorAll(".image-post");
+    hideEmptyImageField.forEach((item) => {
+      if (item.src.length < 30) {
+        item.classList.add("invisible");
+      }
+    });
 
-      /*
-              const hideEmptyTextField = postsContainer.querySelectorAll(".public");
-              hideEmptyTextField.forEach((item) => {
-                console.log(item.value.length)
-                if (item.value.length < 1) {
-                  item.classList.add("invisible")
-                }
-              });
-              */
+    /*
+            const hideEmptyTextField = postsContainer.querySelectorAll(".public");
+            hideEmptyTextField.forEach((item) => {
+              console.log(item.value.length)
+              if (item.value.length < 1) {
+                item.classList.add("invisible")
+              }
+            });
+            */
 
-      const editBtn = postsContainer.querySelectorAll(".edit-btn");
-      editBtn.forEach((item) => {
-          firebase
-              .firestore()
-              .collection("posts")
-              .doc(item.id)
-              .get()
-              .then((doc) => {
-                  const post = doc.data();
-                  if (user.uid != post.userId) {
-                      item.classList.add("invisible");
-                  } else {
-                      item.addEventListener("click", (event) => {
-                          item.parentNode.parentNode
-                              .querySelector(".edit")
-                              .classList.remove("invisible");
-                          item.parentNode.parentNode.querySelector(
-                              ".public"
-                          ).readOnly = false;
-                      });
-                  }
-              });
-      });
-
-      const cancelEdit = postsContainer.querySelectorAll(".cancelEdit");
-      cancelEdit.forEach((item) => {
-          item.addEventListener("click", (event) => {
+    const editBtn = postsContainer.querySelectorAll(".edit-btn");
+    editBtn.forEach((item) => {
+      firebase
+        .firestore()
+        .collection("posts")
+        .doc(item.id)
+        .get()
+        .then((doc) => {
+          const post = doc.data();
+          if (user.uid != post.userId) {
+            item.classList.add("invisible");
+          } else {
+            item.addEventListener("click", (event) => {
               item.parentNode.parentNode
-                  .querySelector(".edit")
-                  .classList.add("invisible");
-              item.parentNode.parentNode.querySelector(".public").readOnly = true;
-          });
+                .querySelector(".edit")
+                .classList.remove("invisible");
+              item.parentNode.parentNode.querySelector(
+                ".public"
+              ).readOnly = false;
+            });
+          }
+        });
+    });
+
+    const cancelEdit = postsContainer.querySelectorAll(".cancelEdit");
+    cancelEdit.forEach((item) => {
+      item.addEventListener("click", (event) => {
+        item.parentNode.parentNode
+          .querySelector(".edit")
+          .classList.add("invisible");
+        item.parentNode.parentNode.querySelector(".public").readOnly = true;
       });
+    });
 
-      const saveButtonChange = postsContainer.querySelectorAll(
-          ".save-button-change"
-      );
+    const saveButtonChange = postsContainer.querySelectorAll(
+      ".save-button-change"
+    );
 
-      saveButtonChange.forEach((item) => {
-          item.addEventListener("click", (event) => {
-              const textoPost = item.parentNode.parentNode.querySelector(".public");
-              const privacyPost = item.parentNode.parentNode.querySelector(
-                  ".privacy-edit"
-              );
-              editPost(event, user.uid, textoPost.value, privacyPost.value);
+    saveButtonChange.forEach((item) => {
+      item.addEventListener("click", (event) => {
+        const textoPost = item.parentNode.parentNode.querySelector(".public");
+        const privacyPost = item.parentNode.parentNode.querySelector(
+          ".privacy-edit"
+        );
+        editPost(event, user.uid, textoPost.value, privacyPost.value);
+        readPosts(postTemplate, user.uid);
+      });
+    });
+
+    const deleteBtn = postsContainer.querySelectorAll(".btn-delete");
+    deleteBtn.forEach((item) => {
+      firebase
+        .firestore()
+        .collection("posts")
+        .doc(item.id)
+        .get()
+        .then((doc) => {
+          const post = doc.data();
+          if (user.uid != post.userId) {
+            item.classList.add("invisible");
+          } else {
+            item.addEventListener("click", (event) => {
+              deletePost(event.srcElement.id, user.uid);
               readPosts(postTemplate, user.uid);
-          });
+            });
+          }
+        });
+    });
+
+    let likes = postsContainer
+      .querySelectorAll(".botao-like")
+      .forEach((item) => {
+        item.addEventListener("click", async (event) => {
+          await likePost(event.srcElement.id, user.uid);
+          await readPosts(postTemplate, user.uid);
+        });
       });
 
-      const deleteBtn = postsContainer.querySelectorAll(".btn-delete");
-      deleteBtn.forEach((item) => {
-          firebase
-              .firestore()
-              .collection("posts")
-              .doc(item.id)
-              .get()
-              .then((doc) => {
-                  const post = doc.data();
-                  if (user.uid != post.userId) {
-                      item.classList.add("invisible");
-                  } else {
-                      item.addEventListener("click", (event) => {
-                          deletePost(event.srcElement.id, user.uid);
-                          readPosts(postTemplate, user.uid);
-                      });
-                  }
-              });
+    let comments = postsContainer
+      .querySelectorAll(".btn-comment")
+      .forEach((item) => {
+        item.addEventListener("click", (event) => {
+          readComments(loadComments, event.srcElement.id);
+        });
       });
 
-      let likes = postsContainer
-          .querySelectorAll(".botao-like")
-          .forEach((item) => {
-              item.addEventListener("click", async (event) => {
-                  await likePost(event.srcElement.id, user.uid);
-                  await readPosts(postTemplate, user.uid);
-              });
-          });
-
-      let comments = postsContainer
-          .querySelectorAll(".btn-comment")
-          .forEach((item) => {
-              item.addEventListener("click", (event) => {
-                  readComments(loadComments, event.srcElement.id);
-              });
-          });
-
-      const loadComments = (array, id) => {
-          const commentsContainer = postsContainer.querySelector(`#comments${id}`);
-          commentsContainer.innerHTML = `
+    const loadComments = (array, id) => {
+      const commentsContainer = postsContainer.querySelector(`#comments${id}`);
+      commentsContainer.innerHTML = `
         <div class = "align-close">
         <i class="buttons fas fa-times close-comment" ></i>
         </div>
         `;
-          const comments = document.createElement("div");
-          comments.innerHTML = array
-              .map((comment, index) => {
-                  if (index == 0) {
-                      return ``;
-                  } else {
-                      if (user.uid == comment.userId) {
-                          return `
+      const comments = document.createElement("div");
+      comments.innerHTML = array
+        .map((comment, index) => {
+          if (index == 0) {
+            return ``;
+          } else {
+            if (user.uid == comment.userId) {
+              return `
                       <section class = "container-comments">
                       <div>${comment.userName}</div>
                        <div class = "created-comment">em ${comment.created}</div>
@@ -310,65 +310,65 @@ export default async () => {
                       </div>
                       </section>                    
                       `;
-                      } else {
-                          return `
+            } else {
+              return `
                   <section class = "container-comments">
                   <div>${comment.userName}</div>
                    <div>em ${comment.created}</div>
                    <div>${comment.comment}</div>
                  </section>                    
                   `;
-                      }
-                  }
-              })
-              .join("");
-          commentsContainer.appendChild(comments);
-          const newComment = document.createElement("div");
-          newComment.innerHTML = `
+            }
+          }
+        })
+        .join("");
+      commentsContainer.appendChild(comments);
+      const newComment = document.createElement("div");
+      newComment.innerHTML = `
               <textarea type="text" rows="3" cols="30" id = "new-comment${id}" class = "commentNew"> </textarea>
                   <button type="button" id= "${id}" class="btn-newComment"> Comentar </button>
               `;
-          commentsContainer.appendChild(newComment);
-          const text = commentsContainer.querySelector(`#new-comment${id}`);
-          commentsContainer
-              .querySelector(".btn-newComment")
-              .addEventListener("click", (event) => {
-                  comment(text.value, user.uid, event, user.displayName);
-                  readComments(loadComments, id);
-              });
+      commentsContainer.appendChild(newComment);
+      const text = commentsContainer.querySelector(`#new-comment${id}`);
+      commentsContainer
+        .querySelector(".btn-newComment")
+        .addEventListener("click", (event) => {
+          comment(text.value, user.uid, event, user.displayName);
+          readComments(loadComments, id);
+        });
 
-          commentsContainer
-              .querySelector(".close-comment")
-              .addEventListener("click", (event) => {
-                  readPosts(postTemplate, user.uid);
-              });
+      commentsContainer
+        .querySelector(".close-comment")
+        .addEventListener("click", (event) => {
+          readPosts(postTemplate, user.uid);
+        });
 
-          commentsContainer.querySelectorAll(".btn-newEdit").forEach((item) => {
-              item.addEventListener("click", (event) => {
-                  let info = event.srcElement.id.split("|");
-                  deleteComment(...info, id);
-                  commentsContainer.querySelector(`#new-comment${id}`).value = info[0];
-              });
-          });
-
-          commentsContainer.querySelectorAll(".btn-newDelete").forEach((item) => {
-              item.addEventListener("click", (event) => {
-                  let info = event.srcElement.id.split("&");
-                  deleteComment(...info, id);
-                  readComments(loadComments, id);
-              });
-          });
-      };
-
-      const filterPosts = container.querySelector("#filter-posts");
-      filterPosts.addEventListener("change", async (event) => {
-          if (event.target.value == "myPosts") {
-              const posts = await filterMyPosts(user.uid);
-              postTemplate(posts);
-          } else {
-              readPosts(postTemplate, user.uid);
-          }
+      commentsContainer.querySelectorAll(".btn-newEdit").forEach((item) => {
+        item.addEventListener("click", (event) => {
+          let info = event.srcElement.id.split("|");
+          deleteComment(...info, id);
+          commentsContainer.querySelector(`#new-comment${id}`).value = info[0];
+        });
       });
+
+      commentsContainer.querySelectorAll(".btn-newDelete").forEach((item) => {
+        item.addEventListener("click", (event) => {
+          let info = event.srcElement.id.split("&");
+          deleteComment(...info, id);
+          readComments(loadComments, id);
+        });
+      });
+    };
+
+    const filterPosts = container.querySelector("#filter-posts");
+    filterPosts.addEventListener("change", async (event) => {
+      if (event.target.value == "myPosts") {
+        const posts = await filterMyPosts(user.uid);
+        postTemplate(posts);
+      } else {
+        readPosts(postTemplate, user.uid);
+      }
+    });
   };
 
   readPosts(postTemplate, user.uid);
