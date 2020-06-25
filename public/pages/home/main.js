@@ -76,8 +76,6 @@ export default async () => {
   deletePhotoPreview.addEventListener("click", () => {
     img.dataset.uid
     deletePhoto(img.dataset.uid);
-    image.src = "";
-    console.log("removido");
     img.src = "";
     image.classList.add("invisible");
     photo.value = "";
@@ -85,9 +83,11 @@ export default async () => {
   });
 
   const storePhoto = () => {
+    const ref = firebase.storage().ref("arquivosPosts");
+    img.src = "";
+    img.dataset.uid = "";
     photo.addEventListener("change", (event) => {
       const fileRef = event.target.files[0];
-      const ref = firebase.storage().ref("arquivosPosts");
       const uid = firebase.database().ref().push().key;
       const task = ref.child(uid).put(fileRef);
 
@@ -119,7 +119,6 @@ export default async () => {
 
   publishBtn.addEventListener("click", async (event) => {
     event.preventDefault();
-
     image.classList.add("invisible");
     let texto = container.querySelector("#post-text");
     const privacy = container.querySelector("#privacy-type");
@@ -159,7 +158,7 @@ export default async () => {
         </div>
         <main>
       <div class="image-post-container"><img id="image-post" class="image-post" src="${post.photoUrl}"  width="460"  height="200" ></div>
-       <textarea type="text" class ="public"  value="" rows="10" cols="20" readonly>  ${post.text} </textarea>
+       <textarea type="text" class ="public"  value="" rows="10" cols="20" readonly>${post.text}</textarea>
        <div id="botoes" class = "btn-public">
         <div class = "btn-likes"> 
         <i  id="${post.postId}"  class="buttons fas fa-thumbs-up botao-like ${post.likes.indexOf(user.uid) == -1 ? "btn-dislike" : ""}" ></i>
