@@ -1,76 +1,97 @@
-*{
-    box-sizing: border-box;
-}
-body{
-    background-image: linear-gradient(to bottom right,rgb(0, 153, 255),rgb(79, 71, 197), rgb(6, 6, 212));
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    height: 100vh;
-    color: white;
-}
-
-.container-title{
+.container-title {
     display: flex;
     justify-content: center;
     margin: 20px 0;
     flex-wrap: wrap;
 }
 
-.logo{
-    width: 300px;
-
+.logo {
+    width: 350px;
+    margin-top: 50px;
 }
 
-.container-main{
+.container-main {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
 }
 
-.title{
-    color: white;
-    font-weight: bold;
-    font-size: 30px;
-    margin-bottom: 20px;
+.sub-title {
+    font-size: 25px;
+    color: #E2F205;
 }
 
-.sub-title{
-    font-size: 20px;
-    color: white;
-
-}
-
-.input-login{
+.input-login {
     margin: 5px;
     border: 0px;
     border-radius: 8px;
 }
 
-.items{
+.items {
     width: 300px;
     text-align: center;
     margin: 8px;
 }
 
-.btn{
-    background: rgb(83, 153, 233); 
+.btn-login {
+    background: rgb(83, 153, 233);
     border: 0px;
     border-radius: 12px;
-    width: 100px; 
+    width: 100px;
+    height: 30px;
     font-weight: bold;
     color: white;
     font-size: 15px;
+    transition: 0.3s ease-in;
 }
 
-.fa-google{
+.btn-login:hover {
+    font-size: 18px;
+}
+
+.fa-google {
     color: white;
     font-size: 15px;
+    font-weight: bold;
 }
 
-.btn-google{
+.btn-google {
     background: rgb(83, 153, 233);
     border-radius: 20px;
     border: 0px;
     height: 35px;
     width: 35px;
     padding: 10px;
+    transition: 0.3s ease-in;
+}
+
+.fa-google:hover {
+    font-size: 18px;
+}
+
+.show-error {
+    color: #23d9b7;
+    font-size: 14px;
+}
+
+@media(Min-width:600px) {
+    .container-flex {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+    }
+    .container-web {
+        width: 400px;
+    }
+    .logo {
+        width: 50vw;
+    }
+    .sub-title {
+        font-size: 30px;
+        font-weight: bold;
+    }
+    .input-login {
+        width: 200px;
+        height: 30px;
+    }
 }

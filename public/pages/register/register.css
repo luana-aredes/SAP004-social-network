@@ -1,0 +1,56 @@
+body {
+    margin: 20px;
+}
+.title {
+    color: #E2F205;
+    font-weight: bold;
+    font-size: 30px;
+    margin-bottom: 30px;
+    margin-top: 40px;
+}
+.register-input{
+  display: flex;
+  justify-content: space-between;
+  width: 300px;
+  margin: 10px auto;
+}
+
+.regInfo{
+  width: 200px;
+  border-radius: 10px;
+  border: 0px;
+  height: 25px;
+}
+label {
+    color: #E2F205;
+}
+
+.btn {
+    background: rgb(83, 153, 233);
+    border: 0px;
+    border-radius: 12px;
+    width: 100px;
+    font-weight: bold;
+    color: white;
+    font-size: 15px;
+    padding: 5px;
+    margin: 20px
+}
+@media(Min-width:600px) {
+  .title{
+    font-size: 50px;
+    margin-bottom: 50px;
+  }
+
+  .register-input{
+    width: 500px;
+    margin: 15px auto;
+  }
+
+  .btn{
+    transition: 0.3s ease-in;
+  }
+  .btn:hover{
+    font-size: 17px;
+  }
+}
