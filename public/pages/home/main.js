@@ -29,7 +29,6 @@ export default async() => {
             <p class = "edit-profile">${userData?.profession || ""}</p>
           </div>
         </div>
-      </div>
       <section class= "post">
         <textarea type="text" id="post-text" rows="10" cols="50" maxlength="500" wrap="hard" spellcheck="true" reandoly placeholder="Escreva algo para compartilhar com seus amigos!" ></textarea> 
         <div class="image-preview invisible">
@@ -358,7 +357,7 @@ export default async() => {
       postsContainer
           .querySelectorAll("#publicacao")
           .forEach((item) => {
-              item.classList.remove("invisible")
+                 item.classList.remove("invisible")
           });
   };
 
