@@ -1,15 +1,15 @@
 import {
-  loginWithExistingEmail,
-  loginGoogle,
+    loginWithExistingEmail,
+    loginGoogle,
 } from "./data.js";
 
-export default async () => {
-  const container = document.createElement("div");
+export default async() => {
+    const container = document.createElement("div");
 
-  const template = `
+    const template = `
     <div class= "container-flex">
       <figure class="container-title">
-        <img class="logo"src="./img/slide2.PNG" alt="">
+        <img class="logo"src="./img/slide2.png" alt="">
       </figure>
       <div class="container-web">
         <div class="container-title" >
@@ -36,20 +36,20 @@ export default async () => {
     </div> 
     `;
 
-  container.innerHTML = template;
+    container.innerHTML = template;
 
-  container
-    .querySelector("#botao-login-cadastrado")
-    .addEventListener("click", () => {
-      const email = container.querySelector("#email").value;
-      const password = container.querySelector("#senha").value;
-      return loginWithExistingEmail(email, password);
+    container
+        .querySelector("#botao-login-cadastrado")
+        .addEventListener("click", () => {
+            const email = container.querySelector("#email").value;
+            const password = container.querySelector("#senha").value;
+            return loginWithExistingEmail(email, password);
+        });
+
+    container.querySelector("#botao-google").addEventListener("click", () => {
+
+        return loginGoogle();
     });
 
-  container.querySelector("#botao-google").addEventListener("click", () => {
-
-    return loginGoogle();
-  });
-
-  return container;
+    return container;
 };

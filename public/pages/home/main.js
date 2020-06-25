@@ -23,7 +23,7 @@ export default async() => {
     <form action="submit" id="post">
       <div class = "form-profile">
         <div class = "photos-profile">
-          <img src="${userData?.photo || user?.photoURL || "img/Perfil.png"}"alt="" class="photos">
+          <img src="${userData?.photo || user?.photoURL || "img/perfil.png"}"alt="" class="photos">
           <div class = "profile">
             <p>${userData?.name || user?.displayName}</p>
             <p class = "edit-profile">${userData?.profession || ""}</p>
