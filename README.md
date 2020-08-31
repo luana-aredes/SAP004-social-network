@@ -32,12 +32,12 @@ Com base no layout fornecido, criamos um protótipo no Figma de como ficaria nos
 
 * Telas Mobile
 
-  <img src="./public/img/slide1.png" alt="" width="200px">
+  <img src="./public/img/slide1.png" alt="" width="450px" height="300px">
 
 * Telas Web
 
-  <img src="./public/img/Desktop - 2.png" alt="" width="200px">
-  <img src="./public/img/Desktop - 1.png" alt="" width="200px">
+  <img src="./public/img/Desktop - 2.png" alt="" width="280px">
+  <img src="./public/img/Desktop - 1.png" alt="" width="280px">
 
 
 
